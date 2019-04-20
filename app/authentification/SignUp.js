@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-import firebase from "../../firebase/firebase";
+import firebase from "../firebase/firebase";
 
 export default class SignUpScreen extends React.Component {
   constructor(props) {

@@ -1,16 +1,18 @@
 import React from "react";
 import { Text, Button } from "native-base";
-import { Card } from "../../components/Card/styles";
+import { Card } from "../components/Card/styles";
+import { Title } from "../components/Title/styles";
+import { TextInput } from "../components/TextInput/styles";
 import {
   View,
   StyleSheet,
-  TextInput,
+  // TextInput,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import firebase from "../../firebase/firebase";
+import firebase from "../firebase/firebase";
 
 export default class SignInScreen extends React.Component {
   constructor(props) {
@@ -35,19 +37,10 @@ export default class SignInScreen extends React.Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1, justifyContent: "center" }}>
           <KeyboardAvoidingView behavior="position" enabled>
-            <Text
-              style={{
-                fontSize: 45,
-                marginBottom: 10,
-                marginLeft: 10
-              }}
-            >
-              Sign <Text style={{ color: "#0984e3", fontSize: 45 }}>in</Text>
-            </Text>
-            <Card>
+            <Title>Sign in</Title>
+            <Card style={{ marginBottom: 30 }}>
               <TextInput
                 placeholder="email address"
-                style={styles.textInput}
                 autoFocus={false}
                 returnKeyType="next"
                 keyboardType="email-address"
@@ -58,32 +51,37 @@ export default class SignInScreen extends React.Component {
                 placeholder="password"
                 secureTextEntry
                 returnKeyType="go"
-                style={[styles.textInput, { marginTop: 20 }]}
+                style={{ marginTop: 20 }}
                 ref={input => (this.passwordInput = input)}
                 onChangeText={e => this.setState({ password: e })}
                 onSubmitEditing={() => login(this.state, this.props)}
               />
-              <View style={{ flexDirection: "row" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between"
+                }}
+              >
                 <Button
-                  bordered
-                  onPress={() => this.props.navigation.navigate("SignUp")}
+                  onPress={() => login(this.state, this.props)}
                   style={{
-                    borderColor: "#363A43",
+                    backgroundColor: "#FE245D",
+                    borderRadius: 14,
                     marginTop: 20,
-                    marginRight: 45
+                    height: 60,
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignItems: "center"
                   }}
                 >
-                  <Icon
-                    name="user-plus"
-                    size={20}
-                    color={"#363A43"}
-                    style={{ marginLeft: 10 }}
-                  />
-                  <Text style={{ color: "#363A43" }}>Sign up</Text>
+                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                    Sign in
+                  </Text>
                 </Button>
-                <Button
+                <Text>Don't have an account ?</Text>
+                {/* <Button
                   bordered
-                  onPress={() => login(this.state, this.props)}
+                  onPress={() => this.props.navigation.navigate("SignUp")}
                   style={{ borderColor: "#363A43", marginTop: 20 }}
                 >
                   <Icon
@@ -93,7 +91,7 @@ export default class SignInScreen extends React.Component {
                     style={{ marginLeft: 10 }}
                   />
                   <Text style={{ color: "#363A43" }}>Login</Text>
-                </Button>
+                </Button> */}
               </View>
             </Card>
           </KeyboardAvoidingView>
@@ -102,24 +100,3 @@ export default class SignInScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  view: {
-    backgroundColor: "#ffff",
-    marginLeft: 20,
-    marginRight: 20,
-    borderRadius: 28,
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOpacity: 0.1,
-    shadowRadius: 20
-  },
-  textInput: {
-    height: 34,
-    width: 270,
-    paddingHorizontal: 10,
-    borderRadius: 4,
-    borderColor: "rgba(54,58,67,1)",
-    borderWidth: 1,
-    fontSize: 16
-  }
-});

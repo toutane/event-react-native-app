@@ -1,11 +1,11 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-import SignInView from "../components/authentification/SignInView";
-import SignUpView from "../components/authentification/SignUpView";
+import SignIn from "../authentification/SignIn";
+import SignUp from "../authentification/SignUp";
 
 const AuthStack = createStackNavigator({
-  SignIn: SignInView,
-  SignUp: SignUpView
+  SignIn: SignIn,
+  SignUp: SignUp
 });
 
 export default createAppContainer(AuthStack);
