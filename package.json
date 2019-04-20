@@ -8,11 +8,13 @@
   },
   "dependencies": {
     "expo": "^32.0.0",
+    "firebase": "^5.10.0",
     "native-base": "^2.12.1",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-vector-icons": "^6.4.2",
-    "react-navigation": "^3.8.1"
+    "react-navigation": "^3.8.1",
+    "styled-components": "^4.2.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"
