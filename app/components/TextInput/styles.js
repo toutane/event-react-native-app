@@ -6,7 +6,7 @@ const TextInput = styled.TextInput`
   border-width: 1
   border-radius: 10;
   padding-horizontal: 10;
-  font-size: 16;
+  font-size: 18;
 `;
 
 export { TextInput };

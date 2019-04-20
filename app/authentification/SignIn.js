@@ -37,7 +37,7 @@ export default class SignInScreen extends React.Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1, justifyContent: "center" }}>
           <KeyboardAvoidingView behavior="position" enabled>
-            <Title>Sign in</Title>
+            <Title>Welcome Back.</Title>
             <Card style={{ marginBottom: 30 }}>
               <TextInput
                 placeholder="email address"
@@ -56,44 +56,34 @@ export default class SignInScreen extends React.Component {
                 onChangeText={e => this.setState({ password: e })}
                 onSubmitEditing={() => login(this.state, this.props)}
               />
-              <View
+              <Button
+                block
+                onPress={() => login(this.state, this.props)}
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between"
+                  backgroundColor: "#FE245D",
+                  borderRadius: 14,
+                  height: 50,
+                  marginTop: 20,
+                  alignItems: "center"
                 }}
               >
-                <Button
-                  onPress={() => login(this.state, this.props)}
-                  style={{
-                    backgroundColor: "#FE245D",
-                    borderRadius: 14,
-                    marginTop: 20,
-                    height: 60,
-                    justifyContent: "center",
-                    alignContent: "center",
-                    alignItems: "center"
-                  }}
-                >
-                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                    Sign in
-                  </Text>
-                </Button>
-                <Text>Don't have an account ?</Text>
-                {/* <Button
-                  bordered
-                  onPress={() => this.props.navigation.navigate("SignUp")}
-                  style={{ borderColor: "#363A43", marginTop: 20 }}
-                >
-                  <Icon
-                    name="sign-in"
-                    size={20}
-                    color={"#0984e3"}
-                    style={{ marginLeft: 10 }}
-                  />
-                  <Text style={{ color: "#363A43" }}>Login</Text>
-                </Button> */}
-              </View>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  Sign in
+                </Text>
+              </Button>
             </Card>
+            <View style={{ alignItems: "center" }}>
+              <Text>
+                Don't have an account ?
+                <Text
+                  style={{ color: "#FE245D", fontSize: 20 }}
+                  onPress={() => this.props.navigation.navigate("SignUp")}
+                >
+                  {" "}
+                  Sign up !
+                </Text>
+              </Text>
+            </View>
           </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>
