@@ -3,9 +3,7 @@ import { Text, Button } from "native-base";
 import { Card } from "../components/Card/styles";
 import { Title } from "../components/Title/styles";
 import { TextInput } from "../components/TextInput/styles";
-import { Icon } from "expo";
-
-// import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Icon, LinearGradient } from "expo";
 
 import {
   View,
@@ -92,21 +90,33 @@ export default class SignInScreen extends React.Component {
                 onChangeText={e => this.setState({ password: e })}
                 onSubmitEditing={() => onRegister(this.state, this.props)}
               />
-              <Button
-                block
-                onPress={() => onRegister(this.state, this.props)}
+              <LinearGradient
+                colors={["#ec5a34", "#FC5E37", "#FC7B3F"]}
+                start={[0, 1]}
+                end={[1, 0]}
                 style={{
-                  backgroundColor: "#fd6735",
                   borderRadius: 14,
-                  height: 50,
+                  // height: 50,
                   marginTop: 20,
                   alignItems: "center"
                 }}
               >
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  Sign up
-                </Text>
-              </Button>
+                <Button
+                  block
+                  onPress={() => onRegister(this.state, this.props)}
+                  style={{ height: 50, backgroundColor: "rgba(0, 0, 0, 0)" }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "#fff"
+                    }}
+                  >
+                    Sign up
+                  </Text>
+                </Button>
+              </LinearGradient>
             </Card>
           </KeyboardAvoidingView>
         </View>
