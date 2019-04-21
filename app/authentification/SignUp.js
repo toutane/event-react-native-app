@@ -57,6 +57,7 @@ export default class SignInScreen extends React.Component {
             <Card style={{ marginBottom: 100 }}>
               <TextInput
                 placeholder="email address"
+                autoCapitalize="none"
                 autoFocus={false}
                 returnKeyType="next"
                 keyboardType="email-address"
@@ -65,6 +66,7 @@ export default class SignInScreen extends React.Component {
               />
               <TextInput
                 placeholder="username"
+                autoCapitalize="none"
                 style={{ marginTop: 20 }}
                 autoFocus={false}
                 returnKeyType="next"
@@ -73,6 +75,7 @@ export default class SignInScreen extends React.Component {
                 onChangeText={e => this.setState({ username: e })}
               />
               <TextInput
+                autoCapitalize="none"
                 placeholder="bio"
                 style={{ marginTop: 20 }}
                 autoFocus={false}
@@ -82,6 +85,7 @@ export default class SignInScreen extends React.Component {
                 onChangeText={e => this.setState({ bio: e })}
               />
               <TextInput
+                autoCapitalize="none"
                 placeholder="password"
                 secureTextEntry
                 returnKeyType="go"
@@ -91,7 +95,11 @@ export default class SignInScreen extends React.Component {
                 onSubmitEditing={() => onRegister(this.state, this.props)}
               />
               <LinearGradient
-                colors={["#ec5a34", "#FC5E37", "#FC7B3F"]}
+                colors={[
+                  "rgba(67, 67, 229, 1)",
+                  "rgba(60, 80, 242, 1)",
+                  "rgba(50, 94, 236, 1)"
+                ]}
                 start={[0, 1]}
                 end={[1, 0]}
                 style={{

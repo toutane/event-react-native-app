@@ -10,7 +10,8 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ImageBackground
 } from "react-native";
 import firebase from "../firebase/firebase";
 
@@ -34,6 +35,10 @@ export default class SignInScreen extends React.Component {
       }
     }
     return (
+      // <ImageBackground
+      //   source={require("../../assets/img-background-signin.png")}
+      //   style={{ width: "100%", height: "100%" }}
+      // >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1 }}>
           <View style={{ flex: 1, justifyContent: "center" }}>
@@ -41,6 +46,7 @@ export default class SignInScreen extends React.Component {
               <Title style={{}}>Welcome Back.</Title>
               <Card style={{ marginBottom: 20 }}>
                 <TextInput
+                  autoCapitalize="none"
                   placeholder="email address"
                   autoFocus={false}
                   returnKeyType="next"
@@ -49,6 +55,7 @@ export default class SignInScreen extends React.Component {
                   onChangeText={e => this.setState({ email: e })}
                 />
                 <TextInput
+                  autoCapitalize="none"
                   placeholder="password"
                   secureTextEntry
                   returnKeyType="go"
@@ -58,20 +65,29 @@ export default class SignInScreen extends React.Component {
                   onSubmitEditing={() => login(this.state, this.props)}
                 />
                 <LinearGradient
-                  colors={["#ec5a34", "#FC5E37", "#FC7B3F"]}
+                  colors={[
+                    "rgba(67, 67, 229, 1)",
+                    "rgba(60, 80, 242, 1)",
+                    "rgba(50, 94, 236, 1)"
+                  ]}
                   start={[0, 1]}
                   end={[1, 0]}
                   style={{
                     borderRadius: 14,
-                    // height: 50,
                     marginTop: 20,
-                    alignItems: "center"
+                    alignItems: "center",
+                    shadowOpacity: 0.1,
+                    shadowRadius: 20,
+                    shadowColor: "rgba(0, 0, 0, 1)"
                   }}
                 >
                   <Button
                     block
                     onPress={() => login(this.state, this.props)}
-                    style={{ height: 50, backgroundColor: "rgba(0, 0, 0, 0)" }}
+                    style={{
+                      height: 50,
+                      backgroundColor: "rgba(0, 0, 0, 0)"
+                    }}
                   >
                     <Text
                       style={{
@@ -89,11 +105,15 @@ export default class SignInScreen extends React.Component {
                 <Text>
                   Don't have an account ?
                   <Text
-                    style={{ color: "#FC5E37", fontSize: 20 }}
+                    style={{
+                      color: "rgba(60, 80, 242, 1)",
+                      fontSize: 20,
+                      fontWeight: "bold"
+                    }}
                     onPress={() => this.props.navigation.navigate("SignUp")}
                   >
                     {" "}
-                    Sign up !
+                    Sign up
                   </Text>
                 </Text>
               </View>
@@ -105,19 +125,21 @@ export default class SignInScreen extends React.Component {
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
-                marginTop: 10
+                marginTop: 10,
+                color: "#333333"
               }}
             >
               <Icon.Ionicons name="logo-facebook" size={35} />
               <Icon.Ionicons
                 name="logo-github"
                 size={35}
-                style={{ marginLeft: 30 }}
+                style={{ marginLeft: 30, color: "#333333" }}
               />
             </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
+      // </ImageBackground>
     );
   }
 }
