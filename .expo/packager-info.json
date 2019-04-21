@@ -1,9 +1,9 @@
 {
-  "devToolsPort": 19003,
-  "expoServerPort": 19004,
-  "packagerPort": 19005,
-  "packagerPid": 76064,
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 21365,
   "expoServerNgrokUrl": "https://iu-6e8.charlesantoineleger.event-reactnative-app.exp.direct",
   "packagerNgrokUrl": "https://packager.iu-6e8.charlesantoineleger.event-reactnative-app.exp.direct",
-  "ngrokPid": 76119
+  "ngrokPid": 21398
 }

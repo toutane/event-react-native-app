@@ -1,24 +1,27 @@
 import React from "react";
 import { Text, Button } from "native-base";
+import { Card } from "../components/Card/styles";
+import { Title } from "../components/Title/styles";
+import { TextInput } from "../components/TextInput/styles";
+import { Icon } from "expo";
+
+// import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 import {
   View,
-  StyleSheet,
-  TextInput,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  KeyboardAvoidingView
 } from "react-native";
-
-import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../firebase/firebase";
 
-export default class SignUpScreen extends React.Component {
+export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = { username: "", email: "", bio: "", password: "", avatar: "" };
   }
   static navigationOptions = {
-    title: "SignUp"
+    header: null
   };
 
   render() {
@@ -39,118 +42,75 @@ export default class SignUpScreen extends React.Component {
 
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{ flex: 1, alignItems: "center" }}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
           <KeyboardAvoidingView behavior="position" enabled>
-            <Text
-              style={{
-                fontSize: 45,
-                marginTop: 100,
-                marginBottom: 10,
-                marginLeft: 10
-              }}
+            <Button
+              transparent
+              onPress={() => this.props.navigation.goBack()}
+              style={{ height: 60, marginBottom: 20, marginTop: 25 }}
             >
-              Sign <Text style={{ color: "#0984e3", fontSize: 45 }}>up</Text>
-            </Text>
-            <TextInput
-              placeholder="email address"
-              style={styles.textInput}
-              autoFocus={false}
-              returnKeyType="next"
-              keyboardType="email-address"
-              onSubmitEditing={() => this.usernameInput.focus()}
-              onChangeText={e => this.setState({ email: e })}
-            />
-            <TextInput
-              placeholder="username"
-              style={styles.textInput}
-              autoFocus={false}
-              returnKeyType="next"
-              onSubmitEditing={() => this.bioInput.focus()}
-              ref={input => (this.usernameInput = input)}
-              onChangeText={e => this.setState({ username: e })}
-            />
-            <TextInput
-              placeholder="bio"
-              style={styles.textInput}
-              autoFocus={false}
-              returnKeyType="next"
-              onSubmitEditing={() => this.passwordInput.focus()}
-              ref={input => (this.bioInput = input)}
-              onChangeText={e => this.setState({ bio: e })}
-            />
-            <TextInput
-              placeholder="password"
-              secureTextEntry
-              returnKeyType="go"
-              style={styles.textInput}
-              ref={input => (this.passwordInput = input)}
-              onChangeText={e => this.setState({ password: e })}
-              onSubmitEditing={() => onRegister(this.state, this.props)}
-            />
-            {/* <Button
-              bordered
-              style={{
-                borderColor: "#363A43",
-                marginTop: 10,
-                marginRight: 35,
-                marginLeft: 10
-              }}
-              onPress={this.onImageUpload}
-            >
-              <Text>Upload avatar</Text>
-            </Button> */}
-            <View style={{ flexDirection: "row" }}>
+              <Icon.Ionicons
+                name="ios-arrow-round-back"
+                size={60}
+                style={{ marginLeft: 30 }}
+              />
+            </Button>
+            <Title>Create Account.</Title>
+            <Card style={{ marginBottom: 100 }}>
+              <TextInput
+                placeholder="email address"
+                autoFocus={false}
+                returnKeyType="next"
+                keyboardType="email-address"
+                onSubmitEditing={() => this.usernameInput.focus()}
+                onChangeText={e => this.setState({ email: e })}
+              />
+              <TextInput
+                placeholder="username"
+                style={{ marginTop: 20 }}
+                autoFocus={false}
+                returnKeyType="next"
+                onSubmitEditing={() => this.bioInput.focus()}
+                ref={input => (this.usernameInput = input)}
+                onChangeText={e => this.setState({ username: e })}
+              />
+              <TextInput
+                placeholder="bio"
+                style={{ marginTop: 20 }}
+                autoFocus={false}
+                returnKeyType="next"
+                onSubmitEditing={() => this.passwordInput.focus()}
+                ref={input => (this.bioInput = input)}
+                onChangeText={e => this.setState({ bio: e })}
+              />
+              <TextInput
+                placeholder="password"
+                secureTextEntry
+                returnKeyType="go"
+                style={{ marginTop: 20 }}
+                ref={input => (this.passwordInput = input)}
+                onChangeText={e => this.setState({ password: e })}
+                onSubmitEditing={() => onRegister(this.state, this.props)}
+              />
               <Button
-                bordered
-                onPress={() => this.props.navigation.navigate("SignIn")}
-                style={{
-                  borderColor: "#363A43",
-                  marginTop: 20,
-                  marginRight: 35,
-                  marginLeft: 10
-                }}
-              >
-                <Icon
-                  name="sign-in"
-                  size={20}
-                  color={"#363A43"}
-                  style={{ marginLeft: 10 }}
-                />
-                <Text style={{ color: "#363A43" }}>Sign in</Text>
-              </Button>
-              <Button
-                bordered
+                block
                 onPress={() => onRegister(this.state, this.props)}
                 style={{
-                  borderColor: "#363A43",
-                  marginTop: 20
+                  backgroundColor: "#fd6735",
+                  borderRadius: 14,
+                  height: 50,
+                  marginTop: 20,
+                  alignItems: "center"
                 }}
               >
-                <Icon
-                  name="user-plus"
-                  size={20}
-                  color={"#0984e3"}
-                  style={{ marginLeft: 10 }}
-                />
-                <Text style={{ color: "#363A43" }}>Sign up</Text>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  Sign up
+                </Text>
               </Button>
-            </View>
+            </Card>
           </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  textInput: {
-    margin: 10,
-    height: 34,
-    width: 270,
-    paddingHorizontal: 10,
-    borderRadius: 4,
-    borderColor: "rgba(54,58,67,1)",
-    borderWidth: 1,
-    fontSize: 16
-  }
-});
