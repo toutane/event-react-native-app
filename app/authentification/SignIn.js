@@ -24,9 +24,8 @@ export default class SignInScreen extends React.Component {
       email: "",
       password: "",
       emailInputColor: "rgba(0, 0, 0, 0.1)",
-      emailInputPlaceholder: "email address",
       passwordInputColor: "rgba(0, 0, 0, 0.1)",
-      passwordInputPlaceholder: "password"
+      error: "null"
     };
     // this.state = { email: "Ca@ca.ca", password: "cacaca" };
     // this.state = { email: "Ben@ben.ben", password: "benben" };
@@ -38,29 +37,47 @@ export default class SignInScreen extends React.Component {
     var that = this;
     if (state.email !== "") {
       if (state.password !== "") {
-        firebase
-          .login(state.email, state.password)
-          .catch(error =>
-            error.code === "auth/invalid-email"
-              ? that.setState({ emailInputColor: "red" })
-              : error.code === "auth/wrong-password"
-              ? that.setState({
-                  passwordInputColor: "red",
-                  passwordInputPlaceholder: error.message
-                })
-              : error.code === "auth/user-not-found"
-              ? that.setState({ emailInputColor: "red" })
-              : alert(error.code)
-          );
+        firebase.login(state.email, state.password).catch(error =>
+          error.code === "auth/invalid-email"
+            ? that.setState({
+                emailInputColor: "red",
+                error: "email is badly formatted"
+              })
+            : error.code === "auth/wrong-password"
+            ? that.setState({
+                passwordInputColor: "red",
+                error: "password is incorrect"
+              })
+            : error.code === "auth/user-not-found"
+            ? that.setState({ emailInputColor: "red", error: "user not found" })
+            : alert(error.code)
+        );
         props.navigation.navigate("Home");
       } else {
-        that.setState({ passwordInputColor: "red" });
+        that.setState({
+          passwordInputColor: "red",
+          error: "password is required"
+        });
       }
     } else {
       if (state.password === "") {
-        that.setState({ emailInputColor: "red", passwordInputColor: "red" });
+        that.setState({
+          emailInputColor: "red",
+          passwordInputColor: "red",
+          error: "email and password are required"
+        });
       } else {
-        that.setState({ emailInputColor: "red" });
+        if (state.password === "") {
+          that.setState({
+            passwordInputColor: "red",
+            error: "password is required"
+          });
+        } else {
+          that.setState({
+            emailInputColor: "red",
+            error: "email is required"
+          });
+        }
       }
     }
   }
@@ -74,12 +91,12 @@ export default class SignInScreen extends React.Component {
         <View style={{ flex: 1 }}>
           <View style={{ flex: 1, justifyContent: "center" }}>
             <KeyboardAvoidingView behavior="position" enabled>
-              <Title style={{}}>Welcome Back.</Title>
+              <Title style={{ marginTop: 30 }}>Welcome Back.</Title>
               <Card style={{ marginBottom: 20 }}>
                 <TextInput
                   style={{ borderColor: this.state.emailInputColor }}
                   autoCapitalize="none"
-                  placeholder={this.state.emailInputPlaceholder}
+                  placeholder={"email address"}
                   autoFocus={false}
                   returnKeyType="next"
                   keyboardType="email-address"
@@ -87,13 +104,14 @@ export default class SignInScreen extends React.Component {
                   onChangeText={e =>
                     this.setState({
                       email: e,
-                      emailInputColor: "rgba(0, 0, 0, 0.1)"
+                      emailInputColor: "rgba(0, 0, 0, 0.1)",
+                      error: "null"
                     })
                   }
                 />
                 <TextInput
                   autoCapitalize="none"
-                  placeholder={this.state.passwordInputPlaceholder}
+                  placeholder={"password"}
                   secureTextEntry
                   returnKeyType="go"
                   style={{
@@ -104,7 +122,8 @@ export default class SignInScreen extends React.Component {
                   onChangeText={e =>
                     this.setState({
                       password: e,
-                      passwordInputColor: "rgba(0, 0, 0, 0.1)"
+                      passwordInputColor: "rgba(0, 0, 0, 0.1)",
+                      error: "null"
                     })
                   }
                   onSubmitEditing={() => this.login(this.state, this.props)}
@@ -159,6 +178,15 @@ export default class SignInScreen extends React.Component {
                     {" "}
                     Sign up
                   </Text>
+                </Text>
+                <Text
+                  style={{
+                    color:
+                      this.state.error !== "null" ? "red" : "rgba(0, 0, 0, 0)",
+                    marginTop: 20
+                  }}
+                >
+                  {this.state.error}
                 </Text>
               </View>
             </KeyboardAvoidingView>
