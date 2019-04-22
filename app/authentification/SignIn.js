@@ -6,6 +6,8 @@ import { TextInput } from "../components/TextInput/styles";
 import { Hr } from "../components/Hr/styles";
 import { Icon, LinearGradient } from "expo";
 
+import { theme } from "../themes";
+
 import {
   View,
   TouchableWithoutFeedback,
@@ -18,22 +20,51 @@ import firebase from "../firebase/firebase";
 export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = { email: "", password: "" };
-    this.state = { email: "Ca@ca.ca", password: "cacaca" };
+    this.state = {
+      email: "",
+      password: "",
+      emailInputColor: "rgba(0, 0, 0, 0.1)",
+      emailInputPlaceholder: "email address",
+      passwordInputColor: "rgba(0, 0, 0, 0.1)",
+      passwordInputPlaceholder: "password"
+    };
+    // this.state = { email: "Ca@ca.ca", password: "cacaca" };
     // this.state = { email: "Ben@ben.ben", password: "benben" };
   }
   static navigationOptions = {
     header: null
   };
-  render() {
-    async function login(state, props) {
-      try {
-        await firebase.login(state.email, state.password);
+  async login(state, props) {
+    var that = this;
+    if (state.email !== "") {
+      if (state.password !== "") {
+        firebase
+          .login(state.email, state.password)
+          .catch(error =>
+            error.code === "auth/invalid-email"
+              ? that.setState({ emailInputColor: "red" })
+              : error.code === "auth/wrong-password"
+              ? that.setState({
+                  passwordInputColor: "red",
+                  passwordInputPlaceholder: error.message
+                })
+              : error.code === "auth/user-not-found"
+              ? that.setState({ emailInputColor: "red" })
+              : alert(error.code)
+          );
         props.navigation.navigate("Home");
-      } catch (error) {
-        alert(error.message);
+      } else {
+        that.setState({ passwordInputColor: "red" });
+      }
+    } else {
+      if (state.password === "") {
+        that.setState({ emailInputColor: "red", passwordInputColor: "red" });
+      } else {
+        that.setState({ emailInputColor: "red" });
       }
     }
+  }
+  render() {
     return (
       // <ImageBackground
       //   source={require("../../assets/img-background-signin.png")}
@@ -46,29 +77,42 @@ export default class SignInScreen extends React.Component {
               <Title style={{}}>Welcome Back.</Title>
               <Card style={{ marginBottom: 20 }}>
                 <TextInput
+                  style={{ borderColor: this.state.emailInputColor }}
                   autoCapitalize="none"
-                  placeholder="email address"
+                  placeholder={this.state.emailInputPlaceholder}
                   autoFocus={false}
                   returnKeyType="next"
                   keyboardType="email-address"
                   onSubmitEditing={() => this.passwordInput.focus()}
-                  onChangeText={e => this.setState({ email: e })}
+                  onChangeText={e =>
+                    this.setState({
+                      email: e,
+                      emailInputColor: "rgba(0, 0, 0, 0.1)"
+                    })
+                  }
                 />
                 <TextInput
                   autoCapitalize="none"
-                  placeholder="password"
+                  placeholder={this.state.passwordInputPlaceholder}
                   secureTextEntry
                   returnKeyType="go"
-                  style={{ marginTop: 20 }}
+                  style={{
+                    marginTop: 20,
+                    borderColor: this.state.passwordInputColor
+                  }}
                   ref={input => (this.passwordInput = input)}
-                  onChangeText={e => this.setState({ password: e })}
-                  onSubmitEditing={() => login(this.state, this.props)}
+                  onChangeText={e =>
+                    this.setState({
+                      password: e,
+                      passwordInputColor: "rgba(0, 0, 0, 0.1)"
+                    })
+                  }
+                  onSubmitEditing={() => this.login(this.state, this.props)}
                 />
                 <LinearGradient
                   colors={[
-                    "rgba(67, 67, 229, 1)",
-                    "rgba(60, 80, 242, 1)",
-                    "rgba(50, 94, 236, 1)"
+                    theme.linearGradient.header.from,
+                    theme.linearGradient.header.to
                   ]}
                   start={[0, 1]}
                   end={[1, 0]}
@@ -83,7 +127,7 @@ export default class SignInScreen extends React.Component {
                 >
                   <Button
                     block
-                    onPress={() => login(this.state, this.props)}
+                    onPress={() => this.login(this.state, this.props)}
                     style={{
                       height: 50,
                       backgroundColor: "rgba(0, 0, 0, 0)"
@@ -106,7 +150,7 @@ export default class SignInScreen extends React.Component {
                   Don't have an account ?
                   <Text
                     style={{
-                      color: "rgba(60, 80, 242, 1)",
+                      color: theme.colors.blue,
                       fontSize: 20,
                       fontWeight: "bold"
                     }}

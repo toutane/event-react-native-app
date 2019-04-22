@@ -5,6 +5,8 @@ import { Title } from "../components/Title/styles";
 import { TextInput } from "../components/TextInput/styles";
 import { Icon, LinearGradient } from "expo";
 
+import { theme } from "../themes";
+
 import {
   View,
   TouchableWithoutFeedback,
@@ -96,9 +98,8 @@ export default class SignInScreen extends React.Component {
               />
               <LinearGradient
                 colors={[
-                  "rgba(67, 67, 229, 1)",
-                  "rgba(60, 80, 242, 1)",
-                  "rgba(50, 94, 236, 1)"
+                  theme.linearGradient.header.from,
+                  theme.linearGradient.header.to
                 ]}
                 start={[0, 1]}
                 end={[1, 0]}
