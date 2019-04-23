@@ -16,7 +16,7 @@ const tabBar = {
     screen: SearchScreen,
     navigationOptions: {
       tabBarLabel: "Search",
-      tabBarIcon: props => <TabIcon iconName="magnifier" {...props} />
+      tabBarIcon: props => <TabIcon iconName="message-circle" {...props} />
     }
   },
   Home: {
@@ -26,18 +26,18 @@ const tabBar = {
       tabBarIcon: props => <TabIcon iconName="home" {...props} />
     }
   },
+  // Settings: {
+  //   screen: SettingsScreen,
+  //   navigationOptions: {
+  //     tabBarLabel: "Settings",
+  //     tabBarIcon: props => <TabIcon iconName="bell" {...props} />
+  //   }
+  // },
   Profile: {
     screen: ProfileScreen,
     navigationOptions: {
       tabBarLabel: "Profile",
       tabBarIcon: props => <TabIcon iconName="user" {...props} />
-    }
-  },
-  Settings: {
-    screen: SettingsScreen,
-    navigationOptions: {
-      tabBarLabel: "Settings",
-      tabBarIcon: props => <TabIcon iconName="settings" {...props} />
     }
   }
 };

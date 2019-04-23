@@ -1,13 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
+import { Icon } from "expo";
 
-import Icon from '@expo/vector-icons/SimpleLineIcons';
-
-const TabIcon = ({ tintColor, iconName }) => <Icon name={iconName} size={23} color={tintColor} />;
+const TabIcon = ({ tintColor, iconName }) => (
+  <Icon.Feather name={iconName} size={23} color={tintColor} />
+);
 
 TabIcon.propTypes = {
   tintColor: PropTypes.string.isRequired,
-  iconName: PropTypes.string.isRequired,
+  iconName: PropTypes.string.isRequired
 };
 
 export default TabIcon;

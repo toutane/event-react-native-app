@@ -8,7 +8,6 @@ export const theme = {
     black: "#333333",
     inactiveColor: "#262626",
     border: "#cbe8d7",
-
     blue: "#506CF2"
   },
   linearGradient: {
@@ -19,20 +18,20 @@ export const theme = {
   },
   tabColors: {
     home: {
-      active: "rgba(244, 195, 0, 1)",
-      background: "rgba(244, 195, 0, 0.1)"
+      active: "rgba(236, 90, 52, 1)",
+      background: "rgba(236, 90, 52, 0.1)"
     },
     search: {
-      active: "rgba(64, 234, 135, 1)",
-      background: "rgba(64, 234, 135, 0.1)"
+      active: "rgba(80, 108, 242, 1)",
+      background: "rgba(80, 108, 242, 0.1)"
     },
     profile: {
-      active: "rgba(208, 115, 255, 1)",
-      background: "rgba(208, 115, 255, 0.1)"
+      active: "rgba(254, 172, 2, 1)",
+      background: "rgba(254, 172, 2, 0.1)"
     },
     settings: {
-      active: "rgba(235, 92, 110, 1)",
-      background: "rgba(235, 92, 110, 0.1)"
+      active: "rgba(254 , 35, 93, 1)",
+      background: "rgba(254 , 35, 93, 0.1)"
     }
   }
 };

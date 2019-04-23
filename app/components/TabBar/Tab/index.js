@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import { Animated } from 'react-native';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import { Animated } from "react-native";
+import PropTypes from "prop-types";
 
-import { screenWidth } from '../../../utils/dimensions';
+import { screenWidth } from "../../../utils/dimensions";
 
-import { TabTouchable, TabWrapper, Label } from './styled';
+import { TabTouchable, TabWrapper, Label } from "./styled";
 
 class Tab extends PureComponent {
   static propTypes = {
@@ -13,7 +13,7 @@ class Tab extends PureComponent {
     onTabPress: PropTypes.func.isRequired,
     renderIcon: PropTypes.func.isRequired,
     activeColors: PropTypes.object.isRequired,
-    inactiveColor: PropTypes.string.isRequired,
+    inactiveColor: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -28,7 +28,7 @@ class Tab extends PureComponent {
     this.state = {
       tabWidth: new Animated.Value(tabWidth),
       labelOpacity: new Animated.Value(labelOpacity),
-      labelWidth: new Animated.Value(labelWidth),
+      labelWidth: new Animated.Value(labelWidth)
     };
   }
 
@@ -46,17 +46,17 @@ class Tab extends PureComponent {
     Animated.parallel([
       Animated.timing(tabWidth, {
         toValue: this.tabWidth,
-        duration: 300,
+        duration: 300
       }).start(),
       Animated.timing(labelWidth, {
         toValue: 50,
-        duration: 300,
+        duration: 300
       }).start(),
       Animated.timing(labelOpacity, {
         toValue: 1,
         duration: 150,
-        delay: 150,
-      }).start(),
+        delay: 150
+      }).start()
     ]);
   };
 
@@ -66,21 +66,28 @@ class Tab extends PureComponent {
     Animated.parallel([
       Animated.timing(tabWidth, {
         toValue: 50,
-        duration: 300,
+        duration: 300
       }).start(),
       Animated.timing(labelWidth, {
         toValue: 0,
-        duration: 300,
+        duration: 300
       }).start(),
       Animated.timing(labelOpacity, {
         toValue: 0,
-        duration: 100,
-      }).start(),
+        duration: 100
+      }).start()
     ]);
   };
 
   render() {
-    const { route, isActive, onTabPress, renderIcon, activeColors, inactiveColor } = this.props;
+    const {
+      route,
+      isActive,
+      onTabPress,
+      renderIcon,
+      activeColors,
+      inactiveColor
+    } = this.props;
     const { tabWidth, labelWidth, labelOpacity } = this.state;
 
     const color = isActive ? activeColors.active : inactiveColor;
@@ -99,7 +106,7 @@ class Tab extends PureComponent {
           {renderIcon({
             route,
             focused: isActive,
-            tintColor: color,
+            tintColor: color
           })}
           <Label
             numberOfLines={1}
