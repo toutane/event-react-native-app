@@ -173,7 +173,16 @@ export default class SignInScreen extends React.Component {
                       fontSize: 20,
                       fontWeight: "bold"
                     }}
-                    onPress={() => this.props.navigation.navigate("SignUp")}
+                    onPress={() =>
+                      this.setState(
+                        {
+                          error: "null",
+                          emailInputColor: "rgba(0, 0, 0, 0.1)",
+                          passwordInputColor: "rgba(0, 0, 0, 0.1)"
+                        },
+                        () => this.props.navigation.navigate("SignUp")
+                      )
+                    }
                   >
                     {" "}
                     Sign up
