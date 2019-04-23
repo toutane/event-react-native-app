@@ -2,7 +2,8 @@ import React from "react";
 import { View, Text } from "react-native";
 import firebase from "../firebase/firebase";
 import HomeStackNavigator from "../navigation/AppNavigator";
-import AuthStack from "../navigation/AuthentificationNavigator";
+import AuthStack from "../navigation/AuthNavigator";
+import ThemeProvider from "../themes";
 
 export default class FirebaseInitialization extends React.Component {
   constructor(props) {
@@ -33,7 +34,9 @@ export default class FirebaseInitialization extends React.Component {
       !this.state.authenticated ? (
         <AuthStack />
       ) : (
-        <HomeStackNavigator />
+        <ThemeProvider>
+          <HomeStackNavigator />
+        </ThemeProvider>
       )
     ) : (
       <View style={{ flex: 1, alignItems: "center" }}>

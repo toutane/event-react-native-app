@@ -21,13 +21,15 @@ export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: "Ca@ca.ca",
+      password: "cacaca",
+      // email: "",
+      // password: "",
       emailInputColor: "rgba(0, 0, 0, 0.1)",
       passwordInputColor: "rgba(0, 0, 0, 0.1)",
       error: "null"
     };
-    // this.state = { email: "Ca@ca.ca", password: "cacaca" };
+    // this.state = { email: "Ca@ca.ca", password: "cacaca",  };
     // this.state = { email: "Ben@ben.ben", password: "benben" };
   }
   static navigationOptions = {
