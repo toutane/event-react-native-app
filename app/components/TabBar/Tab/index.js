@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import { Animated } from "react-native";
 import PropTypes from "prop-types";
-
 import { screenWidth } from "../../../utils/dimensions";
 
 import { TabTouchable, TabWrapper, Label } from "./styled";
@@ -19,7 +18,7 @@ class Tab extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.tabWidth = screenWidth / 4;
+    this.tabWidth = 100;
 
     const tabWidth = props.isActive ? this.tabWidth : 50;
     const labelOpacity = props.isActive ? 1 : 0;
@@ -112,7 +111,7 @@ class Tab extends PureComponent {
             numberOfLines={1}
             isActive={isActive}
             color={color}
-            style={{ opacity: labelOpacity, width: labelWidth }}
+            style={{ marginTop: 4, opacity: labelOpacity, width: labelWidth }}
           >
             {route.routeName}
           </Label>

@@ -21,7 +21,7 @@ export const theme = {
       active: "rgba(236, 90, 52, 1)",
       background: "rgba(236, 90, 52, 0.1)"
     },
-    search: {
+    message: {
       active: "rgba(80, 108, 242, 1)",
       background: "rgba(80, 108, 242, 0.1)"
     },

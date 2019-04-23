@@ -7,15 +7,15 @@ import TabBar from "../components/TabBar";
 import TabIcon from "../components/TabBar/TabIcon";
 
 import HomeScreen from "../components/views/HomeScreen";
-import SearchScreen from "../components/views/SearchScreen";
+import MessageScreen from "../components/views/MessageScreen";
 import ProfileScreen from "../components/views/ProfileScreen";
-import SettingsScreen from "../components/views/SettingsScreen";
+import SettingsScreen from "../components/views/MessageScreen";
 
 const tabBar = {
-  Search: {
-    screen: SearchScreen,
+  Message: {
+    screen: MessageScreen,
     navigationOptions: {
-      tabBarLabel: "Search",
+      tabBarLabel: "Message",
       tabBarIcon: props => <TabIcon iconName="message-circle" {...props} />
     }
   },
@@ -47,7 +47,7 @@ const tabBarConfig = {
     <TabBar
       tabColors={[
         theme.tabColors.home,
-        theme.tabColors.search,
+        theme.tabColors.message,
         theme.tabColors.profile,
         theme.tabColors.settings
       ]}

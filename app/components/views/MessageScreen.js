@@ -4,7 +4,7 @@ import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../../firebase/firebase";
 
-export default class SettingsScreen extends React.Component {
+export default class MessageScreen extends React.Component {
   static navigationOptions = {
     title: "Settings"
   };

@@ -1,11 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Tab from './Tab';
+import Tab from "./Tab";
 
-import { Wrapper } from './styled';
+import { Wrapper } from "./styled";
 
-const TabBar = ({ renderIcon, tabColors, inactiveTintColor, navigation, onTabPress }) => (
+const TabBar = ({
+  renderIcon,
+  tabColors,
+  inactiveTintColor,
+  navigation,
+  onTabPress
+}) => (
   <Wrapper>
     {navigation.state.routes.map((route, index) => (
       <Tab
@@ -26,7 +32,7 @@ TabBar.propTypes = {
   tabColors: PropTypes.array.isRequired,
   inactiveTintColor: PropTypes.string.isRequired,
   navigation: PropTypes.object.isRequired,
-  onTabPress: PropTypes.func.isRequired,
+  onTabPress: PropTypes.func.isRequired
 };
 
 export default TabBar;

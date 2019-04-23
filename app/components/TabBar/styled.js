@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Wrapper = styled.View`
   flex-direction: row;
@@ -13,4 +13,6 @@ const Wrapper = styled.View`
   border-top-color: ${({ theme }) => theme.colors.border};
 `;
 
+// background-color: ${({ theme }) => theme.colors.black};
+// border-radius: 35
 export { Wrapper };

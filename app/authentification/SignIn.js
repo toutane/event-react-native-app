@@ -29,8 +29,6 @@ export default class SignInScreen extends React.Component {
       passwordInputColor: "rgba(0, 0, 0, 0.1)",
       error: "null"
     };
-    // this.state = { email: "Ca@ca.ca", password: "cacaca",  };
-    // this.state = { email: "Ben@ben.ben", password: "benben" };
   }
   static navigationOptions = {
     header: null
