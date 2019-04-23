@@ -2,15 +2,33 @@ import React from "react";
 import { ScrollView, StyleSheet, View, Animated, Text } from "react-native";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
+import { Card } from "../Card/styles";
+import { Button } from "native-base";
+import { Icon } from "expo";
 
-const Header_Maximum_Height = 280;
+const tab = [
+  "Bonjour",
+  "Bonsoir",
+  "Bonjour",
+  "Bonsoir",
+  "Bonsoir",
+  "Bonjour",
+  "Bonsoir",
+  "Bonsoir",
+  "Bonjour",
+  "Bonsoir"
+];
+
+const Header_Maximum_Height = 320;
 const Header_Minimum_Height = 100;
 const Header_Maximum_Text = 62;
-const Header_Minimum_Text = 30;
-const Header_Maximum_Text2 = 18;
-const Header_Minimum_Text2 = 14;
-const Header_Maximum_Text_Pos = 160;
-const Header_Minimum_Text_Pos = 40;
+const Header_Minimum_Text = 35;
+const Header_Maximum_Text_Opacity = 1;
+const Header_Minimum_Text_Opacity = 0;
+const Header_Maximum_Text_Pos = 75;
+const Header_Minimum_Text_Pos = 30;
+const Header_Maximum_Buttons_Pos = 0;
+const Header_Minimum_Buttons_Pos = -20;
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -37,10 +55,13 @@ export default class HomeScreen extends React.Component {
 
       extrapolate: "clamp"
     });
-    const AnimateHeaderText2 = this.AnimatedHeaderValue.interpolate({
-      inputRange: [0, Header_Maximum_Text2 - Header_Minimum_Text2],
+    const AnimateHeaderSubtitle = this.AnimatedHeaderValue.interpolate({
+      inputRange: [
+        0,
+        Header_Maximum_Text_Opacity - Header_Minimum_Text_Opacity
+      ],
 
-      outputRange: [Header_Maximum_Text2, Header_Minimum_Text2],
+      outputRange: [Header_Maximum_Text_Opacity, Header_Minimum_Text_Opacity],
 
       extrapolate: "clamp"
     });
@@ -48,6 +69,13 @@ export default class HomeScreen extends React.Component {
       inputRange: [0, Header_Maximum_Text_Pos - Header_Minimum_Text_Pos],
 
       outputRange: [Header_Maximum_Text_Pos, Header_Minimum_Text_Pos],
+
+      extrapolate: "clamp"
+    });
+    const AnimatedButtonsPosition = this.AnimatedHeaderValue.interpolate({
+      inputRange: [0, Header_Maximum_Buttons_Pos - Header_Minimum_Buttons_Pos],
+
+      outputRange: [Header_Maximum_Buttons_Pos, Header_Minimum_Buttons_Pos],
 
       extrapolate: "clamp"
     });
@@ -64,15 +92,27 @@ export default class HomeScreen extends React.Component {
             }
           ])}
         >
-          <View style={{ marginTop: 100 }}>
-            {/* {tab.map((e, i) => (
-              <Text key={i}>e</Text>
-            ))} */}
+          <View style={{ marginTop: 90 }}>
+            {tab.map((e, i) => (
+              <Card key={i} style={{ marginBottom: 20 }}>
+                <Text>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Provident, vitae quas dignissimos esse animi distinctio soluta
+                  quaerat! Veritatis eveniet inventore laudantium nesciunt
+                  minima vel, quibusdam perspiciatis eligendi ratione sapiente
+                  quia?Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Provident, vitae quas dignissimos esse animi distinctio soluta
+                  quaerat! Veritatis eveniet inventore laudantium nesciunt
+                  minima vel, quibusdam perspiciatis eligendi ratione sapiente
+                  quia?
+                </Text>
+              </Card>
+            ))}
           </View>
         </ScrollView>
         <Animated.View
           style={[
-            styles.yellowBox,
+            styles.headerBox,
             {
               height: AnimateHeaderHeight,
               width: screenWidth
@@ -83,32 +123,49 @@ export default class HomeScreen extends React.Component {
           <Animated.View
             style={{
               top: AnimatedTextPosition,
-              position: "absolute",
-              flexDirection: "row",
-              justifyContent: "space-between"
+              position: "absolute"
             }}
           >
             <View>
               <Animated.Text
-                style={[
-                  styles.text,
-                  {
-                    fontSize: AnimateHeaderText2
-                  }
-                ]}
+                style={[styles.subtitle, { opacity: AnimateHeaderSubtitle }]}
               >
-                Today, 1st April
+                MARDI 23 AVRIL
               </Animated.Text>
-              <Animated.Text
-                style={[
-                  styles.text2,
-                  {
-                    fontSize: AnimateHeaderText
-                  }
-                ]}
+              <View
+                style={{
+                  flexDirection: "row"
+                }}
               >
-                Home
-              </Animated.Text>
+                <Animated.Text
+                  style={[
+                    styles.mainTitle,
+                    {
+                      fontSize: AnimateHeaderText
+                    }
+                  ]}
+                >
+                  Home
+                </Animated.Text>
+                <Animated.View
+                  style={{
+                    top: AnimatedButtonsPosition,
+                    position: "absolute"
+                  }}
+                >
+                  <Button
+                    transparent
+                    style={{
+                      marginTop: 5,
+                      height: 60,
+                      left: screenWidth - 80,
+                      position: "absolute"
+                    }}
+                  >
+                    <Icon.Feather name="calendar" size={40} color="white" />
+                  </Button>
+                </Animated.View>
+              </View>
             </View>
           </Animated.View>
         </Animated.View>
@@ -118,24 +175,24 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  yellowBox: {
+  headerBox: {
     position: "absolute",
     zIndex: 0,
     shadowColor: "rgba(0,0,0,1)",
     shadowOpacity: 0.15,
     shadowRadius: 15
   },
-  text: {
-    marginLeft: 40,
-    backgroundColor: "transparent",
-    color: "rgba(255,255,255,1)",
-    fontSize: 18,
-    fontFamily: "Arial-BoldMT"
-  },
-  text2: {
-    marginLeft: 40,
-    backgroundColor: "transparent",
+  mainTitle: {
+    marginLeft: 30,
+    fontWeight: "bold",
     fontFamily: "Arial-BoldMT",
     color: "rgba(255,255,255,1)"
+  },
+  subtitle: {
+    marginLeft: 30,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#ffff",
+    fontFamily: "Arial"
   }
 });

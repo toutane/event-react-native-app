@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 export const theme = {
   colors: {
     white: "#FFFFFF",
+    whiteSmoke: "#EFF5F9",
     black: "#333333",
     inactiveColor: "#262626",
     border: "#cbe8d7",

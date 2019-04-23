@@ -7,8 +7,8 @@ const Card = styled.View`
   shadow-color: rgba(0, 0, 0, 1);
   padding-vertical: 30;
   padding-horizontal: 25;
-  margin-left: 30;
-  margin-right: 30;
+  margin-left: 25;
+  margin-right: 25;
   border-radius: 20;
 `;
 
