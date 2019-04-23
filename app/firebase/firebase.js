@@ -26,26 +26,18 @@ class Firebase {
     return this.auth.signOut();
   }
 
-  async register(name, email, password) {
+  async register(name, email, password, avatar, bio) {
     await this.auth.createUserWithEmailAndPassword(email, password);
-    return this.auth.currentUser.updateProfile({
-      displayName: name
-    });
-  }
-
-  addBio(bio) {
-    if (!this.auth.currentUser) {
-      return alert("Not authorized");
-    }
-
-    return this.db
+    await this.db
       .collection("users")
       .doc(this.auth.currentUser.uid)
       .set({
         bio: bio
       });
+    return this.auth.currentUser.updateProfile({
+      displayName: name
+    });
   }
-
   isInitialized() {
     return new Promise(resolve => {
       this.auth.onAuthStateChanged(resolve);

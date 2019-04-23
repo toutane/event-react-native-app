@@ -39,7 +39,13 @@ export default class SignInScreen extends React.Component {
     var that = this;
     if (state.email && state.username && state.bio && state.password !== "") {
       firebase
-        .register(state.username, state.email, state.password, state.avatar)
+        .register(
+          state.username,
+          state.email,
+          state.password,
+          state.avatar,
+          state.bio
+        )
         .catch(error =>
           error.code === "auth/invalid-email"
             ? that.setState({
@@ -48,17 +54,13 @@ export default class SignInScreen extends React.Component {
               })
             : error.code === "auth/weak-password"
             ? that.setState({
-                emailInputColor: "red",
+                passwordInputColor: "red",
                 error: "password should be at least 6 characters"
               })
             : alert(error.code)
         )
         .then(registed =>
-          registed
-            ? firebase
-                .addBio(state.bio)
-                .then(props.navigation.navigate("SignIn"))
-            : null
+          registed ? props.navigation.navigate("SignIn") : null
         );
     }
     state.email === ""
