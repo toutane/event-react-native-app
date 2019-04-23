@@ -12,10 +12,10 @@ import ProfileScreen from "../components/views/ProfileScreen";
 import SettingsScreen from "../components/views/MessageScreen";
 
 const tabBar = {
-  Message: {
+  Chat: {
     screen: MessageScreen,
     navigationOptions: {
-      tabBarLabel: "Message",
+      tabBarLabel: "Chat",
       tabBarIcon: props => <TabIcon iconName="message-circle" {...props} />
     }
   },

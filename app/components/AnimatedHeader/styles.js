@@ -8,10 +8,7 @@ export default class HeaderGradient extends React.Component {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <LinearGradient
-          colors={[
-            theme.linearGradient.header.from,
-            theme.linearGradient.header.to
-          ]}
+          colors={[this.props.headerFrom, this.props.headerTo]}
           start={[0, 1]}
           end={[1, 0]}
           style={{

@@ -5,6 +5,7 @@ import HeaderGradient from "../AnimatedHeader/styles";
 import { Card } from "../Card/styles";
 import { Button } from "native-base";
 import { Icon } from "expo";
+import { theme } from "../../themes";
 
 const tab = [
   "Bonjour",
@@ -19,7 +20,7 @@ const tab = [
   "Bonsoir"
 ];
 
-const Header_Maximum_Height = 320;
+const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 100;
 const Header_Maximum_Text = 62;
 const Header_Minimum_Text = 35;
@@ -119,7 +120,11 @@ export default class HomeScreen extends React.Component {
             }
           ]}
         >
-          <HeaderGradient width={screenWidth} />
+          <HeaderGradient
+            width={screenWidth}
+            headerFrom={"#2B4CF2"}
+            headerTo={"#506CF2"}
+          />
           <Animated.View
             style={{
               top: AnimatedTextPosition,
@@ -145,7 +150,7 @@ export default class HomeScreen extends React.Component {
                     }
                   ]}
                 >
-                  Home
+                  Home.
                 </Animated.Text>
                 <Animated.View
                   style={{
@@ -185,14 +190,13 @@ const styles = StyleSheet.create({
   mainTitle: {
     marginLeft: 30,
     fontWeight: "bold",
-    fontFamily: "Arial-BoldMT",
     color: "rgba(255,255,255,1)"
   },
   subtitle: {
     marginLeft: 30,
     fontSize: 16,
     fontWeight: "bold",
-    color: "#ffff",
+    color: theme.colors.grey,
     fontFamily: "Arial"
   }
 });

@@ -5,7 +5,7 @@ import { ThemeProvider } from "styled-components";
 export const theme = {
   colors: {
     white: "#FFFFFF",
-    whiteSmoke: "#EFF5F9",
+    grey: "#EBEDF0",
     black: "#333333",
     inactiveColor: "#262626",
     border: "#cbe8d7",
@@ -16,6 +16,10 @@ export const theme = {
       from: "#2B4CF2",
       to: "#506CF2"
     }
+    // headerMessage: {
+    //   from: "#E55A34",
+    //   to: "#EC7034"
+    // }
   },
   tabColors: {
     home: {
