@@ -18,28 +18,77 @@ import firebase from "../firebase/firebase";
 export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", email: "", bio: "", password: "", avatar: "" };
+    this.state = {
+      username: "",
+      email: "",
+      bio: "",
+      password: "",
+      avatar: "",
+      usernameInputColor: "rgba(0, 0, 0, 0.1)",
+      emailInputColor: "rgba(0, 0, 0, 0.1)",
+      bioInputColor: "rgba(0, 0, 0, 0.1)",
+      passwordInputColor: "rgba(0, 0, 0, 0.1)",
+      error: "null"
+    };
   }
   static navigationOptions = {
     header: null
   };
 
-  render() {
-    async function onRegister(state, props) {
-      try {
-        await firebase.register(
-          state.username,
-          state.email,
-          state.password,
-          state.avatar
+  async onRegister(state, props) {
+    var that = this;
+    if (state.email && state.username && state.bio && state.password !== "") {
+      firebase
+        .register(state.username, state.email, state.password, state.avatar)
+        .catch(error =>
+          error.code === "auth/invalid-email"
+            ? that.setState({
+                emailInputColor: "red",
+                error: "email is badly formatted"
+              })
+            : error.code === "auth/weak-password"
+            ? that.setState({
+                emailInputColor: "red",
+                error: "password should be at least 6 characters"
+              })
+            : alert(error.code)
+        )
+        .then(registed =>
+          registed
+            ? firebase
+                .addBio(state.bio)
+                .then(props.navigation.navigate("SignIn"))
+            : null
         );
-        await firebase.addBio(state.bio);
-        props.navigation.navigate("SignIn");
-      } catch (error) {
-        alert(error.message);
-      }
     }
+    state.email === ""
+      ? that.setState({
+          emailInputColor: "red",
+          error: "you must complete all field !"
+        })
+      : null;
+    state.username === ""
+      ? that.setState({
+          usernameInputColor: "red",
+          error: "you must complete all field !"
+        })
+      : null;
+    state.bio === ""
+      ? that.setState({
+          bioInputColor: "red",
+          error: "you must complete all field !"
+        })
+      : null;
+    state.password === ""
+      ? that.setState({
+          passwordInputColor: "red",
+          error: "you must complete all field !"
+        })
+      : null;
+  }
+  // firebase.addBio(state.bio);
 
+  render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1, justifyContent: "center" }}>
@@ -56,77 +105,126 @@ export default class SignInScreen extends React.Component {
               />
             </Button>
             <Title>Create Account.</Title>
-            <Card style={{ marginBottom: 100 }}>
-              <TextInput
-                placeholder="email address"
-                autoCapitalize="none"
-                autoFocus={false}
-                returnKeyType="next"
-                keyboardType="email-address"
-                onSubmitEditing={() => this.usernameInput.focus()}
-                onChangeText={e => this.setState({ email: e })}
-              />
-              <TextInput
-                placeholder="username"
-                autoCapitalize="none"
-                style={{ marginTop: 20 }}
-                autoFocus={false}
-                returnKeyType="next"
-                onSubmitEditing={() => this.bioInput.focus()}
-                ref={input => (this.usernameInput = input)}
-                onChangeText={e => this.setState({ username: e })}
-              />
-              <TextInput
-                autoCapitalize="none"
-                placeholder="bio"
-                style={{ marginTop: 20 }}
-                autoFocus={false}
-                returnKeyType="next"
-                onSubmitEditing={() => this.passwordInput.focus()}
-                ref={input => (this.bioInput = input)}
-                onChangeText={e => this.setState({ bio: e })}
-              />
-              <TextInput
-                autoCapitalize="none"
-                placeholder="password"
-                secureTextEntry
-                returnKeyType="go"
-                style={{ marginTop: 20 }}
-                ref={input => (this.passwordInput = input)}
-                onChangeText={e => this.setState({ password: e })}
-                onSubmitEditing={() => onRegister(this.state, this.props)}
-              />
-              <LinearGradient
-                colors={[
-                  theme.linearGradient.header.from,
-                  theme.linearGradient.header.to
-                ]}
-                start={[0, 1]}
-                end={[1, 0]}
-                style={{
-                  borderRadius: 14,
-                  // height: 50,
-                  marginTop: 20,
-                  alignItems: "center"
-                }}
-              >
-                <Button
-                  block
-                  onPress={() => onRegister(this.state, this.props)}
-                  style={{ height: 50, backgroundColor: "rgba(0, 0, 0, 0)" }}
+            <View style={{ marginBottom: 70 }}>
+              <Card>
+                <TextInput
+                  style={{ borderColor: this.state.emailInputColor }}
+                  placeholder="email address"
+                  autoCapitalize="none"
+                  autoFocus={false}
+                  returnKeyType="next"
+                  keyboardType="email-address"
+                  onSubmitEditing={() => this.usernameInput.focus()}
+                  onChangeText={e =>
+                    this.setState({
+                      email: e,
+                      emailInputColor: "rgba(0, 0, 0, 0.1)",
+                      error: "null"
+                    })
+                  }
+                />
+                <TextInput
+                  style={{
+                    borderColor: this.state.usernameInputColor,
+                    marginTop: 20
+                  }}
+                  placeholder="username"
+                  autoCapitalize="none"
+                  autoFocus={false}
+                  returnKeyType="next"
+                  onSubmitEditing={() => this.bioInput.focus()}
+                  ref={input => (this.usernameInput = input)}
+                  onChangeText={e =>
+                    this.setState({
+                      username: e,
+                      usernameInputColor: "rgba(0, 0, 0, 0.1)",
+                      error: "null"
+                    })
+                  }
+                />
+                <TextInput
+                  style={{
+                    borderColor: this.state.bioInputColor,
+                    marginTop: 20
+                  }}
+                  autoCapitalize="none"
+                  placeholder="bio"
+                  autoFocus={false}
+                  returnKeyType="next"
+                  onSubmitEditing={() => this.passwordInput.focus()}
+                  ref={input => (this.bioInput = input)}
+                  onChangeText={e =>
+                    this.setState({
+                      bio: e,
+                      bioInputColor: "rgba(0, 0, 0, 0.1)",
+                      error: "null"
+                    })
+                  }
+                />
+                <TextInput
+                  style={{
+                    borderColor: this.state.passwordInputColor,
+                    marginTop: 20
+                  }}
+                  autoCapitalize="none"
+                  placeholder="password"
+                  secureTextEntry
+                  returnKeyType="go"
+                  ref={input => (this.passwordInput = input)}
+                  onChangeText={e =>
+                    this.setState({
+                      password: e,
+                      passwordInputColor: "rgba(0, 0, 0, 0.1)",
+                      error: "null"
+                    })
+                  }
+                  onSubmitEditing={() =>
+                    this.onRegister(this.state, this.props)
+                  }
+                />
+                <LinearGradient
+                  colors={[
+                    theme.linearGradient.header.from,
+                    theme.linearGradient.header.to
+                  ]}
+                  start={[0, 1]}
+                  end={[1, 0]}
+                  style={{
+                    borderRadius: 14,
+                    // height: 50,
+                    marginTop: 20,
+                    alignItems: "center"
+                  }}
                 >
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      color: "#fff"
-                    }}
+                  <Button
+                    block
+                    onPress={() => this.onRegister(this.state, this.props)}
+                    style={{ height: 50, backgroundColor: "rgba(0, 0, 0, 0)" }}
                   >
-                    Sign up
-                  </Text>
-                </Button>
-              </LinearGradient>
-            </Card>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        color: "#fff"
+                      }}
+                    >
+                      Sign up
+                    </Text>
+                  </Button>
+                </LinearGradient>
+              </Card>
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={{
+                    color:
+                      this.state.error !== "null" ? "red" : "rgba(0, 0, 0, 0)",
+                    marginTop: 20
+                  }}
+                >
+                  {this.state.error}
+                </Text>
+              </View>
+            </View>
           </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>
