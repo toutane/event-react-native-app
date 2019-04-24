@@ -9,8 +9,8 @@ export default class HeaderGradient extends React.Component {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <LinearGradient
           colors={[this.props.headerFrom, this.props.headerTo]}
-          start={[1, 0]}
-          end={[0, 1]}
+          start={[1, 1]}
+          end={[1, 0]}
           style={{
             borderRadius: 35,
             height: "100%",

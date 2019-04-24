@@ -114,7 +114,7 @@ export default class EventsList extends React.Component {
             <View style={{ flexDirection: "row", paddingHorizontal: 25 }}>
               <Thumbnail
                 source={{ uri: event.organizer.avatar }}
-                style={{ borderRadius: 13, width: 45, height: 45 }}
+                style={{ borderRadius: 13, width: 50, height: 50 }}
               />
               {event.participants.length > 0 ? (
                 <View
@@ -122,8 +122,8 @@ export default class EventsList extends React.Component {
                     borderRadius: 13,
                     backgroundColor: "#F9F0DB",
                     marginLeft: 10,
-                    width: 45,
-                    height: 45,
+                    width: 50,
+                    height: 50,
                     justifyContent: "center",
                     alignItems: "center"
                   }}
@@ -140,11 +140,11 @@ export default class EventsList extends React.Component {
                 </View>
               ) : null}
               <View style={{ marginLeft: 15 }}>
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
                   # {event.event.title}
                 </Text>
                 <Text
-                  style={{ marginLeft: 15, fontSize: 14, color: "#797979" }}
+                  style={{ marginLeft: 15, fontSize: 16, color: "#797979" }}
                 >
                   {event.event.type}
                 </Text>

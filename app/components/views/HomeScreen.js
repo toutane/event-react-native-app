@@ -95,8 +95,8 @@ export default class HomeScreen extends React.Component {
         >
           <HeaderGradient
             width={screenWidth}
-            headerFrom={"#02a45a"}
-            headerTo={"#3AC986"}
+            headerFrom={"#158E47"}
+            headerTo={"#1DC161"}
           />
           <Animated.View
             style={{
@@ -133,8 +133,8 @@ export default class HomeScreen extends React.Component {
                 >
                   <Button
                     style={{
-                      height: 45,
-                      width: 45,
+                      height: 50,
+                      width: 50,
                       borderRadius: 13,
                       left: screenWidth - 80,
                       position: "absolute",
@@ -142,7 +142,7 @@ export default class HomeScreen extends React.Component {
                       justifyContent: "center"
                     }}
                   >
-                    <Icon.Feather name="bell" size={25} color="white" />
+                    <Icon.Feather name="bell" size={30} color="white" />
                   </Button>
                 </Animated.View>
               </View>
