@@ -23,16 +23,16 @@ export const theme = {
   },
   tabColors: {
     home: {
-      active: "rgba(236, 90, 52, 1)",
-      background: "rgba(236, 90, 52, 0.1)"
+      active: "rgba(80, 108, 242, 1)",
+      background: "rgba(80, 108, 242, 0.1)"
     },
     message: {
       active: "rgba(80, 108, 242, 1)",
       background: "rgba(80, 108, 242, 0.1)"
     },
     profile: {
-      active: "rgba(254, 172, 2, 1)",
-      background: "rgba(254, 172, 2, 0.1)"
+      active: "rgba(80, 108, 242, 1)",
+      background: "rgba(80, 108, 242, 0.1)"
     },
     settings: {
       active: "rgba(254 , 35, 93, 1)",

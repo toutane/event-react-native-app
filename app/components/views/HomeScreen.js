@@ -2,25 +2,12 @@ import React from "react";
 import { ScrollView, StyleSheet, View, Animated, Text } from "react-native";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
-import { Card } from "../Card/styles";
 import { Button } from "native-base";
 import { Icon } from "expo";
 import { theme } from "../../themes";
+import EventsList from "../Events/EventsList/index";
 
-const tab = [
-  "Bonjour",
-  "Bonsoir",
-  "Bonjour",
-  "Bonsoir",
-  "Bonsoir",
-  "Bonjour",
-  "Bonsoir",
-  "Bonsoir",
-  "Bonjour",
-  "Bonsoir"
-];
-
-const Header_Maximum_Height = 300;
+const Header_Maximum_Height = 280;
 const Header_Minimum_Height = 100;
 const Header_Maximum_Text = 62;
 const Header_Minimum_Text = 35;
@@ -94,21 +81,7 @@ export default class HomeScreen extends React.Component {
           ])}
         >
           <View style={{ marginTop: 90 }}>
-            {tab.map((e, i) => (
-              <Card key={i} style={{ marginBottom: 20 }}>
-                <Text>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Provident, vitae quas dignissimos esse animi distinctio soluta
-                  quaerat! Veritatis eveniet inventore laudantium nesciunt
-                  minima vel, quibusdam perspiciatis eligendi ratione sapiente
-                  quia?Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Provident, vitae quas dignissimos esse animi distinctio soluta
-                  quaerat! Veritatis eveniet inventore laudantium nesciunt
-                  minima vel, quibusdam perspiciatis eligendi ratione sapiente
-                  quia?
-                </Text>
-              </Card>
-            ))}
+            <EventsList />
           </View>
         </ScrollView>
         <Animated.View
@@ -150,7 +123,7 @@ export default class HomeScreen extends React.Component {
                     }
                   ]}
                 >
-                  Home.
+                  Home
                 </Animated.Text>
                 <Animated.View
                   style={{
@@ -159,15 +132,22 @@ export default class HomeScreen extends React.Component {
                   }}
                 >
                   <Button
-                    transparent
                     style={{
-                      marginTop: 5,
-                      height: 60,
+                      marginTop: 10,
+                      height: 50,
+                      width: 50,
+                      borderRadius: 15,
                       left: screenWidth - 80,
-                      position: "absolute"
+                      position: "absolute",
+                      backgroundColor: "rgba(0, 0, 0, 0.1)",
+                      justifyContent: "center"
                     }}
                   >
-                    <Icon.Feather name="calendar" size={40} color="white" />
+                    <Icon.Feather
+                      name="more-vertical"
+                      size={35}
+                      color="white"
+                    />
                   </Button>
                 </Animated.View>
               </View>

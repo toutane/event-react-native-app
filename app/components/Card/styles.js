@@ -9,7 +9,7 @@ const Card = styled.View`
   padding-horizontal: 25;
   margin-left: 25;
   margin-right: 25;
-  border-radius: 20;
+  border-radius: 17;
 `;
 
 export { Card };

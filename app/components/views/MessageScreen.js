@@ -122,8 +122,8 @@ export default class HomeScreen extends React.Component {
         >
           <HeaderGradient
             width={screenWidth}
-            headerFrom={"#E55A34"}
-            headerTo={"#EC7034"}
+            headerFrom={"#2B4CF2"}
+            headerTo={"#506CF2"}
           />
           <Animated.View
             style={{
@@ -150,7 +150,7 @@ export default class HomeScreen extends React.Component {
                     }
                   ]}
                 >
-                  Messages.
+                  Messages
                 </Animated.Text>
                 <Animated.View
                   style={{
@@ -161,12 +161,17 @@ export default class HomeScreen extends React.Component {
                   <Button
                     transparent
                     style={{
-                      height: 60,
+                      marginTop: 10,
+                      height: 50,
+                      width: 50,
+                      borderRadius: 15,
                       left: screenWidth - 80,
-                      position: "absolute"
+                      position: "absolute",
+                      backgroundColor: "rgba(0, 0, 0, 0.1)",
+                      justifyContent: "center"
                     }}
                   >
-                    <Icon.Feather name="plus" size={40} color="white" />
+                    <Icon.Feather name="plus" size={35} color="white" />
                   </Button>
                 </Animated.View>
               </View>

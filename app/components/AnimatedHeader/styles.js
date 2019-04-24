@@ -12,7 +12,7 @@ export default class HeaderGradient extends React.Component {
           start={[0, 1]}
           end={[1, 0]}
           style={{
-            borderRadius: 40,
+            borderRadius: 35,
             height: "100%",
             width: this.props.width
           }}
