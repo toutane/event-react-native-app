@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Thumbnail } from "native-base";
+import { Thumbnail, Button } from "native-base";
 import { Card } from "../../Card/styles";
-
+import { Icon } from "expo";
+import { Hr } from "../../Hr/styles";
 const eventsList = [
   {
     organizer: {
@@ -12,8 +13,11 @@ const eventsList = [
     event: {
       type: "party",
       title: "Friday party",
+      time: "12:00",
+      date: "24/04",
+      location: "25 Mary Street",
       text:
-        "Inhabit hearing perhaps on ye do no. It maids decay as there he. Smallest on suitable disposed do although blessing he juvenile in. Society or if excited forbade. Here name off yet she long sold easy whom. Differed oh cheerful procured pleasure securing suitable in. Hold rich on an he oh fine. Chapter ability shyness article welcome be do on service. "
+        "Inhabit hearing perhaps on ye do no. It maids decay as there he. Smallest on suitable disposed do although blessing he juvenile in."
     },
     participants: [
       {
@@ -43,23 +47,71 @@ const eventsList = [
     event: {
       type: "birthday",
       title: "Paola 20' birthday",
+      time: "20:30",
+      date: "1/05",
+      location: "10 Downing Street",
       text:
-        "He unaffected sympathize discovered at no am conviction principles. Girl ham very how yet hill four show. Meet lain on he only size. Branched learning so subjects mistress do appetite jennings be in. Esteems up lasting no village morning do offices. Settled wishing ability musical may another set age. Diminution my apartments he attachment is entreaties announcing estimating. And total least her two whose great has which. Neat pain form eat sent sex good week. Led instrument sentiments she simplicity.       "
+        "He unaffected sympathize discovered at no am conviction principles. Girl ham very how yet hill four show. Meet lain on he only size."
+    }
+  },
+  {
+    organizer: {
+      username: "Alex Kokai",
+      avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg"
+    },
+    event: {
+      type: "party",
+      title: "Friday party",
+      time: "12:00",
+      date: "24/04",
+      location: "25 Mary Street",
+      text:
+        "Inhabit hearing perhaps on ye do no. It maids decay as there he. Smallest on suitable disposed do although blessing he juvenile in."
+    },
+    participants: [
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
+      },
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
+      },
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
+      }
+    ]
+  },
+  {
+    organizer: {
+      username: "Paola Jump",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
+    },
+    participants: [],
+    event: {
+      type: "birthday",
+      title: "Paola 20' birthday",
+      time: "20:30",
+      date: "1/05",
+      location: "10 Downing Street",
+      text:
+        "He unaffected sympathize discovered at no am conviction principles. Girl ham very how yet hill four show. Meet lain on he only size."
     }
   }
 ];
 
 export default class EventsList extends React.Component {
-  constructor() {
-    super();
-  }
-
   render() {
     return (
       <View style={{ flex: 1 }}>
         {eventsList.map((event, i) => (
-          <Card key={i} style={{ marginBottom: 20 }}>
-            <View style={{ flexDirection: "row" }}>
+          <Card key={i} style={{ marginBottom: 20, paddingHorizontal: 0 }}>
+            <View style={{ flexDirection: "row", paddingHorizontal: 25 }}>
               <Thumbnail
                 source={{ uri: event.organizer.avatar }}
                 style={{ borderRadius: 13, width: 45, height: 45 }}
@@ -98,8 +150,109 @@ export default class EventsList extends React.Component {
                 </Text>
               </View>
             </View>
-            <View>
+            <View
+              style={{ marginTop: 20, marginBottom: 20, paddingHorizontal: 25 }}
+            >
               <Text>{event.event.text}</Text>
+            </View>
+            <Hr style={{ marginLeft: 0, marginRight: 0 }} />
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 20,
+                paddingHorizontal: 25,
+                justifyContent: "space-between"
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Icon.Feather
+                  name="clock"
+                  size={25}
+                  color="rgba(0, 0, 0, 0.2)"
+                />
+                <View style={{ flexDirection: "column" }}>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 12,
+                      color: "#797979",
+                      fontWeight: "500"
+                    }}
+                  >
+                    Time
+                  </Text>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 14,
+                      color: "black",
+                      fontWeight: "600"
+                    }}
+                  >
+                    {event.event.time}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Icon.Feather
+                  name="calendar"
+                  size={25}
+                  color="rgba(0, 0, 0, 0.2)"
+                />
+                <View style={{ flexDirection: "column" }}>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 12,
+                      color: "#797979",
+                      fontWeight: "500"
+                    }}
+                  >
+                    Date
+                  </Text>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 14,
+                      color: "black",
+                      fontWeight: "600"
+                    }}
+                  >
+                    {event.event.date}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Icon.Feather
+                  name="map-pin"
+                  size={25}
+                  color="rgba(0, 0, 0, 0.2)"
+                />
+                <View style={{ flexDirection: "column" }}>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 12,
+                      color: "#797979",
+                      fontWeight: "500"
+                    }}
+                  >
+                    Location
+                  </Text>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 14,
+                      color: "black",
+                      fontWeight: "600"
+                    }}
+                  >
+                    {event.event.location.length > 5
+                      ? event.event.location.slice(0, 4) + "..."
+                      : event.event.location}
+                  </Text>
+                </View>
+              </View>
             </View>
           </Card>
         ))}

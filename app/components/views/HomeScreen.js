@@ -9,14 +9,14 @@ import EventsList from "../Events/EventsList/index";
 
 const Header_Maximum_Height = 280;
 const Header_Minimum_Height = 100;
-const Header_Maximum_Text = 62;
+const Header_Maximum_Text = 45;
 const Header_Minimum_Text = 35;
 const Header_Maximum_Text_Opacity = 1;
 const Header_Minimum_Text_Opacity = 0;
 const Header_Maximum_Text_Pos = 75;
 const Header_Minimum_Text_Pos = 30;
 const Header_Maximum_Buttons_Pos = 0;
-const Header_Minimum_Buttons_Pos = -20;
+const Header_Minimum_Buttons_Pos = -5;
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -80,7 +80,7 @@ export default class HomeScreen extends React.Component {
             }
           ])}
         >
-          <View style={{ marginTop: 90 }}>
+          <View style={{ marginTop: 70 }}>
             <EventsList />
           </View>
         </ScrollView>
@@ -95,8 +95,8 @@ export default class HomeScreen extends React.Component {
         >
           <HeaderGradient
             width={screenWidth}
-            headerFrom={"#2B4CF2"}
-            headerTo={"#506CF2"}
+            headerFrom={"#02a45a"}
+            headerTo={"#3AC986"}
           />
           <Animated.View
             style={{
@@ -133,21 +133,16 @@ export default class HomeScreen extends React.Component {
                 >
                   <Button
                     style={{
-                      marginTop: 10,
-                      height: 50,
-                      width: 50,
-                      borderRadius: 15,
+                      height: 45,
+                      width: 45,
+                      borderRadius: 13,
                       left: screenWidth - 80,
                       position: "absolute",
-                      backgroundColor: "rgba(0, 0, 0, 0.1)",
+                      backgroundColor: "rgba(0, 0, 0, 0.05)",
                       justifyContent: "center"
                     }}
                   >
-                    <Icon.Feather
-                      name="more-vertical"
-                      size={35}
-                      color="white"
-                    />
+                    <Icon.Feather name="bell" size={25} color="white" />
                   </Button>
                 </Animated.View>
               </View>
@@ -174,7 +169,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     marginLeft: 30,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     color: theme.colors.grey,
     fontFamily: "Arial"

@@ -23,7 +23,7 @@ const tabBar = {
     screen: HomeScreen,
     navigationOptions: {
       tabBarLabel: "Home",
-      tabBarIcon: props => <TabIcon iconName="home" {...props} />
+      tabBarIcon: props => <TabIcon iconName="grid" {...props} />
     }
   },
   // Settings: {
