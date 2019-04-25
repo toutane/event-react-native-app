@@ -5,11 +5,11 @@ import HeaderGradient from "../AnimatedHeader/styles";
 import { Button } from "native-base";
 import { Icon } from "expo";
 import { theme } from "../../themes";
-import EventsList from "../Events/EventsList/index";
+import EventsList from "../Events/EventList";
 
-const Header_Maximum_Height = 280;
+const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 100;
-const Header_Maximum_Text = 45;
+const Header_Maximum_Text = 50;
 const Header_Minimum_Text = 35;
 const Header_Maximum_Text_Opacity = 1;
 const Header_Minimum_Text_Opacity = 0;
@@ -22,9 +22,11 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      eventsFilter: "all events"
+    };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
 
@@ -80,8 +82,8 @@ export default class HomeScreen extends React.Component {
             }
           ])}
         >
-          <View style={{ marginTop: 70 }}>
-            <EventsList />
+          <View style={{ marginTop: 100 }}>
+            <EventsList {...this.props} />
           </View>
         </ScrollView>
         <Animated.View
@@ -115,16 +117,59 @@ export default class HomeScreen extends React.Component {
                   flexDirection: "row"
                 }}
               >
-                <Animated.Text
-                  style={[
-                    styles.mainTitle,
-                    {
-                      fontSize: AnimateHeaderText
-                    }
-                  ]}
-                >
-                  Home
-                </Animated.Text>
+                <View style={{ flexDirection: "collum" }}>
+                  <Animated.Text
+                    style={[
+                      styles.mainTitle,
+                      {
+                        fontSize: AnimateHeaderText
+                      }
+                    ]}
+                  >
+                    Home
+                  </Animated.Text>
+                  <Animated.View
+                    style={{
+                      flexDirection: "row",
+                      opacity: AnimateHeaderSubtitle
+                    }}
+                  >
+                    <Button
+                      rounded
+                      style={[
+                        this.state.eventsFilter === "all events" ? styles.activeEventBtn : 
+                        styles.eventBtn
+                        {
+                          marginLeft: 30
+                        }
+                      ]}
+                      onPress={() =>
+                        this.setState({ eventsFilter: "all events" })
+                      }
+                    >
+                      <Text style={{ color: "#158E47", fontSize: 14 }}>
+                        all events
+                      </Text>
+                    </Button>
+                    <Button
+                      rounded
+                      style={[
+                        this.state.eventsFilter === "all events" ? styles.activeEventBtn : 
+                        styles.eventBtn
+                        {
+                          marginLeft: 10
+                        }
+                      ]}
+                      onPress={() =>
+                        this.setState({ eventsFilter: "my events" })
+                      }
+                    >
+                      <Text style={{ color: "#158E47", fontSize: 14 }}>
+                        my events
+                      </Text>
+                    </Button>
+                  </Animated.View>
+                </View>
                 <Animated.View
                   style={{
                     top: AnimatedButtonsPosition,
@@ -138,7 +183,7 @@ export default class HomeScreen extends React.Component {
                       borderRadius: 13,
                       left: screenWidth - 80,
                       position: "absolute",
-                      backgroundColor: "rgba(0, 0, 0, 0.05)",
+                      backgroundColor: "rgba(255, 255, 255, 0.15)",
                       justifyContent: "center"
                     }}
                   >
@@ -173,5 +218,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: theme.colors.grey,
     fontFamily: "Arial"
+  },
+  eventBtn: {
+    paddingHorizontal: 8,
+    marginTop: 3,
+    height: 28,
+    backgroundColor: "rgba(255, 255, 255, 0.3)"
+  },
+  activeEventBtn : {
+    paddingHorizontal: 8,
+    marginTop: 3,
+    height: 28,
+    backgroundColor: "#F9F0DB"
   }
 });

@@ -1,15 +1,21 @@
 import React from "react";
-import { createAppContainer, createBottomTabNavigator } from "react-navigation";
+import {
+  createAppContainer,
+  createBottomTabNavigator,
+  createStackNavigator,
+  createSwitchNavigator
+} from "react-navigation";
 
 import { theme } from "../themes";
 
 import TabBar from "../components/TabBar";
 import TabIcon from "../components/TabBar/TabIcon";
 
+import EventNavigator from "./EventNavigator";
+
 import HomeScreen from "../components/views/HomeScreen";
 import MessageScreen from "../components/views/MessageScreen";
 import ProfileScreen from "../components/views/ProfileScreen";
-import SettingsScreen from "../components/views/MessageScreen";
 
 const tabBar = {
   Chat: {
@@ -26,13 +32,6 @@ const tabBar = {
       tabBarIcon: props => <TabIcon iconName="grid" {...props} />
     }
   },
-  // Settings: {
-  //   screen: SettingsScreen,
-  //   navigationOptions: {
-  //     tabBarLabel: "Settings",
-  //     tabBarIcon: props => <TabIcon iconName="bell" {...props} />
-  //   }
-  // },
   Profile: {
     screen: ProfileScreen,
     navigationOptions: {
@@ -60,6 +59,18 @@ const tabBarConfig = {
   }
 };
 
-export default createAppContainer(
-  createBottomTabNavigator(tabBar, tabBarConfig)
+const TabBarNavigator = createBottomTabNavigator(tabBar, tabBarConfig);
+
+const AppNavigator = createStackNavigator(
+  {
+    TabBar: TabBarNavigator,
+    Event: EventNavigator
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
 );
+export default createAppContainer(AppNavigator);

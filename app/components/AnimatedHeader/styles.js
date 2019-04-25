@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { LinearGradient } from "expo";
-import { theme } from "../../themes";
+// import { theme } from "../../themes";
 
 export default class HeaderGradient extends React.Component {
   render() {
@@ -9,8 +9,8 @@ export default class HeaderGradient extends React.Component {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <LinearGradient
           colors={[this.props.headerFrom, this.props.headerTo]}
-          start={[1, 1]}
-          end={[1, 0]}
+          start={[1, 0]}
+          end={[0, 1]}
           style={{
             borderRadius: 35,
             height: "100%",
