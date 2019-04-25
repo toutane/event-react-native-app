@@ -27,8 +27,8 @@ export const theme = {
       background: "rgba(80, 108, 242, 0.1)"
     },
     message: {
-      active: "rgba(80, 108, 242, 1)",
-      background: "rgba(80, 108, 242, 0.1)"
+      active: "#158E47",
+      background: "rgba(29,193,97, 0.1)"
     },
     profile: {
       active: "rgba(80, 108, 242, 1)",

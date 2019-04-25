@@ -6,6 +6,7 @@ import { Button } from "native-base";
 import { Icon } from "expo";
 import { theme } from "../../themes";
 import EventsList from "../Events/EventList";
+import { State } from "react-native-gesture-handler";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 100;
@@ -17,6 +18,8 @@ const Header_Maximum_Text_Pos = 75;
 const Header_Minimum_Text_Pos = 30;
 const Header_Maximum_Buttons_Pos = 0;
 const Header_Minimum_Buttons_Pos = -5;
+const Header_Maximum_Event_Filter_Pos = 150;
+const Header_Minimum_Event_Filter_Pos = -5;
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -69,6 +72,19 @@ export default class HomeScreen extends React.Component {
 
       extrapolate: "clamp"
     });
+    const EventFilterPosition = this.AnimatedHeaderValue.interpolate({
+      inputRange: [
+        0,
+        Header_Maximum_Event_Filter_Pos - Header_Minimum_Event_Filter_Pos
+      ],
+
+      outputRange: [
+        Header_Maximum_Event_Filter_Pos,
+        Header_Minimum_Event_Filter_Pos
+      ],
+
+      extrapolate: "clamp"
+    });
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -83,7 +99,10 @@ export default class HomeScreen extends React.Component {
           ])}
         >
           <View style={{ marginTop: 100 }}>
-            <EventsList {...this.props} />
+            <EventsList
+              {...this.props}
+              eventsFilter={this.state.eventsFilter}
+            />
           </View>
         </ScrollView>
         <Animated.View
@@ -117,7 +136,7 @@ export default class HomeScreen extends React.Component {
                   flexDirection: "row"
                 }}
               >
-                <View style={{ flexDirection: "collum" }}>
+                <View style={{ zIndex: 10, flexDirection: "collum" }}>
                   <Animated.Text
                     style={[
                       styles.mainTitle,
@@ -128,47 +147,6 @@ export default class HomeScreen extends React.Component {
                   >
                     Home
                   </Animated.Text>
-                  <Animated.View
-                    style={{
-                      flexDirection: "row",
-                      opacity: AnimateHeaderSubtitle
-                    }}
-                  >
-                    <Button
-                      rounded
-                      style={[
-                        this.state.eventsFilter === "all events" ? styles.activeEventBtn : 
-                        styles.eventBtn
-                        {
-                          marginLeft: 30
-                        }
-                      ]}
-                      onPress={() =>
-                        this.setState({ eventsFilter: "all events" })
-                      }
-                    >
-                      <Text style={{ color: "#158E47", fontSize: 14 }}>
-                        all events
-                      </Text>
-                    </Button>
-                    <Button
-                      rounded
-                      style={[
-                        this.state.eventsFilter === "all events" ? styles.activeEventBtn : 
-                        styles.eventBtn
-                        {
-                          marginLeft: 10
-                        }
-                      ]}
-                      onPress={() =>
-                        this.setState({ eventsFilter: "my events" })
-                      }
-                    >
-                      <Text style={{ color: "#158E47", fontSize: 14 }}>
-                        my events
-                      </Text>
-                    </Button>
-                  </Animated.View>
                 </View>
                 <Animated.View
                   style={{
@@ -193,6 +171,54 @@ export default class HomeScreen extends React.Component {
               </View>
             </View>
           </Animated.View>
+        </Animated.View>
+        <Animated.View
+          style={{
+            position: "absolute",
+            top: EventFilterPosition,
+            zIndex: 10,
+            flexDirection: "row",
+            opacity: AnimateHeaderSubtitle
+          }}
+        >
+          <Button
+            rounded
+            style={
+              this.state.eventsFilter === "all events"
+                ? [styles.activeEventBtn, { marginLeft: 30 }]
+                : [styles.eventBtn, { marginLeft: 30 }]
+            }
+            onPress={() => this.setState({ eventsFilter: "all events" })}
+          >
+            <Text
+              style={
+                this.state.eventsFilter === "all events"
+                  ? { color: "#fead01", fontSize: 14 }
+                  : { color: "#158E47", fontSize: 14 }
+              }
+            >
+              all events
+            </Text>
+          </Button>
+          <Button
+            rounded
+            style={
+              this.state.eventsFilter === "my events"
+                ? [styles.activeEventBtn, { marginLeft: 10 }]
+                : [styles.eventBtn, { marginLeft: 10 }]
+            }
+            onPress={() => this.setState({ eventsFilter: "my events" })}
+          >
+            <Text
+              style={
+                this.state.eventsFilter === "my events"
+                  ? { color: "#fead01", fontSize: 14 }
+                  : { color: "#158E47", fontSize: 14 }
+              }
+            >
+              my events
+            </Text>
+          </Button>
         </Animated.View>
       </View>
     );
@@ -225,10 +251,10 @@ const styles = StyleSheet.create({
     height: 28,
     backgroundColor: "rgba(255, 255, 255, 0.3)"
   },
-  activeEventBtn : {
+  activeEventBtn: {
     paddingHorizontal: 8,
     marginTop: 3,
     height: 28,
-    backgroundColor: "#F9F0DB"
+    backgroundColor: "rgba(249,240,219, 1)"
   }
 });

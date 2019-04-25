@@ -17,7 +17,7 @@ export default class EventInfo extends React.Component {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon.Feather name="clock" size={25} color="rgba(0, 0, 0, 0.2)" />
+            <Icon.Feather name="clock" size={30} color="rgba(0, 0, 0, 0.2)" />
             <View style={{ flexDirection: "column" }}>
               <Text
                 style={{
@@ -44,7 +44,7 @@ export default class EventInfo extends React.Component {
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icon.Feather
               name="calendar"
-              size={25}
+              size={30}
               color="rgba(0, 0, 0, 0.2)"
             />
             <View style={{ flexDirection: "column" }}>
@@ -71,7 +71,7 @@ export default class EventInfo extends React.Component {
             </View>
           </View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon.Feather name="map-pin" size={25} color="rgba(0,0,0,0.2)" />
+            <Icon.Feather name="map-pin" size={30} color="rgba(0,0,0,0.2)" />
             <View style={{ flexDirection: "column" }}>
               <Text
                 style={{

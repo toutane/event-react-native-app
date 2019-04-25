@@ -20,7 +20,7 @@ const eventsList = [
       {
         username: "Paola Jump",
         avatar:
-          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
         state: "available"
       },
       {
@@ -46,7 +46,8 @@ const eventsList = [
       },
       {
         username: "Alex Kokai",
-        avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
+        avatar:
+          "https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2016/01/28/14540017202113.png",
         state: "available"
       },
       {
@@ -62,7 +63,7 @@ const eventsList = [
       {
         username: "Paola Jump",
         avatar:
-          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
         state: "available"
       },
       {
@@ -75,15 +76,15 @@ const eventsList = [
   },
   {
     organizer: {
-      username: "Paola Jump",
+      username: "Julie Pummet",
       avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg"
     },
     participants: [
       {
-        username: "Paola Jump",
+        username: "Julie Pummet",
         avatar:
-          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
         state: "waiting"
       },
       {
@@ -94,7 +95,7 @@ const eventsList = [
       {
         username: "Paola Jump",
         avatar:
-          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
         state: "available"
       },
       {
@@ -124,8 +125,8 @@ const eventsList = [
       }
     ],
     event: {
-      type: "birthday",
-      title: "Paola 20' birthday",
+      type: "restaurant",
+      title: "Saturday's restaurant",
       time: "20:30",
       date: "1/05",
       location: "10 Downing Street",
@@ -135,12 +136,13 @@ const eventsList = [
   },
   {
     organizer: {
-      username: "Alex Kokai",
-      avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg"
+      username: "Jake Harter",
+      avatar:
+        "https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2016/01/28/14540017202113.png"
     },
     event: {
       type: "party",
-      title: "Friday party",
+      title: "Thursday party",
       time: "12:00",
       date: "24/04",
       location: "25 Mary Street",
@@ -151,7 +153,7 @@ const eventsList = [
       {
         username: "Paola Jump",
         avatar:
-          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
+          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg"
       },
       {
         username: "Paola Jump",
@@ -194,9 +196,15 @@ export default class EventsList extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, marginBottom: 100 }}>
-        {eventsList.map((event, i) => (
-          <EventCard key={i} currentEvent={event} {...this.props} />
-        ))}
+        {this.props.eventsFilter === "all events"
+          ? eventsList.map((event, i) => (
+              <EventCard key={i} currentEvent={event} {...this.props} />
+            ))
+          : eventsList
+              .filter(event => event.organizer.username === "Alex Kokai")
+              .map((event, i) => (
+                <EventCard key={i} currentEvent={event} {...this.props} />
+              ))}
       </View>
     );
   }
