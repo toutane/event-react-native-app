@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { screenWidth } from "../../../utils/dimensions";
 import Header from "./header";
 import Middle from "./middle";
@@ -35,18 +35,11 @@ export default class EventView extends React.Component {
   async loadEvents() {
     const currentEvent = await firebase.db
       .collection("events")
-      .doc(
-        // "xaOVk0le1NT800gW90tQ"
-        this.props.navigation.getParam("currentEvent").id
-      )
+      .doc(this.props.navigation.getParam("currentEvent").id)
       .get();
     return this.setState(
       {
         currentEvent: currentEvent.data()
-        // .docs.map(doc => ({
-        //   ...doc.data()
-        // })
-        // )
       },
       () => console.log("updating event list")
     );
@@ -54,28 +47,42 @@ export default class EventView extends React.Component {
   render() {
     return (
       <View>
-        <View style={[styles.headerBox, { zIndex: 9 }]}>
-          <View style={{ marginTop: 45 }}>
-            <Header currentEvent={this.state.currentEvent} {...this.props} />
-            <Middle currentEvent={this.state.currentEvent} {...this.props} />
-            <Info currentEvent={this.state.currentEvent} {...this.props} />
+        <ScrollView style={{ zIndex: 1 }} scrollEventThrottle={1}>
+          <View style={[styles.headerBox, { zIndex: 99 }]}>
+            <View style={{ marginTop: 45 }}>
+              <Header currentEvent={this.state.currentEvent} {...this.props} />
+              <Middle currentEvent={this.state.currentEvent} {...this.props} />
+              <Info currentEvent={this.state.currentEvent} {...this.props} />
+            </View>
           </View>
-        </View>
-        <MiddleView
-          style={{ zIndex: 5 }}
-          currentEvent={this.state.currentEvent}
-          eventsFilter={this.props.navigation.getParam("eventsFilter")}
-          {...this.props}
-        />
-        <View style={{ backgroundColor: "#158E47", zIndex: 0, height: 500 }}>
-          <LinearGradient
-            colors={["#158E47", "#1DC161"]}
+          <View style={{ zIndex: 20 }}>
+            <MiddleView
+              currentEvent={this.state.currentEvent}
+              eventsFilter={this.props.navigation.getParam("eventsFilter")}
+              {...this.props}
+            />
+          </View>
+          <View
             style={{
-              height: "100%",
-              width: screenWidth
+              zIndex: 0,
+              backgroundColor: "rgba(0,0,0,0)",
+              shadowColor: "rgba(0,0,0,1)",
+              shadowOpacity: 0.5,
+              shadowRadius: 15,
+              height: 300
             }}
-          />
-        </View>
+          >
+            <LinearGradient
+              colors={["#158E47", "#1DC161"]}
+              style={{
+                height: 300,
+                width: screenWidth,
+                borderBottomLeftRadius: 40,
+                borderBottomRightRadius: 40
+              }}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -87,6 +94,8 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     backgroundColor: "white",
     shadowColor: "rgba(0,0,0,1)",
     shadowOpacity: 0.15,

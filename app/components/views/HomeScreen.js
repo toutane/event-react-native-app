@@ -6,7 +6,6 @@ import { Button } from "native-base";
 import { Icon } from "expo";
 import { theme } from "../../themes";
 import EventsList from "../Events/EventList";
-import { State } from "react-native-gesture-handler";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 100;
@@ -241,8 +240,18 @@ export default class HomeScreen extends React.Component {
                   : { color: "#158E47", fontSize: 14 }
               }
             >
-              {this.state.nbInvitation}
-              {this.state.nbInvitation === 0 ? " invitation" : " invitations"}
+              <Text
+                style={
+                  this.state.nbInvitation !== 0
+                    ? { color: "#364EE1", fontWeight: "bold" }
+                    : null
+                }
+              >
+                {this.state.nbInvitation}
+              </Text>
+              {this.state.nbInvitation === 0 || 1
+                ? " invitation"
+                : " invitations"}
             </Text>
           </Button>
         </Animated.View>

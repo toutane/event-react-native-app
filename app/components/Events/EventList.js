@@ -254,8 +254,8 @@ export default class EventsList extends React.Component {
                   part.state === "waiting"
               )
             ).length
-        )
-      // () => console.log("updating event list")
+        ),
+      () => console.log("updating event list")
     );
   }
   render() {

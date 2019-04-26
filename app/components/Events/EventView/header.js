@@ -1,10 +1,7 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import { Thumbnail, Button } from "native-base";
-import { Card } from "../../Card/styles";
 import { Icon } from "expo";
-
-import { screenWidth } from "../../../utils/dimensions";
 
 export default class Header extends React.Component {
   render() {

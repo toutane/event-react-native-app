@@ -5,6 +5,12 @@ import { Icon } from "expo";
 import firebase from "../../../firebase/firebase";
 
 export default class Middle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      moreView: false
+    };
+  }
   render() {
     return (
       <View style={{ paddingHorizontal: 25, marginBottom: 20 }}>
@@ -45,14 +51,41 @@ export default class Middle extends React.Component {
               style={{
                 height: 40,
                 width: 40,
+                marginBottom: 7,
                 alignItems: "center",
                 justifyContent: "center"
               }}
             >
               <Icon.Feather name="settings" size={25} color="#797979" />
             </Button>
-          ) : null}
+          ) : (
+            <Button
+              transparent
+              style={{
+                height: 40,
+                width: 40,
+                marginBottom: 7,
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+              onPress={() =>
+                this.setState({ moreView: !this.state.moreView }, () =>
+                  console.log(this.state.moreView)
+                )
+              }
+            >
+              <Icon.Feather name="more-vertical" size={25} color="#797979" />
+            </Button>
+          )}
         </View>
+        {this.state.moreView ? (
+          <Text>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum
+            sit, cumque eligendi veniam nesciunt aliquid atque consequatur
+            perspiciatis facilis. Praesentium delectus velit vel placeat commodi
+            tempore, iure libero fugiat hic.
+          </Text>
+        ) : null}
       </View>
     );
   }

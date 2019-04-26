@@ -12,7 +12,8 @@ export default class MiddleView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatar: ""
+      avatar: "",
+      confirmView: false
     };
   }
   componentDidMount() {
@@ -37,23 +38,94 @@ export default class MiddleView extends React.Component {
         });
       console.log("trying to join the event...");
     }
+    async function quitEventFunction(event, avatar) {
+      firebase.db
+        .collection("events")
+        .doc(event.id)
+        .update({
+          participants: event.participants
+            .filter(part => part.uid !== firebase.auth.currentUser.uid)
+            .concat({
+              uid: firebase.auth.currentUser.uid,
+              username: firebase.auth.currentUser.displayName,
+              avatar: avatar,
+              state: "waiting"
+            })
+        });
+      console.log("event quited...");
+    }
     return (
       <View style={{ backgroundColor: "#158E47" }}>
         <View style={styles.headerBox}>
           <View>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-              The particpants{" "}
-              <Text
-                style={{ fontSize: 16, color: "#797979", fontWeight: "500" }}
-              >
-                (
-                {1 +
-                  this.props.currentEvent.participants.filter(
-                    part => part.state === "available"
-                  ).length}
-                /{1 + this.props.currentEvent.participants.length})
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                height: 28
+              }}
+            >
+              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                The participants{" "}
+                <Text
+                  style={{ fontSize: 16, color: "#797979", fontWeight: "500" }}
+                >
+                  (
+                  {1 +
+                    this.props.currentEvent.participants.filter(
+                      part => part.state === "available"
+                    ).length}
+                  /{1 + this.props.currentEvent.participants.length})
+                </Text>
               </Text>
-            </Text>
+              {this.props.currentEvent.participants.find(
+                part =>
+                  part.uid === firebase.auth.currentUser.uid &&
+                  part.state === "available"
+              ) ? (
+                this.props.currentEvent.organizer.uid !==
+                  firebase.auth.currentUser.uid &&
+                this.state.confirmView === false ? (
+                  <Text
+                    style={{ fontSize: 16, color: "rgba(0,0,0,0.2)" }}
+                    onPress={() => this.setState({ confirmView: true })}
+                  >
+                    Quit ?
+                  </Text>
+                ) : this.state.confirmView ? (
+                  <View style={{ flexDirection: "row" }}>
+                    <Button
+                      rounded
+                      style={{
+                        marginRight: 7,
+                        paddingHorizontal: 10,
+                        height: 28,
+                        backgroundColor: "#FE245D"
+                      }}
+                      onPress={() => this.setState({ confirmView: false })}
+                    >
+                      <Text style={{ color: "white" }}>No</Text>
+                    </Button>
+                    <Button
+                      rounded
+                      style={{
+                        paddingHorizontal: 10,
+                        height: 28,
+                        backgroundColor: "#1DC161"
+                      }}
+                      onPress={() =>
+                        quitEventFunction(
+                          this.props.currentEvent,
+                          this.state.avatar
+                        )
+                      }
+                    >
+                      <Text style={{ color: "white" }}>Yes</Text>
+                    </Button>
+                  </View>
+                ) : null
+              ) : null}
+            </View>
             <View style={{ flexDirection: "row", marginTop: 20 }}>
               <View>
                 <Thumbnail
