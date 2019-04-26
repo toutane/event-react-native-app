@@ -33,13 +33,12 @@ export default class EventView extends React.Component {
         <MiddleView
           style={{ zIndex: 5 }}
           currentEvent={this.props.navigation.getParam("currentEvent")}
+          eventsFilter={this.props.navigation.getParam("eventsFilter")}
           {...this.props}
         />
         <View style={{ backgroundColor: "#158E47", zIndex: 0, height: 500 }}>
           <LinearGradient
             colors={["#158E47", "#1DC161"]}
-            // start={[1, 0]}
-            // end={[0, 1]}
             style={{
               height: "100%",
               width: screenWidth

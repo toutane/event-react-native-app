@@ -2,12 +2,51 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Thumbnail, Badge, Button } from "native-base";
 import { screenWidth } from "../../../utils/dimensions";
+import { Icon } from "expo";
+import firebase from "../../../firebase/firebase";
 
 export default class MiddleView extends React.Component {
   static navigationOptions = {
     header: null
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      avatar: ""
+    };
+  }
+  componentDidMount() {
+    firebase
+      .getCurrentUserAvatar()
+      .then(avatar => this.setState({ avatar: avatar }));
+  }
   render() {
+    async function joinEventFunction(event, avatar) {
+      firebase.db
+        .collection("events")
+        .doc(event.id)
+        .update(
+          {
+            participants: event.participants
+              .filter(part => part.uid !== firebase.auth.currentUser.uid)
+              .concat({
+                uid: firebase.auth.currentUser.uid,
+                username: firebase.auth.currentUser.displayName,
+                avatar: avatar,
+                // "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
+                state: "available"
+              })
+          }
+          // .push({
+          //   username: "Alex",
+          //   avatar:
+          //     "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
+          //   state: "available",
+          //   uid: "iFBrOJHTJqd8IcIgVctD5qDvrO02"
+          // })
+        );
+      console.log("trying to join the event...");
+    }
     return (
       <View style={{ backgroundColor: "#158E47" }}>
         <View style={styles.headerBox}>
@@ -91,6 +130,44 @@ export default class MiddleView extends React.Component {
                 </View>
               ) : null}
             </View>
+            {this.props.eventsFilter === "invitations" ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 15
+                }}
+              >
+                <Button
+                  style={{
+                    borderRadius: 13,
+                    backgroundColor: "#fead01",
+                    width: 45,
+                    height: 45,
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                  onPress={() =>
+                    joinEventFunction(
+                      this.props.currentEvent,
+                      this.state.avatar
+                    )
+                  }
+                >
+                  <Icon.Feather name="plus" size={25} color="white" />
+                </Button>
+                <Text
+                  style={{
+                    marginLeft: 15,
+                    color: "#fead01",
+                    fontSize: 18,
+                    fontWeight: "bold"
+                  }}
+                >
+                  Join event
+                </Text>
+              </View>
+            ) : null}
           </View>
         </View>
       </View>

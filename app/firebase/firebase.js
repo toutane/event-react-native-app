@@ -41,10 +41,20 @@ class Firebase {
   getCurrentUserId() {
     return this.auth.currentUser && this.auth.currentUser.uid;
   }
+  getCurrentUsername() {
+    return this.auth.currentUser && this.auth.currentUser.displayName;
+  }
   isInitialized() {
     return new Promise(resolve => {
       this.auth.onAuthStateChanged(resolve);
     });
+  }
+  async getCurrentUserAvatar() {
+    const avatar = await this.db
+      .collection("users")
+      .doc(this.auth.currentUser.uid)
+      .get();
+    return avatar.get("avatar");
   }
 }
 export default new Firebase();

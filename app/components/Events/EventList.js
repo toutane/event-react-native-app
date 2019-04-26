@@ -255,11 +255,16 @@ export default class EventsList extends React.Component {
                   event.participants.find(
                     part =>
                       part.uid === firebase.auth.currentUser.uid &&
-                      part.state === "waiting"
+                      part.state === "available"
                   )
               )
               .map((event, i) => (
-                <EventCard key={i} currentEvent={event} {...this.props} />
+                <EventCard
+                  key={i}
+                  currentEvent={event}
+                  eventsFilter={this.props.eventsFilter}
+                  {...this.props}
+                />
               ))
           : this.props.eventsFilter === "my events"
           ? this.state.eventsList
@@ -267,7 +272,12 @@ export default class EventsList extends React.Component {
                 event => event.organizer.uid === firebase.auth.currentUser.uid
               )
               .map((event, i) => (
-                <EventCard key={i} currentEvent={event} {...this.props} />
+                <EventCard
+                  key={i}
+                  currentEvent={event}
+                  eventsFilter={this.props.eventsFilter}
+                  {...this.props}
+                />
               ))
           : this.state.eventsList
               .filter(
@@ -281,7 +291,12 @@ export default class EventsList extends React.Component {
                 )
               )
               .map((event, i) => (
-                <EventCard key={i} currentEvent={event} {...this.props} />
+                <EventCard
+                  key={i}
+                  currentEvent={event}
+                  eventsFilter={this.props.eventsFilter}
+                  {...this.props}
+                />
               ))}
       </View>
     );
