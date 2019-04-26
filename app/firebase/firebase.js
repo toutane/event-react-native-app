@@ -38,6 +38,9 @@ class Firebase {
       displayName: name
     });
   }
+  getCurrentUserId() {
+    return this.auth.currentUser && this.auth.currentUser.uid;
+  }
   isInitialized() {
     return new Promise(resolve => {
       this.auth.onAuthStateChanged(resolve);

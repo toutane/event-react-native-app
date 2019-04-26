@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import EventCard from "./EventCard";
+import firebase from "../../firebase/firebase";
 const eventsList = [
   {
     organizer: {
@@ -8,7 +9,7 @@ const eventsList = [
       avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg"
     },
     event: {
-      type: "party",
+      badge: ["party🎉", "holidays🌴"],
       title: "Friday party",
       time: "12:00",
       date: "24/04",
@@ -58,7 +59,7 @@ const eventsList = [
       {
         username: "Alex Kokai",
         avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
-        state: "waiting"
+        state: "unavailable"
       },
       {
         username: "Paola Jump",
@@ -90,7 +91,7 @@ const eventsList = [
       {
         username: "Alex Kokai",
         avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
-        state: "unavailable"
+        state: "waiting"
       },
       {
         username: "Paola Jump",
@@ -101,11 +102,6 @@ const eventsList = [
       {
         username: "Alex Kokai",
         avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
-        state: "waiting"
-      },
-      {
-        username: "Alex Kokai",
-        avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
         state: "unavailable"
       },
       {
@@ -121,11 +117,11 @@ const eventsList = [
       {
         username: "Alex Kokai",
         avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
-        state: "waiting"
+        state: "unavailable"
       }
     ],
     event: {
-      type: "restaurant",
+      badge: ["restaurant🍕"],
       title: "Saturday's restaurant",
       time: "20:30",
       date: "1/05",
@@ -141,7 +137,7 @@ const eventsList = [
         "https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2016/01/28/14540017202113.png"
     },
     event: {
-      type: "party",
+      badge: ["party🎉"],
       title: "Thursday party",
       time: "12:00",
       date: "24/04",
@@ -151,19 +147,15 @@ const eventsList = [
     },
     participants: [
       {
-        username: "Paola Jump",
-        avatar:
-          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg"
+        username: "Alex Kokai",
+        avatar: "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
+        state: "waiting"
       },
       {
         username: "Paola Jump",
         avatar:
-          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
-      },
-      {
-        username: "Paola Jump",
-        avatar:
-          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
+          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+        state: "waiting"
       }
     ]
   },
@@ -173,9 +165,46 @@ const eventsList = [
       avatar:
         "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6"
     },
-    participants: [],
+    participants: [
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+        state: "available"
+      },
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+        state: "available"
+      },
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+        state: "available"
+      },
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+        state: "available"
+      },
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+        state: "available"
+      },
+      {
+        username: "Paola Jump",
+        avatar:
+          "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+        state: "available"
+      }
+    ],
     event: {
-      type: "birthday",
+      badge: ["birthday🎂", "Paola👱🏼‍♀️"],
       title: "Paola 20' birthday with her bests friends !",
       time: "20:30",
       date: "1/05",
@@ -192,16 +221,65 @@ export default class EventsList extends React.Component {
   };
   constructor(props) {
     super(props);
+    this.state = {
+      eventsList: []
+    };
+  }
+  componentDidMount() {
+    this.listenToChanges();
+  }
+
+  async listenToChanges() {
+    firebase.db.collection("events").onSnapshot(() => this.loadEvents());
+  }
+
+  async loadEvents() {
+    const eventsList = await firebase.db.collection("events").get();
+    return this.setState(
+      {
+        eventsList: eventsList.docs.map(doc => ({
+          ...doc.data()
+        }))
+      },
+      () => console.log("updating event list")
+    );
   }
   render() {
     return (
       <View style={{ flex: 1, marginBottom: 100 }}>
         {this.props.eventsFilter === "all events"
-          ? eventsList.map((event, i) => (
-              <EventCard key={i} currentEvent={event} {...this.props} />
-            ))
-          : eventsList
-              .filter(event => event.organizer.username === "Alex Kokai")
+          ? this.state.eventsList
+              .filter(
+                event =>
+                  event.organizer.uid === firebase.auth.currentUser.uid ||
+                  event.participants.find(
+                    part =>
+                      part.uid === firebase.auth.currentUser.uid &&
+                      part.state === "waiting"
+                  )
+              )
+              .map((event, i) => (
+                <EventCard key={i} currentEvent={event} {...this.props} />
+              ))
+          : this.props.eventsFilter === "my events"
+          ? this.state.eventsList
+              .filter(
+                event => event.organizer.uid === firebase.auth.currentUser.uid
+              )
+              .map((event, i) => (
+                <EventCard key={i} currentEvent={event} {...this.props} />
+              ))
+          : this.state.eventsList
+              .filter(
+                event => event.organizer.uid !== firebase.auth.currentUser.uid
+              )
+              .filter(event =>
+                event.participants.find(
+                  part =>
+                    part.uid === firebase.auth.currentUser.uid &&
+                    part.state === "waiting"
+                )
+              )
               .map((event, i) => (
                 <EventCard key={i} currentEvent={event} {...this.props} />
               ))}

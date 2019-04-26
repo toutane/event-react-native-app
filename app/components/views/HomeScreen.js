@@ -219,6 +219,25 @@ export default class HomeScreen extends React.Component {
               my events
             </Text>
           </Button>
+          <Button
+            rounded
+            style={
+              this.state.eventsFilter === "invitations"
+                ? [styles.activeEventBtn, { marginLeft: 10 }]
+                : [styles.eventBtn, { marginLeft: 10 }]
+            }
+            onPress={() => this.setState({ eventsFilter: "invitations" })}
+          >
+            <Text
+              style={
+                this.state.eventsFilter === "invitations"
+                  ? { color: "#fead01", fontSize: 14 }
+                  : { color: "#158E47", fontSize: 14 }
+              }
+            >
+              invitations
+            </Text>
+          </Button>
         </Animated.View>
       </View>
     );

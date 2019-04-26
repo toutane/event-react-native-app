@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Thumbnail } from "native-base";
+import { Thumbnail, Button } from "native-base";
 import { Card } from "../Card/styles";
 import EventInfo from "./EventInfo";
-
-// const event = this.props.currentEvent;
+import firebase from "../../firebase/firebase";
 
 export default class EventCard extends React.Component {
   render() {
@@ -56,7 +55,17 @@ export default class EventCard extends React.Component {
                   : this.props.currentEvent.event.title}
               </Text>
               <Text style={{ marginLeft: 15, fontSize: 16, color: "#797979" }}>
-                {this.props.currentEvent.event.type}
+                {"by "}
+                <Text
+                  style={
+                    this.props.currentEvent.organizer.uid ===
+                    firebase.auth.currentUser.uid
+                      ? { color: "#364EE1" }
+                      : { color: "#797979" }
+                  }
+                >
+                  {this.props.currentEvent.organizer.username}
+                </Text>
               </Text>
             </View>
           </View>
@@ -72,6 +81,22 @@ export default class EventCard extends React.Component {
                 ? this.props.currentEvent.event.text.slice(0, 110) + "..."
                 : this.props.currentEvent.event.text}
             </Text>
+            <View style={{ marginTop: 15, flexDirection: "row" }}>
+              {this.props.currentEvent.event.badge.map((wrd, i) => (
+                <Button
+                  key={i}
+                  rounded
+                  style={{
+                    marginRight: 7,
+                    paddingHorizontal: 10,
+                    height: 26,
+                    backgroundColor: "#364EE1"
+                  }}
+                >
+                  <Text style={{ color: "white", fontSize: 11 }}>{wrd}</Text>
+                </Button>
+              ))}
+            </View>
           </View>
           <EventInfo currentEvent={this.props.currentEvent} />
         </Card>
