@@ -241,7 +241,21 @@ export default class EventsList extends React.Component {
           ...doc.data()
         }))
       },
-      () => console.log("updating event list")
+      () =>
+        this.props.setNbInvitations(
+          this.state.eventsList
+            .filter(
+              event => event.organizer.uid !== firebase.auth.currentUser.uid
+            )
+            .filter(event =>
+              event.participants.find(
+                part =>
+                  part.uid === firebase.auth.currentUser.uid &&
+                  part.state === "waiting"
+              )
+            ).length
+        )
+      // () => console.log("updating event list")
     );
   }
   render() {

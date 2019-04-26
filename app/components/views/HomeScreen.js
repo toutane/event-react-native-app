@@ -28,9 +28,14 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsFilter: "all events"
+      eventsFilter: "all events",
+      nbInvitation: 0
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
+  }
+
+  setNbInvitations(nb) {
+    this.setState({ nbInvitation: nb });
   }
 
   render() {
@@ -102,6 +107,7 @@ export default class HomeScreen extends React.Component {
             <EventsList
               {...this.props}
               eventsFilter={this.state.eventsFilter}
+              setNbInvitations={nb => this.setNbInvitations(nb)}
             />
           </View>
         </ScrollView>
@@ -235,7 +241,8 @@ export default class HomeScreen extends React.Component {
                   : { color: "#158E47", fontSize: 14 }
               }
             >
-              invitations
+              {this.state.nbInvitation}
+              {this.state.nbInvitation === 0 ? " invitation" : " invitations"}
             </Text>
           </Button>
         </Animated.View>

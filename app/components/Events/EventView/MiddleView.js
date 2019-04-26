@@ -25,26 +25,16 @@ export default class MiddleView extends React.Component {
       firebase.db
         .collection("events")
         .doc(event.id)
-        .update(
-          {
-            participants: event.participants
-              .filter(part => part.uid !== firebase.auth.currentUser.uid)
-              .concat({
-                uid: firebase.auth.currentUser.uid,
-                username: firebase.auth.currentUser.displayName,
-                avatar: avatar,
-                // "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
-                state: "available"
-              })
-          }
-          // .push({
-          //   username: "Alex",
-          //   avatar:
-          //     "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg",
-          //   state: "available",
-          //   uid: "iFBrOJHTJqd8IcIgVctD5qDvrO02"
-          // })
-        );
+        .update({
+          participants: event.participants
+            .filter(part => part.uid !== firebase.auth.currentUser.uid)
+            .concat({
+              uid: firebase.auth.currentUser.uid,
+              username: firebase.auth.currentUser.displayName,
+              avatar: avatar,
+              state: "available"
+            })
+        });
       console.log("trying to join the event...");
     }
     return (
@@ -130,7 +120,11 @@ export default class MiddleView extends React.Component {
                 </View>
               ) : null}
             </View>
-            {this.props.eventsFilter === "invitations" ? (
+            {this.props.currentEvent.participants.find(
+              part =>
+                part.uid === firebase.auth.currentUser.uid &&
+                part.state === "waiting"
+            ) ? (
               <View
                 style={{
                   flexDirection: "row",
