@@ -27,7 +27,7 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsFilter: 0,
+      eventsFilter: 1,
       nbInvitation: 0
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
@@ -197,30 +197,11 @@ export default class HomeScreen extends React.Component {
                 ? [styles.activeEventBtn, { marginLeft: 30 }]
                 : [styles.eventBtn, { marginLeft: 30 }]
             }
-            onPress={() => this.setState({ eventsFilter: 0 })}
+            // onPress={() => this.setState({ eventsFilter: 0 })}
           >
             <Text
               style={
                 this.state.eventsFilter === 0
-                  ? { color: "#fead01", fontSize: 14 }
-                  : { color: "#158E47", fontSize: 14 }
-              }
-            >
-              all events
-            </Text>
-          </Button>
-          <Button
-            rounded
-            style={
-              this.state.eventsFilter === 1
-                ? [styles.activeEventBtn, { marginLeft: 10 }]
-                : [styles.eventBtn, { marginLeft: 10 }]
-            }
-            onPress={() => this.setState({ eventsFilter: 1 })}
-          >
-            <Text
-              style={
-                this.state.eventsFilter === 1
                   ? { color: "#fead01", fontSize: 14 }
                   : { color: "#158E47", fontSize: 14 }
               }
@@ -231,11 +212,31 @@ export default class HomeScreen extends React.Component {
           <Button
             rounded
             style={
+              this.state.eventsFilter === 1
+                ? [styles.activeEventBtn, { marginLeft: 10 }]
+                : [styles.eventBtn, { marginLeft: 10 }]
+            }
+            // onPress={() => this.setState({ eventsFilter: 0 })}
+          >
+            <Text
+              style={
+                this.state.eventsFilter === 1
+                  ? { color: "#fead01", fontSize: 14 }
+                  : { color: "#158E47", fontSize: 14 }
+              }
+            >
+              all events
+            </Text>
+          </Button>
+
+          <Button
+            rounded
+            style={
               this.state.eventsFilter === 2
                 ? [styles.activeEventBtn, { marginLeft: 10 }]
                 : [styles.eventBtn, { marginLeft: 10 }]
             }
-            onPress={() => this.setState({ eventsFilter: 2 })}
+            // onPress={() => this.setState({ eventsFilter: 1 })}
           >
             <Text
               style={

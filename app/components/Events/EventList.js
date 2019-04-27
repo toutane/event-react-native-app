@@ -224,13 +224,30 @@ export default class EventsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsList: []
+      eventsList: [],
+      sliderIndex: 0
     };
   }
   componentDidMount() {
     this.listenToChanges();
+    this.setState({ sliderIndex: this.props.eventsFilter });
   }
-
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.eventsFilter !== this.props.eventsFilter) {
+  //     if (newProps.eventsFilter === -1) {
+  //       this.setState({ sliderIndex: newProps.eventsFilter + 2 });
+  //     } else {
+  //       this.setState({ sliderIndex: newProps.eventsFilter }, () =>
+  //         console.log("index change" + this.state.sliderIndex)
+  //       );
+  //     }
+  //   } else {
+  //     console.log("same index");
+  //   }
+  // }
+  componentWillUpdate() {
+    this.props.eventsFilter === -1 ? console.log("crash...") : null;
+  }
   async listenToChanges() {
     firebase.db.collection("events").onSnapshot(() => this.loadEvents());
   }
@@ -260,28 +277,22 @@ export default class EventsList extends React.Component {
       () => console.log("updating event list")
     );
   }
-  ref = el => {
-    this.swiper = el;
-  };
+
   render() {
     return (
       <Swiper
         showsPagination={false}
-        showsButtons={false}
+        // showsButtons={true}
         loop={false}
         index={this.props.eventsFilter}
-        onIndexChanged={i => this.props.setNewSlideIndex(i)}
+        onIndexChanged={i => {
+          this.props.setNewSlideIndex(i), console.log("newIndex >>> " + i);
+        }}
       >
         <View style={{ flex: 1, marginBottom: 100 }}>
           {this.state.eventsList
             .filter(
-              event =>
-                event.organizer.uid === firebase.auth.currentUser.uid ||
-                event.participants.find(
-                  part =>
-                    part.uid === firebase.auth.currentUser.uid &&
-                    part.state === "available"
-                )
+              event => event.organizer.uid === firebase.auth.currentUser.uid
             )
             .map((event, i) => (
               <EventCard
@@ -295,7 +306,13 @@ export default class EventsList extends React.Component {
         <View style={{ flex: 1, marginBottom: 100 }}>
           {this.state.eventsList
             .filter(
-              event => event.organizer.uid === firebase.auth.currentUser.uid
+              event =>
+                event.organizer.uid === firebase.auth.currentUser.uid ||
+                event.participants.find(
+                  part =>
+                    part.uid === firebase.auth.currentUser.uid &&
+                    part.state === "available"
+                )
             )
             .map((event, i) => (
               <EventCard
