@@ -21,6 +21,24 @@ export default class MiddleView extends React.Component {
       .getCurrentUserAvatar()
       .then(avatar => this.setState({ avatar: avatar }));
   }
+  quitEventFunction(event, avatar) {
+    firebase.db
+      .collection("events")
+      .doc(event.id)
+      .update({
+        participants: event.participants
+          .filter(part => part.uid !== firebase.auth.currentUser.uid)
+          .concat({
+            uid: firebase.auth.currentUser.uid,
+            username: firebase.auth.currentUser.displayName,
+            avatar: avatar,
+            state: "waiting"
+          })
+      })
+      .then(() => this.setState({ confirmView: false }));
+
+    console.log("event quited...");
+  }
   render() {
     async function joinEventFunction(event, avatar) {
       firebase.db
@@ -37,22 +55,6 @@ export default class MiddleView extends React.Component {
             })
         });
       console.log("trying to join the event...");
-    }
-    async function quitEventFunction(event, avatar) {
-      firebase.db
-        .collection("events")
-        .doc(event.id)
-        .update({
-          participants: event.participants
-            .filter(part => part.uid !== firebase.auth.currentUser.uid)
-            .concat({
-              uid: firebase.auth.currentUser.uid,
-              username: firebase.auth.currentUser.displayName,
-              avatar: avatar,
-              state: "waiting"
-            })
-        });
-      console.log("event quited...");
     }
     return (
       <View style={{ backgroundColor: "#158E47" }}>
@@ -114,7 +116,7 @@ export default class MiddleView extends React.Component {
                         backgroundColor: "#1DC161"
                       }}
                       onPress={() =>
-                        quitEventFunction(
+                        this.quitEventFunction(
                           this.props.currentEvent,
                           this.state.avatar
                         )
