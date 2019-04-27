@@ -4,6 +4,7 @@ import { Thumbnail, Badge, Button } from "native-base";
 import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
 import firebase from "../../../firebase/firebase";
+import ConfirmQuit from "./confirmQuit";
 
 export default class MiddleView extends React.Component {
   static navigationOptions = {
@@ -86,45 +87,14 @@ export default class MiddleView extends React.Component {
                   part.state === "available"
               ) ? (
                 this.props.currentEvent.organizer.uid !==
-                  firebase.auth.currentUser.uid &&
-                this.state.confirmView === false ? (
-                  <Text
-                    style={{ fontSize: 16, color: "rgba(0,0,0,0.2)" }}
-                    onPress={() => this.setState({ confirmView: true })}
-                  >
-                    Quit ?
-                  </Text>
-                ) : this.state.confirmView ? (
-                  <View style={{ flexDirection: "row" }}>
-                    <Button
-                      rounded
-                      style={{
-                        marginRight: 7,
-                        paddingHorizontal: 10,
-                        height: 28,
-                        backgroundColor: "#FE245D"
-                      }}
-                      onPress={() => this.setState({ confirmView: false })}
-                    >
-                      <Text style={{ color: "white" }}>No</Text>
-                    </Button>
-                    <Button
-                      rounded
-                      style={{
-                        paddingHorizontal: 10,
-                        height: 28,
-                        backgroundColor: "#1DC161"
-                      }}
-                      onPress={() =>
-                        this.quitEventFunction(
-                          this.props.currentEvent,
-                          this.state.avatar
-                        )
-                      }
-                    >
-                      <Text style={{ color: "white" }}>Yes</Text>
-                    </Button>
-                  </View>
+                firebase.auth.currentUser.uid ? (
+                  <ConfirmQuit
+                    quitEventFunction={(event, avatar) =>
+                      this.quitEventFunction(event, avatar)
+                    }
+                    currentEvent={this.props.currentEvent}
+                    avatar={this.state.avatar}
+                  />
                 ) : null
               ) : null}
             </View>

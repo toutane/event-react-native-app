@@ -27,7 +27,7 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsFilter: 1,
+      eventsFilter: 0,
       nbInvitation: 0
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
@@ -216,7 +216,7 @@ export default class HomeScreen extends React.Component {
                 ? [styles.activeEventBtn, { marginLeft: 10 }]
                 : [styles.eventBtn, { marginLeft: 10 }]
             }
-            // onPress={() => this.setState({ eventsFilter: 0 })}
+            // onPress={() => this.setState({ eventsFilter: 1 })}
           >
             <Text
               style={
@@ -236,7 +236,7 @@ export default class HomeScreen extends React.Component {
                 ? [styles.activeEventBtn, { marginLeft: 10 }]
                 : [styles.eventBtn, { marginLeft: 10 }]
             }
-            // onPress={() => this.setState({ eventsFilter: 1 })}
+            // onPress={() => this.setState({ eventsFilter: 2 })}
           >
             <Text
               style={

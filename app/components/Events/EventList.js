@@ -3,7 +3,7 @@ import { View } from "react-native";
 import EventCard from "./EventCard";
 import firebase from "../../firebase/firebase";
 import Swiper from "react-native-swiper";
-
+import MyEventCard from "../InfoCards/myEventsCard";
 const eventsList = [
   {
     organizer: {
@@ -224,29 +224,18 @@ export default class EventsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsList: [],
-      sliderIndex: 0
+      eventsList: []
     };
   }
   componentDidMount() {
     this.listenToChanges();
-    this.setState({ sliderIndex: this.props.eventsFilter });
   }
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.eventsFilter !== this.props.eventsFilter) {
-  //     if (newProps.eventsFilter === -1) {
-  //       this.setState({ sliderIndex: newProps.eventsFilter + 2 });
-  //     } else {
-  //       this.setState({ sliderIndex: newProps.eventsFilter }, () =>
-  //         console.log("index change" + this.state.sliderIndex)
-  //       );
-  //     }
-  //   } else {
-  //     console.log("same index");
-  //   }
-  // }
-  componentWillUpdate() {
-    this.props.eventsFilter === -1 ? console.log("crash...") : null;
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.eventsFilter !== this.props.eventsFilter) {
+    } else {
+      console.log("same chat");
+    }
   }
   async listenToChanges() {
     firebase.db.collection("events").onSnapshot(() => this.loadEvents());
@@ -282,7 +271,6 @@ export default class EventsList extends React.Component {
     return (
       <Swiper
         showsPagination={false}
-        // showsButtons={true}
         loop={false}
         index={this.props.eventsFilter}
         onIndexChanged={i => {
@@ -290,18 +278,24 @@ export default class EventsList extends React.Component {
         }}
       >
         <View style={{ flex: 1, marginBottom: 100 }}>
-          {this.state.eventsList
-            .filter(
-              event => event.organizer.uid === firebase.auth.currentUser.uid
-            )
-            .map((event, i) => (
-              <EventCard
-                key={i}
-                currentEvent={event}
-                eventsFilter={this.props.eventsFilter}
-                {...this.props}
-              />
-            ))}
+          {this.state.eventsList.filter(
+            event => event.organizer.uid === firebase.auth.currentUser.uid
+          ).length === 0 ? (
+            <MyEventCard />
+          ) : (
+            this.state.eventsList
+              .filter(
+                event => event.organizer.uid === firebase.auth.currentUser.uid
+              )
+              .map((event, i) => (
+                <EventCard
+                  key={i}
+                  currentEvent={event}
+                  eventsFilter={this.props.eventsFilter}
+                  {...this.props}
+                />
+              ))
+          )}
         </View>
         <View style={{ flex: 1, marginBottom: 100 }}>
           {this.state.eventsList
