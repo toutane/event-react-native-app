@@ -27,7 +27,7 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsFilter: "all events",
+      eventsFilter: 0,
       nbInvitation: 0
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
@@ -35,6 +35,9 @@ export default class HomeScreen extends React.Component {
 
   setNbInvitations(nb) {
     this.setState({ nbInvitation: nb });
+  }
+  setNewSlideIndex(i) {
+    this.setState({ eventsFilter: i });
   }
 
   render() {
@@ -107,6 +110,7 @@ export default class HomeScreen extends React.Component {
               {...this.props}
               eventsFilter={this.state.eventsFilter}
               setNbInvitations={nb => this.setNbInvitations(nb)}
+              setNewSlideIndex={newIndex => this.setNewSlideIndex(newIndex)}
             />
           </View>
         </ScrollView>
@@ -189,15 +193,15 @@ export default class HomeScreen extends React.Component {
           <Button
             rounded
             style={
-              this.state.eventsFilter === "all events"
+              this.state.eventsFilter === 0
                 ? [styles.activeEventBtn, { marginLeft: 30 }]
                 : [styles.eventBtn, { marginLeft: 30 }]
             }
-            onPress={() => this.setState({ eventsFilter: "all events" })}
+            onPress={() => this.setState({ eventsFilter: 0 })}
           >
             <Text
               style={
-                this.state.eventsFilter === "all events"
+                this.state.eventsFilter === 0
                   ? { color: "#fead01", fontSize: 14 }
                   : { color: "#158E47", fontSize: 14 }
               }
@@ -208,15 +212,15 @@ export default class HomeScreen extends React.Component {
           <Button
             rounded
             style={
-              this.state.eventsFilter === "my events"
+              this.state.eventsFilter === 1
                 ? [styles.activeEventBtn, { marginLeft: 10 }]
                 : [styles.eventBtn, { marginLeft: 10 }]
             }
-            onPress={() => this.setState({ eventsFilter: "my events" })}
+            onPress={() => this.setState({ eventsFilter: 1 })}
           >
             <Text
               style={
-                this.state.eventsFilter === "my events"
+                this.state.eventsFilter === 1
                   ? { color: "#fead01", fontSize: 14 }
                   : { color: "#158E47", fontSize: 14 }
               }
@@ -227,15 +231,15 @@ export default class HomeScreen extends React.Component {
           <Button
             rounded
             style={
-              this.state.eventsFilter === "invitations"
+              this.state.eventsFilter === 2
                 ? [styles.activeEventBtn, { marginLeft: 10 }]
                 : [styles.eventBtn, { marginLeft: 10 }]
             }
-            onPress={() => this.setState({ eventsFilter: "invitations" })}
+            onPress={() => this.setState({ eventsFilter: 2 })}
           >
             <Text
               style={
-                this.state.eventsFilter === "invitations"
+                this.state.eventsFilter === 2
                   ? { color: "#fead01", fontSize: 14 }
                   : { color: "#158E47", fontSize: 14 }
               }

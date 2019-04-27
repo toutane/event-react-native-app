@@ -2,6 +2,8 @@ import React from "react";
 import { View } from "react-native";
 import EventCard from "./EventCard";
 import firebase from "../../firebase/firebase";
+import Swiper from "react-native-swiper";
+
 const eventsList = [
   {
     organizer: {
@@ -258,61 +260,74 @@ export default class EventsList extends React.Component {
       () => console.log("updating event list")
     );
   }
+  ref = el => {
+    this.swiper = el;
+  };
   render() {
     return (
-      <View style={{ flex: 1, marginBottom: 100 }}>
-        {this.props.eventsFilter === "all events"
-          ? this.state.eventsList
-              .filter(
-                event =>
-                  event.organizer.uid === firebase.auth.currentUser.uid ||
-                  event.participants.find(
-                    part =>
-                      part.uid === firebase.auth.currentUser.uid &&
-                      part.state === "available"
-                  )
-              )
-              .map((event, i) => (
-                <EventCard
-                  key={i}
-                  currentEvent={event}
-                  eventsFilter={this.props.eventsFilter}
-                  {...this.props}
-                />
-              ))
-          : this.props.eventsFilter === "my events"
-          ? this.state.eventsList
-              .filter(
-                event => event.organizer.uid === firebase.auth.currentUser.uid
-              )
-              .map((event, i) => (
-                <EventCard
-                  key={i}
-                  currentEvent={event}
-                  eventsFilter={this.props.eventsFilter}
-                  {...this.props}
-                />
-              ))
-          : this.state.eventsList
-              .filter(
-                event => event.organizer.uid !== firebase.auth.currentUser.uid
-              )
-              .filter(event =>
+      <Swiper
+        showsPagination={false}
+        showsButtons={false}
+        loop={false}
+        index={this.props.eventsFilter}
+        onIndexChanged={i => this.props.setNewSlideIndex(i)}
+      >
+        <View style={{ flex: 1, marginBottom: 100 }}>
+          {this.state.eventsList
+            .filter(
+              event =>
+                event.organizer.uid === firebase.auth.currentUser.uid ||
                 event.participants.find(
                   part =>
                     part.uid === firebase.auth.currentUser.uid &&
-                    part.state === "waiting"
+                    part.state === "available"
                 )
+            )
+            .map((event, i) => (
+              <EventCard
+                key={i}
+                currentEvent={event}
+                eventsFilter={this.props.eventsFilter}
+                {...this.props}
+              />
+            ))}
+        </View>
+        <View style={{ flex: 1, marginBottom: 100 }}>
+          {this.state.eventsList
+            .filter(
+              event => event.organizer.uid === firebase.auth.currentUser.uid
+            )
+            .map((event, i) => (
+              <EventCard
+                key={i}
+                currentEvent={event}
+                eventsFilter={this.props.eventsFilter}
+                {...this.props}
+              />
+            ))}
+        </View>
+        <View style={{ flex: 1, marginBottom: 100 }}>
+          {this.state.eventsList
+            .filter(
+              event => event.organizer.uid !== firebase.auth.currentUser.uid
+            )
+            .filter(event =>
+              event.participants.find(
+                part =>
+                  part.uid === firebase.auth.currentUser.uid &&
+                  part.state === "waiting"
               )
-              .map((event, i) => (
-                <EventCard
-                  key={i}
-                  currentEvent={event}
-                  eventsFilter={this.props.eventsFilter}
-                  {...this.props}
-                />
-              ))}
-      </View>
+            )
+            .map((event, i) => (
+              <EventCard
+                key={i}
+                currentEvent={event}
+                eventsFilter={this.props.eventsFilter}
+                {...this.props}
+              />
+            ))}
+        </View>
+      </Swiper>
     );
   }
 }
