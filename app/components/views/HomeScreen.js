@@ -197,7 +197,7 @@ export default class HomeScreen extends React.Component {
                 ? [styles.activeEventBtn, { marginLeft: 30 }]
                 : [styles.eventBtn, { marginLeft: 30 }]
             }
-            // onPress={() => this.setState({ eventsFilter: 0 })}
+            onPress={() => this.setState({ eventsFilter: 0 })}
           >
             <Text
               style={
@@ -216,7 +216,7 @@ export default class HomeScreen extends React.Component {
                 ? [styles.activeEventBtn, { marginLeft: 10 }]
                 : [styles.eventBtn, { marginLeft: 10 }]
             }
-            // onPress={() => this.setState({ eventsFilter: 1 })}
+            onPress={() => this.setState({ eventsFilter: 1 })}
           >
             <Text
               style={
@@ -236,7 +236,7 @@ export default class HomeScreen extends React.Component {
                 ? [styles.activeEventBtn, { marginLeft: 10 }]
                 : [styles.eventBtn, { marginLeft: 10 }]
             }
-            // onPress={() => this.setState({ eventsFilter: 2 })}
+            onPress={() => this.setState({ eventsFilter: 2 })}
           >
             <Text
               style={
