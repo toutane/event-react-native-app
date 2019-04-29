@@ -3,7 +3,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import EventView from "../components/Events/EventView/EventView";
 
-const EventNavigator = createStackNavigator(
+const EventViewNavigator = createStackNavigator(
   {
     EventView: { screen: EventView }
   },
@@ -17,4 +17,4 @@ const EventNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(EventNavigator);
+export default createAppContainer(EventViewNavigator);

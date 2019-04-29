@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+import { Spinner } from "native-base";
 import EventCard from "./EventCard";
 import firebase from "../../firebase/firebase";
 import Swiper from "react-native-swiper";
@@ -224,7 +225,8 @@ export default class EventsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsList: []
+      eventsList: [],
+      spinner: true
     };
   }
   componentDidMount() {
@@ -238,7 +240,11 @@ export default class EventsList extends React.Component {
     }
   }
   async listenToChanges() {
-    firebase.db.collection("events").onSnapshot(() => this.loadEvents());
+    firebase.db
+      .collection("events")
+      .onSnapshot(() =>
+        this.setState({ spinner: true }, () => this.loadEvents())
+      );
   }
 
   async loadEvents() {
@@ -263,7 +269,9 @@ export default class EventsList extends React.Component {
               )
             ).length
         ),
-      () => console.log("updating event list")
+      this.setState({ spinner: false }, () =>
+        console.log("updating event list")
+      )
     );
   }
 
@@ -278,9 +286,11 @@ export default class EventsList extends React.Component {
         }}
       >
         <View style={{ flex: 1, marginBottom: 100 }}>
-          {this.state.eventsList.filter(
-            event => event.organizer.uid === firebase.auth.currentUser.uid
-          ).length === 0 ? (
+          {this.state.spinner ? (
+            <Spinner />
+          ) : this.state.eventsList.filter(
+              event => event.organizer.uid === firebase.auth.currentUser.uid
+            ).length === 0 ? (
             <MyEventCard />
           ) : (
             this.state.eventsList

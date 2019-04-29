@@ -11,7 +11,8 @@ import { theme } from "../themes";
 import TabBar from "../components/TabBar";
 import TabIcon from "../components/TabBar/TabIcon";
 
-import EventNavigator from "./EventNavigator";
+import EventViewNavigator from "./EventViewNavigator";
+import EventCreationNavigator from "./EventCreationNavigator";
 
 import HomeScreen from "../components/views/HomeScreen";
 import MessageScreen from "../components/views/MessageScreen";
@@ -64,7 +65,8 @@ const TabBarNavigator = createBottomTabNavigator(tabBar, tabBarConfig);
 const AppNavigator = createStackNavigator(
   {
     TabBar: TabBarNavigator,
-    Event: EventNavigator
+    EventView: EventViewNavigator,
+    EventCreation: EventCreationNavigator
   },
   {
     headerMode: "none",

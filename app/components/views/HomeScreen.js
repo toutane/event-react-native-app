@@ -1,5 +1,12 @@
 import React from "react";
-import { ScrollView, StyleSheet, View, Animated, Text } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Animated,
+  Text,
+  TouchableOpacity
+} from "react-native";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import { Button } from "native-base";
@@ -48,6 +55,7 @@ export default class HomeScreen extends React.Component {
 
       extrapolate: "clamp"
     });
+
     const AnimateHeaderText = this.AnimatedHeaderValue.interpolate({
       inputRange: [0, Header_Maximum_Text - Header_Minimum_Text],
 
@@ -92,6 +100,7 @@ export default class HomeScreen extends React.Component {
 
       extrapolate: "clamp"
     });
+
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -105,7 +114,7 @@ export default class HomeScreen extends React.Component {
             }
           ])}
         >
-          <View style={{ marginTop: 100 }}>
+          <View style={{ zIndex: 1, marginTop: 100 }}>
             <EventsList
               {...this.props}
               eventsFilter={this.state.eventsFilter}
@@ -183,19 +192,30 @@ export default class HomeScreen extends React.Component {
         </Animated.View>
         <Animated.View
           style={{
-            position: "absolute",
-            top: EventFilterPosition,
             zIndex: 10,
             flexDirection: "row",
+            position: "absolute",
+            top: EventFilterPosition,
+            alignItems: "center",
             opacity: AnimateHeaderSubtitle
           }}
         >
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("EventCreationView")}
+          >
+            <Icon.Feather
+              name="plus-circle"
+              size={28}
+              color="white"
+              style={{ marginTop: 2, marginBottom: 3, marginLeft: 30 }}
+            />
+          </TouchableOpacity>
           <Button
             rounded
             style={
               this.state.eventsFilter === 0
-                ? [styles.activeEventBtn, { marginLeft: 30 }]
-                : [styles.eventBtn, { marginLeft: 30 }]
+                ? [styles.activeEventBtn, { marginLeft: 10 }]
+                : [styles.eventBtn, { marginLeft: 10 }]
             }
             onPress={() => this.setState({ eventsFilter: 0 })}
           >
