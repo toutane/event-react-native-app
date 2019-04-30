@@ -38,13 +38,15 @@ export default class HomeScreen extends React.Component {
       nbInvitation: 0
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
+    this.setNewSlideIndex = this.setNewSlideIndex.bind(this);
   }
 
   setNbInvitations(nb) {
     this.setState({ nbInvitation: nb });
   }
+
   setNewSlideIndex(i) {
-    this.setState({ eventsFilter: i });
+    this.setState({ eventsFilter: i }, () => console.log(this.state));
   }
 
   render() {
@@ -116,10 +118,10 @@ export default class HomeScreen extends React.Component {
         >
           <View style={{ zIndex: 1, marginTop: 100 }}>
             <EventsList
-              {...this.props}
               eventsFilter={this.state.eventsFilter}
               setNbInvitations={nb => this.setNbInvitations(nb)}
-              setNewSlideIndex={newIndex => this.setNewSlideIndex(newIndex)}
+              setNewSlideIndex={this.setNewSlideIndex}
+              {...this.props}
             />
           </View>
         </ScrollView>

@@ -233,12 +233,15 @@ export default class EventsList extends React.Component {
     this.listenToChanges();
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.eventsFilter !== this.props.eventsFilter) {
-    } else {
-      console.log("same chat");
-    }
-  }
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.eventsFilter !== this.props.eventsFilter) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //     // console.log("same chat");
+  //   }
+  // }
+
   async listenToChanges() {
     firebase.db
       .collection("events")
@@ -281,9 +284,13 @@ export default class EventsList extends React.Component {
         showsPagination={false}
         loop={false}
         index={this.props.eventsFilter}
-        onIndexChanged={i => {
-          this.props.setNewSlideIndex(i), console.log("newIndex >>> " + i);
-        }}
+        onIndexChanged={
+          // this.props.setNewSlideIndex
+          i => {
+            this.props.setNewSlideIndex(i);
+            // console.log("newIndex >>> " + props);
+          }
+        }
       >
         <View style={{ flex: 1, marginBottom: 100 }}>
           {this.state.spinner ? (

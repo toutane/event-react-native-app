@@ -12,7 +12,8 @@ export default class EventCreationView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: ""
+      title: "",
+      text: ""
     };
   }
   setInputsStates(stateContent, stateName) {
