@@ -9,6 +9,7 @@ const moment = require("moment");
 
 moment.locale("fr");
 export default class Event_CreationInfo extends React.Component {
+  state = { showLocation: false };
   render() {
     return (
       <View>
@@ -21,62 +22,66 @@ export default class Event_CreationInfo extends React.Component {
             justifyContent: "space-between"
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon.Feather name="clock" size={30} color="rgba(0, 0, 0, 0.2)" />
-            <View style={{ flexDirection: "column" }}>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontSize: 12,
-                  color: "#797979",
-                  fontWeight: "500"
-                }}
-              >
-                Time
-              </Text>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontSize: 14,
-                  color: "#fead01",
-                  fontWeight: "600"
-                }}
-                onPress={this.props.showTimePicker}
-              >
-                {moment(this.props.time).format("h:mm")}
-              </Text>
+          {this.state.showLocation ? null : (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon.Feather name="clock" size={30} color="rgba(0, 0, 0, 0.2)" />
+              <View style={{ flexDirection: "column" }}>
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    fontSize: 12,
+                    color: "#797979",
+                    fontWeight: "500"
+                  }}
+                >
+                  Time
+                </Text>
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    fontSize: 14,
+                    color: "#fead01",
+                    fontWeight: "600"
+                  }}
+                  onPress={this.props.showTimePicker}
+                >
+                  {moment(this.props.time).format("h:mm")}
+                </Text>
+              </View>
             </View>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon.Feather
-              name="calendar"
-              size={30}
-              color="rgba(0, 0, 0, 0.2)"
-            />
-            <View style={{ flexDirection: "column" }}>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontSize: 12,
-                  color: "#797979",
-                  fontWeight: "500"
-                }}
-              >
-                Date
-              </Text>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontSize: 14,
-                  color: "#fead01",
-                  fontWeight: "600"
-                }}
-                onPress={this.props.showDatePicker}
-              >
-                {moment(this.props.date).format("D/MM")}
-              </Text>
+          )}
+          {this.state.showLocation ? null : (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Icon.Feather
+                name="calendar"
+                size={30}
+                color="rgba(0, 0, 0, 0.2)"
+              />
+              <View style={{ flexDirection: "column" }}>
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    fontSize: 12,
+                    color: "#797979",
+                    fontWeight: "500"
+                  }}
+                >
+                  Date
+                </Text>
+                <Text
+                  style={{
+                    marginLeft: 5,
+                    fontSize: 14,
+                    color: "#fead01",
+                    fontWeight: "600"
+                  }}
+                  onPress={this.props.showDatePicker}
+                >
+                  {moment(this.props.date).format("D/MM")}
+                </Text>
+              </View>
             </View>
-          </View>
+          )}
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icon.Feather name="map-pin" size={30} color="rgba(0,0,0,0.2)" />
             <View style={{ flexDirection: "column" }}>
@@ -97,20 +102,24 @@ export default class Event_CreationInfo extends React.Component {
                   color: "#fead01",
                   fontWeight: "600"
                 }}
-                onPress={
+                onPress={() =>
+                  this.props.navigation.navigate("LocationPicker", {
+                    setUpLocation: data => this.props.setUpLocation(data)
+                  })
+                }
+                onLongPress={
                   this.props.location.description !== ""
                     ? () =>
-                        this.props.navigation.navigate("LocationPicker", {
-                          setUpLocation: data => this.props.setUpLocation(data)
-                        })
-                    : () =>
                         this.setState({
                           showLocation: !this.state.showLocation
                         })
+                    : () => console.log("long press dans le vide")
                 }
               >
                 {this.props.location.description !== ""
-                  ? this.props.location.description.length > 5
+                  ? this.state.showLocation
+                    ? this.props.location.description
+                    : this.props.location.description.length > 5
                     ? this.props.location.description.slice(0, 4) + "..."
                     : this.props.location.description
                   : "Where ?"}

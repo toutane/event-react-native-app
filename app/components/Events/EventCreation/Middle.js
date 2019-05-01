@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity
 } from "react-native";
-import { Button } from "native-base";
+import { Input } from "native-base";
 import { Icon } from "expo";
 
 export default class MiddleCreation extends React.Component {
@@ -34,7 +34,7 @@ export default class MiddleCreation extends React.Component {
               placeholder={"Title"}
               autoFocus={false}
               returnKeyType="next"
-              selectionColor={"#797979"}
+              selectionColor={"#1DC161"}
               onChangeText={(e, stateName) =>
                 this.props.setInputsStates(e, "title")
               }
@@ -47,7 +47,7 @@ export default class MiddleCreation extends React.Component {
               }
               autoFocus={false}
               returnKeyType="go"
-              selectionColor={"#797979"}
+              selectionColor={"#1DC161"}
               onChangeText={(e, stateName) =>
                 this.props.setInputsStates(e, "text")
               }
@@ -118,6 +118,16 @@ export default class MiddleCreation extends React.Component {
                         },
                         () => console.log(this.state.badge)
                       )
+                    }
+                    onSubmitEditing={
+                      /^\s*$/.test(wrd)
+                        ? () =>
+                            this.setState({
+                              badge: this.state.badge.filter(
+                                e => !/^\s*$/.test(e)
+                              )
+                            })
+                        : () => null
                     }
                   />
                   // <Button
