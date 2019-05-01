@@ -4,6 +4,7 @@ import { screenWidth } from "../../../utils/dimensions";
 import { LinearGradient } from "expo";
 import Header from "./Header";
 import MiddleCreation from "./Middle";
+import Event_CreationInfo from "./Info";
 
 export default class EventCreationView extends React.Component {
   static navigationOptions = {
@@ -13,14 +14,36 @@ export default class EventCreationView extends React.Component {
     super(props);
     this.state = {
       title: "",
-      text: ""
+      text: "",
+      badge: [],
+      date: new Date(),
+      isDateTimePickerVisible: false,
+      // date: [],
+      time: "00:00",
+      location: "..."
     };
   }
+
   setInputsStates(stateContent, stateName) {
     this.setState({ [stateName]: stateContent }, () =>
       console.log(this.state.title)
     );
   }
+
+  handleDatePicked = date => {
+    this.setState(
+      { date: date },
+      console.log("A date has been picked: ", date)
+    );
+    this.hideDateTimePicker();
+  };
+  showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
+
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
   render() {
     return (
       <View>
@@ -32,6 +55,15 @@ export default class EventCreationView extends React.Component {
                 setInputsStates={(stateContent, stateName) =>
                   this.setInputsStates(stateContent, stateName)
                 }
+              />
+              <Event_CreationInfo
+                time={this.state.time}
+                date={this.state.date}
+                handleDatePicked={date => this.handleDatePicked(date)}
+                isVisible={this.state.isDateTimePickerVisible}
+                showDateTimePicker={this.showDateTimePicker}
+                hideDateTimePicker={this.hideDateTimePicker}
+                location={this.state.location}
               />
             </View>
           </View>
