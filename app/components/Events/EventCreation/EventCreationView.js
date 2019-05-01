@@ -17,10 +17,10 @@ export default class EventCreationView extends React.Component {
       text: "",
       badge: [],
       date: new Date(),
-      isDateTimePickerVisible: false,
-      // date: [],
-      time: "00:00",
-      location: "..."
+      isDatePickerVisible: false,
+      time: new Date(),
+      isTimePickerVisible: false,
+      location: ""
     };
   }
 
@@ -35,14 +35,28 @@ export default class EventCreationView extends React.Component {
       { date: date },
       console.log("A date has been picked: ", date)
     );
-    this.hideDateTimePicker();
+    this.hideDatePicker();
   };
-  showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
+  showDatePicker = () => {
+    this.setState({ isDatePickerVisible: true });
   };
 
-  hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
+  hideDatePicker = () => {
+    this.setState({ isDatePickerVisible: false });
+  };
+  handleTimePicked = time => {
+    this.setState(
+      { time: time },
+      console.log("A time has been picked: ", time)
+    );
+    this.hideTimePicker();
+  };
+  showTimePicker = () => {
+    this.setState({ isTimePickerVisible: true });
+  };
+
+  hideTimePicker = () => {
+    this.setState({ isTimePickerVisible: false });
   };
   render() {
     return (
@@ -57,12 +71,17 @@ export default class EventCreationView extends React.Component {
                 }
               />
               <Event_CreationInfo
+                {...this.props}
                 time={this.state.time}
+                handleTimePicked={time => this.handleTimePicked(time)}
+                isVisibleTime={this.state.isTimePickerVisible}
+                showTimePicker={this.showTimePicker}
+                hideTimePicker={this.hideTimePicker}
                 date={this.state.date}
                 handleDatePicked={date => this.handleDatePicked(date)}
-                isVisible={this.state.isDateTimePickerVisible}
-                showDateTimePicker={this.showDateTimePicker}
-                hideDateTimePicker={this.hideDateTimePicker}
+                isVisibleDate={this.state.isDatePickerVisible}
+                showDatePicker={this.showDatePicker}
+                hideDatePicker={this.hideDatePicker}
                 location={this.state.location}
               />
             </View>

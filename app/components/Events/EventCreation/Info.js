@@ -3,6 +3,8 @@ import { View, Text } from "react-native";
 import { Icon } from "expo";
 import { Hr } from "../../Hr/styles";
 import Event_DatePicker from "./DatePicker";
+import Event_TimePicker from "./TimePicker";
+import LocationPicker from "./LocationPicker";
 const moment = require("moment");
 
 moment.locale("fr");
@@ -39,8 +41,9 @@ export default class Event_CreationInfo extends React.Component {
                   color: "#fead01",
                   fontWeight: "600"
                 }}
+                onPress={this.props.showTimePicker}
               >
-                {this.props.time}
+                {moment(this.props.time).format("h:mm")}
               </Text>
             </View>
           </View>
@@ -68,9 +71,9 @@ export default class Event_CreationInfo extends React.Component {
                   color: "#fead01",
                   fontWeight: "600"
                 }}
-                onPress={this.props.showDateTimePicker}
+                onPress={this.props.showDatePicker}
               >
-                {moment(this.props.date).format("L")}
+                {moment(this.props.date).format("D/MM")}
               </Text>
             </View>
           </View>
@@ -94,15 +97,19 @@ export default class Event_CreationInfo extends React.Component {
                   color: "#fead01",
                   fontWeight: "600"
                 }}
+                onPress={() => this.props.navigation.navigate("LocationPicker")}
               >
                 {this.props.location.length > 5
                   ? this.props.location.slice(0, 4) + "..."
-                  : this.props.location}
+                  : this.props.location.length > 0
+                  ? this.props.location
+                  : "Where ?"}
               </Text>
             </View>
           </View>
         </View>
         <Event_DatePicker {...this.props} />
+        <Event_TimePicker {...this.props} />
       </View>
     );
   }
