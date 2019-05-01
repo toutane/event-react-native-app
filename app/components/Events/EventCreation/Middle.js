@@ -17,7 +17,6 @@ export default class MiddleCreation extends React.Component {
     super(props);
     this.state = {
       moreView: false,
-      badges: [],
       badge: []
     };
   }
@@ -26,9 +25,6 @@ export default class MiddleCreation extends React.Component {
       <TouchableWithoutFeedback
         onPress={() => {
           Keyboard.dismiss();
-          this.setState({
-            badge: []
-          });
         }}
       >
         <KeyboardAvoidingView behavior="position" enabled>
@@ -105,23 +101,22 @@ export default class MiddleCreation extends React.Component {
                     onChangeText={e =>
                       this.setState(
                         {
-                          badge: this.state.badge
-                            .filter((e, i) => i !== index)
-                            .concat([e])
+                          badge: [
+                            ...this.state.badge.slice(0, index),
+                            e,
+                            ...this.state.badge.slice(
+                              index + 1,
+                              this.state.badge.length
+                            )
+                          ]
+                          // [...this.state.badge, ]
+                          // this.state.badge
+                          //   .find((e, i) => i === index)
+                          //   .concat([e])
+                          // .concat(this.state.badge)
+                          // .filter((e, i) => i !== index)
                         },
-                        () => console.log(this.state.badge, index)
-                      )
-                    }
-                    onSubmitEditing={() =>
-                      this.setState(
-                        {
-                          badges: [
-                            ...this.state.badges,
-                            this.state.badge[index]
-                          ],
-                          badge: this.state.badge.filter((e, i) => i !== index)
-                        },
-                        () => console.log(this.state.badge, this.state.badges)
+                        () => console.log(this.state.badge)
                       )
                     }
                   />
@@ -137,20 +132,6 @@ export default class MiddleCreation extends React.Component {
                   // >
                   //   <Text style={{ color: "white" }}>{wrd}</Text>
                   // </Button>
-                ))}
-                {this.state.badges.reverse().map((wrd, i) => (
-                  <Button
-                    key={i}
-                    rounded
-                    style={{
-                      marginRight: 7,
-                      paddingHorizontal: 10,
-                      height: 28,
-                      backgroundColor: "#364EE1"
-                    }}
-                  >
-                    <Text style={{ color: "white" }}>{wrd}</Text>
-                  </Button>
                 ))}
               </View>
             </View>
