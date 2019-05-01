@@ -97,12 +97,22 @@ export default class Event_CreationInfo extends React.Component {
                   color: "#fead01",
                   fontWeight: "600"
                 }}
-                onPress={() => this.props.navigation.navigate("LocationPicker")}
+                onPress={
+                  this.props.location.description !== ""
+                    ? () =>
+                        this.props.navigation.navigate("LocationPicker", {
+                          setUpLocation: data => this.props.setUpLocation(data)
+                        })
+                    : () =>
+                        this.setState({
+                          showLocation: !this.state.showLocation
+                        })
+                }
               >
-                {this.props.location.length > 5
-                  ? this.props.location.slice(0, 4) + "..."
-                  : this.props.location.length > 0
-                  ? this.props.location
+                {this.props.location.description !== ""
+                  ? this.props.location.description.length > 5
+                    ? this.props.location.description.slice(0, 4) + "..."
+                    : this.props.location.description
                   : "Where ?"}
               </Text>
             </View>

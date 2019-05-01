@@ -20,7 +20,7 @@ export default class EventCreationView extends React.Component {
       isDatePickerVisible: false,
       time: new Date(),
       isTimePickerVisible: false,
-      location: ""
+      location: { description: "" }
     };
   }
 
@@ -58,6 +58,9 @@ export default class EventCreationView extends React.Component {
   hideTimePicker = () => {
     this.setState({ isTimePickerVisible: false });
   };
+  setUpLocation = location => {
+    this.setState({ location: location });
+  };
   render() {
     return (
       <View>
@@ -83,6 +86,7 @@ export default class EventCreationView extends React.Component {
                 showDatePicker={this.showDatePicker}
                 hideDatePicker={this.hideDatePicker}
                 location={this.state.location}
+                setUpLocation={location => this.setUpLocation(location)}
               />
             </View>
           </View>

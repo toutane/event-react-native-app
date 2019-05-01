@@ -5,14 +5,14 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { Icon } from "expo";
 import { screenWidth } from "../../../utils/dimensions";
 
-const homePlace = {
-  description: "Home",
-  geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }
-};
-const workPlace = {
-  description: "Work",
-  geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
-};
+// const homePlace = {
+//   description: "Home",
+//   geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }
+// };
+// const workPlace = {
+//   description: "Work",
+//   geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
+// };
 
 export default class LocationPicker extends React.Component {
   static navigationOptions = {
@@ -60,8 +60,10 @@ export default class LocationPicker extends React.Component {
           fetchDetails={true}
           renderDescription={row => row.description} // custom description render
           onPress={(data, details = null) => {
+            this.props.navigation.getParam("setUpLocation")(data);
+            this.props.navigation.navigate("EventCreationView");
             // 'details' is provided when fetchDetails = true
-            console.log(data, details);
+            // console.log(data);
           }}
           getDefaultValue={() => ""}
           query={{
@@ -121,7 +123,7 @@ export default class LocationPicker extends React.Component {
             "locality",
             "administrative_area_level_3"
           ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-          predefinedPlaces={[homePlace, workPlace]}
+          // predefinedPlaces={[homePlace, workPlace]}
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
           // renderLeftButton={() => (
           //   <Image source={require("path/custom/left-icon")} />
