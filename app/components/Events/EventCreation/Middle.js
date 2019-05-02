@@ -30,6 +30,7 @@ export default class MiddleCreation extends React.Component {
         <KeyboardAvoidingView behavior="position" enabled>
           <View style={{ paddingHorizontal: 25, marginBottom: 20 }}>
             <TextInput
+              multiline={true}
               style={styles.mainTitle}
               placeholder={"Title"}
               autoFocus={false}
@@ -42,9 +43,7 @@ export default class MiddleCreation extends React.Component {
             <TextInput
               multiline={true}
               style={[styles.subTitle, { lineHeight: 27 }]}
-              placeholder={
-                "Lorem ipsum dolor, sit amet consectetur adipisicing elit. "
-              }
+              placeholder={"Invitation of the event"}
               autoFocus={false}
               returnKeyType="go"
               selectionColor={"#1DC161"}
@@ -75,7 +74,7 @@ export default class MiddleCreation extends React.Component {
                   }
                 >
                   <Icon.Feather
-                    name="plus-circle"
+                    name="tag"
                     size={28}
                     color="rgba(0, 0, 0, 0.2)"
                     style={{ marginRight: 7 }}

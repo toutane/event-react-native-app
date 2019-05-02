@@ -1,10 +1,13 @@
 import React from "react";
 import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { Button, Thumbnail, Badge } from "native-base";
 import { screenWidth } from "../../../utils/dimensions";
 import { LinearGradient } from "expo";
 import Header from "./Header";
 import MiddleCreation from "./Middle";
 import Event_CreationInfo from "./Info";
+import MembersView from "./MembersView";
+import firebase from "../../../firebase/firebase";
 
 export default class EventCreationView extends React.Component {
   static navigationOptions = {
@@ -13,9 +16,11 @@ export default class EventCreationView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      organizer_avatar: "null",
       title: "",
       text: "",
       badge: [],
+      invited_participants: [],
       date: new Date(),
       isDatePickerVisible: false,
       time: new Date(),
@@ -23,7 +28,21 @@ export default class EventCreationView extends React.Component {
       location: { description: "" }
     };
   }
-
+  componentDidMount() {
+    firebase
+      .getCurrentUserAvatar()
+      .then(avatar => this.setState({ organizer_avatar: avatar }));
+  }
+  addParticipants(s_parts) {
+    this.setState(
+      {
+        invited_participants: this.state.invited_participants.concat(s_parts)
+      },
+      console.log(
+        "here the invited of this event : " + this.state.invited_participants
+      )
+    );
+  }
   setInputsStates(stateContent, stateName) {
     this.setState({ [stateName]: stateContent }, () =>
       console.log(this.state.title)
@@ -91,7 +110,13 @@ export default class EventCreationView extends React.Component {
             </View>
           </View>
           <View style={{ zIndex: 20 }}>
-            <Text>{this.state.title}</Text>
+            <MembersView
+              {...this.props}
+              addParticipants={selected_participants =>
+                this.addParticipants(selected_participants)
+              }
+              invited_participants={this.state.invited_participants}
+            />
           </View>
           <View
             style={{

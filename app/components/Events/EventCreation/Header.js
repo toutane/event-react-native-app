@@ -1,21 +1,9 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Thumbnail, Button } from "native-base";
+import { Button } from "native-base";
 import { Icon } from "expo";
-import firebase from "../../../firebase/firebase";
 
 export default class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      avatar: "default"
-    };
-  }
-  componentDidMount() {
-    firebase
-      .getCurrentUserAvatar()
-      .then(avatar => this.setState({ avatar: avatar }));
-  }
   render() {
     return (
       <View
@@ -25,48 +13,16 @@ export default class Header extends React.Component {
           paddingHorizontal: 25
         }}
       >
-        <View
+        <Text
           style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center"
+            fontSize: 40,
+            fontWeight: "bold",
+            marginTop: 8,
+            color: "black"
           }}
         >
-          {this.state.isLoading ? null : (
-            <Thumbnail
-              source={{ uri: this.state.avatar }}
-              style={{ borderRadius: 13, width: 50, height: 50 }}
-            />
-          )}
-          <View
-            style={{
-              flexDirection: "collum",
-              marginLeft: 10
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "bold",
-                color: "black",
-                fontFamily: "Arial"
-              }}
-            >
-              {firebase.auth.currentUser.displayName}
-            </Text>
-            <Text
-              style={{
-                marginTop: 3,
-                fontSize: 14,
-                fontWeight: "500",
-                color: "#1DC161",
-                fontFamily: "Arial"
-              }}
-            >
-              Organizer
-            </Text>
-          </View>
-        </View>
+          New event
+        </Text>
         <Button
           style={{
             height: 50,

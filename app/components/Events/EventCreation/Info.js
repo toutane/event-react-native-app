@@ -40,7 +40,7 @@ export default class Event_CreationInfo extends React.Component {
                   style={{
                     marginLeft: 5,
                     fontSize: 14,
-                    color: "#fead01",
+                    color: "#1DC161",
                     fontWeight: "600"
                   }}
                   onPress={this.props.showTimePicker}
@@ -72,7 +72,7 @@ export default class Event_CreationInfo extends React.Component {
                   style={{
                     marginLeft: 5,
                     fontSize: 14,
-                    color: "#fead01",
+                    color: "#1DC161",
                     fontWeight: "600"
                   }}
                   onPress={this.props.showDatePicker}
@@ -99,7 +99,7 @@ export default class Event_CreationInfo extends React.Component {
                 style={{
                   marginLeft: 5,
                   fontSize: 14,
-                  color: "#fead01",
+                  color: "#1DC161",
                   fontWeight: "600"
                 }}
                 onPress={() =>

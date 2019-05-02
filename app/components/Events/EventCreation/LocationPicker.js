@@ -58,7 +58,10 @@ export default class LocationPicker extends React.Component {
           // keyboardAppearance={"light"} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
           listViewDisplayed="auto" // true/false/undefined
           fetchDetails={true}
-          renderDescription={row => row.description} // custom description render
+          renderDescription={row =>
+            row.description || row.formatted_address || row.name
+          }
+          // renderDescription={row => row.description} // custom description render
           onPress={(data, details = null) => {
             this.props.navigation.getParam("setUpLocation")(data);
             this.props.navigation.navigate("EventCreationView");

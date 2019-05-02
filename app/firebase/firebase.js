@@ -56,5 +56,14 @@ class Firebase {
       .get();
     return avatar.get("avatar");
   }
+  async getAllUsers() {
+    const usersList = await this.db
+      .collection("users")
+      // .whereLessThan("uid", this.auth.currentUser.uid)
+      .get();
+    return usersList.docs
+      .map(doc => ({ ...doc.data(), ...{ uid: doc.id } }))
+      .filter(doc => (doc.uid === this.auth.currentUser.uid ? false : true));
+  }
 }
 export default new Firebase();
