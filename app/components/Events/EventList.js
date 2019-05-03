@@ -245,7 +245,8 @@ export default class EventsList extends React.Component {
     return this.setState(
       {
         eventsList: eventsList.docs.map(doc => ({
-          ...doc.data()
+          ...doc.data(),
+          ...{ id: doc.id }
         }))
       },
       () =>

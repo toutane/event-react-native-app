@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Badge, Button } from "native-base";
 import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
@@ -110,12 +110,18 @@ export default class MembersView extends React.Component {
                 ) : null}
               </View>
 
-              <View
+              <TouchableOpacity
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
                   marginTop: 15
                 }}
+                onPress={() =>
+                  this.props.navigation.navigate("EventCreation_UsersList", {
+                    addParticipants: part => this.props.addParticipants(part),
+                    invited_participants: this.props.invited_participants
+                  })
+                }
               >
                 <Button
                   style={{
@@ -145,7 +151,7 @@ export default class MembersView extends React.Component {
                 >
                   Manage members
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

@@ -135,6 +135,7 @@ export default class EventCreationView extends React.Component {
               <Header
                 {...this.props}
                 createNewEvent={() => createNewEvent(this.props, this.state)}
+                title={this.state.title}
               />
               <MiddleCreation
                 setInputsStates={(stateContent, stateName) =>

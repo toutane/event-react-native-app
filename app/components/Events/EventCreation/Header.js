@@ -35,18 +35,32 @@ export default class Header extends React.Component {
         >
           <Icon.Ionicons name="ios-arrow-round-up" size={35} color="black" />
         </Button>
-        <Button
-          style={{
-            height: 50,
-            width: 50,
-            borderRadius: 13,
-            backgroundColor: "#1DC161",
-            justifyContent: "center"
-          }}
-          onPress={() => this.props.createNewEvent()}
-        >
-          <Icon.Feather name="check" size={25} color="white" />
-        </Button>
+        {this.props.title !== "" ? (
+          <Button
+            style={{
+              height: 50,
+              width: 50,
+              borderRadius: 13,
+              backgroundColor: "#1DC161",
+              justifyContent: "center"
+            }}
+            onPress={() => this.props.createNewEvent()}
+          >
+            <Icon.Feather name="check" size={25} color="white" />
+          </Button>
+        ) : (
+          <Button
+            style={{
+              height: 50,
+              width: 50,
+              borderRadius: 13,
+              backgroundColor: "rgba(0, 0, 0, 0.04)",
+              justifyContent: "center"
+            }}
+          >
+            <Icon.Feather name="check" size={25} color="black" />
+          </Button>
+        )}
       </View>
     );
   }

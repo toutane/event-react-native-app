@@ -74,6 +74,7 @@ class Firebase {
       event: event,
       organizer: organizer,
       participants: participants
+      // id: doc.id
     });
     // return newEvent.id;
   }

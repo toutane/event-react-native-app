@@ -9,7 +9,12 @@ import {
   CheckBox,
   Button
 } from "native-base";
-import { View, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from "react-native";
 import { HeaderBackButton } from "react-navigation";
 import firebase from "../../../firebase/firebase";
 import { screenWidth } from "../../../utils/dimensions";
@@ -175,38 +180,45 @@ export default class ECUsersList extends React.Component {
         </View>
         <List>
           {this.state.usersList.map((user, i) => (
-            <ListItem avatar key={i}>
-              <Left>
-                <TouchableOpacity
+            <TouchableWithoutFeedback
+              key={i}
+              onPress={() => toggleUserToselectedUsers(user.uid, user.avatar)}
+            >
+              <ListItem thumbnail>
+                <Left>
+                  {/* <TouchableOpacity
+                    onPress={() =>
+                      toggleUserToselectedUsers(user.uid, user.avatar)
+                    }
+                  > */}
+                  <Thumbnail
+                    source={{ uri: user.avatar }}
+                    style={{ borderRadius: 13 }}
+                  />
+                  {/* </TouchableOpacity> */}
+                </Left>
+                <Body>
+                  <Text>{user.username}</Text>
+                  <Text note>{user.bio}</Text>
+                </Body>
+                {/* <Text note>3:43 pm</Text> */}
+                <CheckBox
+                  checked={this.state.selectedUsers.some(
+                    c_user => c_user.uid === user.uid
+                  )}
+                  color={"#1DC161"}
+                  style={{
+                    height: 20,
+                    width: 20,
+                    borderRadius: 5,
+                    marginRight: 25
+                  }}
                   onPress={() =>
                     toggleUserToselectedUsers(user.uid, user.avatar)
                   }
-                >
-                  <Thumbnail
-                    source={{ uri: user.avatar }}
-                    style={{ borderRadius: 13, width: 50, height: 50 }}
-                  />
-                </TouchableOpacity>
-              </Left>
-              <Body>
-                <Text>{user.username}</Text>
-                <Text note>{user.bio}</Text>
-              </Body>
-              {/* <Text note>3:43 pm</Text> */}
-              <CheckBox
-                checked={this.state.selectedUsers.some(
-                  c_user => c_user.uid === user.uid
-                )}
-                color={"#1DC161"}
-                style={{
-                  height: 20,
-                  width: 20,
-                  borderRadius: 5,
-                  marginRight: 25
-                }}
-                onPress={() => toggleUserToselectedUsers(user.uid, user.avatar)}
-              />
-            </ListItem>
+                />
+              </ListItem>
+            </TouchableWithoutFeedback>
           ))}
         </List>
       </View>
