@@ -46,18 +46,32 @@ export default class Middle extends React.Component {
           </View>
           {this.props.currentEvent.organizer.uid ===
           firebase.auth.currentUser.uid ? (
-            <Button
-              transparent
-              style={{
-                height: 40,
-                width: 40,
-                marginBottom: 7,
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-            >
-              <Icon.Feather name="settings" size={25} color="#797979" />
-            </Button>
+            <View style={{ flexDirection: "row" }}>
+              <Button
+                rounded
+                style={{
+                  marginRight: 5,
+                  paddingHorizontal: 10,
+                  height: 28,
+                  marginTop: 7,
+                  backgroundColor: "#FE245D"
+                }}
+                onLongPress={"event deleted"}
+              >
+                <Text style={{ color: "white" }}>delete</Text>
+              </Button>
+              <Button
+                transparent
+                style={{
+                  height: 40,
+                  width: 40,
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Icon.Feather name="settings" size={25} color="#797979" />
+              </Button>
+            </View>
           ) : (
             <Button
               transparent
