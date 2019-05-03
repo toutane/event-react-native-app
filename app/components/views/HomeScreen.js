@@ -34,7 +34,7 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsFilter: 0,
+      eventsFilter: 1,
       nbInvitation: 0
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
@@ -124,6 +124,7 @@ export default class HomeScreen extends React.Component {
               {...this.props}
             />
           </View>
+          <View style={{ height: 200 }} />
         </ScrollView>
         <Animated.View
           style={[

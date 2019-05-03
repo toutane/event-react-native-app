@@ -123,7 +123,7 @@ export default class EventCreationView extends React.Component {
             username: state.organizer_username,
             avatar: state.organizer_avatar
           },
-          { participants: state.invited_participants }
+          state.invited_participants
         )
         .then(props.navigation.navigate("Home"));
     }

@@ -232,16 +232,6 @@ export default class EventsList extends React.Component {
   componentDidMount() {
     this.listenToChanges();
   }
-
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.eventsFilter !== this.props.eventsFilter) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //     // console.log("same chat");
-  //   }
-  // }
-
   async listenToChanges() {
     firebase.db
       .collection("events")

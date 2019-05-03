@@ -45,7 +45,7 @@ export default class ECUsersList extends React.Component {
             selectedUsers: [
               ...this.state.selectedUsers,
               // uid
-              { uid: uid, avatar: avatar }
+              { uid: uid, avatar: avatar, state: "waiting" }
             ]
           },
           () => console.log(this.state.selectedUsers)
