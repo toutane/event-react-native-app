@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Icon } from "expo";
 import { Hr } from "../../Hr/styles";
 import Event_DatePicker from "./DatePicker";
@@ -22,40 +22,89 @@ export default class Event_CreationInfo extends React.Component {
           }}
         >
           {this.state.showLocation ? null : (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon.Feather name="clock" size={30} color="rgba(0, 0, 0, 0.2)" />
-              <View style={{ flexDirection: "column" }}>
-                <Text
-                  style={{
-                    marginLeft: 5,
-                    fontSize: 12,
-                    color: "#797979",
-                    fontWeight: "500"
-                  }}
-                >
-                  Time
-                </Text>
-                <Text
-                  style={{
-                    marginLeft: 5,
-                    fontSize: 14,
-                    color: "#1DC161",
-                    fontWeight: "600"
-                  }}
-                  onPress={this.props.showTimePicker}
-                >
-                  {moment(this.props.time).format("h:mm")}
-                </Text>
+            <TouchableOpacity onPress={this.props.showTimePicker}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Icon.Feather
+                  name="clock"
+                  size={30}
+                  color="rgba(0, 0, 0, 0.2)"
+                />
+                <View style={{ flexDirection: "column" }}>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 12,
+                      color: "#797979",
+                      fontWeight: "500"
+                    }}
+                  >
+                    Time
+                  </Text>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 14,
+                      color: "#1DC161",
+                      fontWeight: "600"
+                    }}
+                  >
+                    {moment(this.props.time).format("h:mm")}
+                  </Text>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
           {this.state.showLocation ? null : (
+            <TouchableOpacity onPress={this.props.showDatePicker}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Icon.Feather
+                  name="calendar"
+                  size={30}
+                  color="rgba(0, 0, 0, 0.2)"
+                />
+                <View style={{ flexDirection: "column" }}>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 12,
+                      color: "#797979",
+                      fontWeight: "500"
+                    }}
+                  >
+                    Date
+                  </Text>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      fontSize: 14,
+                      color: "#1DC161",
+                      fontWeight: "600"
+                    }}
+                    onPress={this.props.showDatePicker}
+                  >
+                    {moment(this.props.date).format("D/MM")}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("LocationPicker", {
+                setUpLocation: data => this.props.setUpLocation(data)
+              })
+            }
+            onLongPress={
+              this.props.location.description !== ""
+                ? () =>
+                    this.setState({
+                      showLocation: !this.state.showLocation
+                    })
+                : () => console.log("long press dans le vide")
+            }
+          >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon.Feather
-                name="calendar"
-                size={30}
-                color="rgba(0, 0, 0, 0.2)"
-              />
+              <Icon.Feather name="map-pin" size={30} color="rgba(0,0,0,0.2)" />
               <View style={{ flexDirection: "column" }}>
                 <Text
                   style={{
@@ -65,7 +114,7 @@ export default class Event_CreationInfo extends React.Component {
                     fontWeight: "500"
                   }}
                 >
-                  Date
+                  Location
                 </Text>
                 <Text
                   style={{
@@ -74,57 +123,18 @@ export default class Event_CreationInfo extends React.Component {
                     color: "#1DC161",
                     fontWeight: "600"
                   }}
-                  onPress={this.props.showDatePicker}
                 >
-                  {moment(this.props.date).format("D/MM")}
+                  {this.props.location.description !== ""
+                    ? this.state.showLocation
+                      ? this.props.location.description
+                      : this.props.location.description.length > 5
+                      ? this.props.location.description.slice(0, 4) + "..."
+                      : this.props.location.description
+                    : "Where ?"}
                 </Text>
               </View>
             </View>
-          )}
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon.Feather name="map-pin" size={30} color="rgba(0,0,0,0.2)" />
-            <View style={{ flexDirection: "column" }}>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontSize: 12,
-                  color: "#797979",
-                  fontWeight: "500"
-                }}
-              >
-                Location
-              </Text>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  fontSize: 14,
-                  color: "#1DC161",
-                  fontWeight: "600"
-                }}
-                onPress={() =>
-                  this.props.navigation.navigate("LocationPicker", {
-                    setUpLocation: data => this.props.setUpLocation(data)
-                  })
-                }
-                onLongPress={
-                  this.props.location.description !== ""
-                    ? () =>
-                        this.setState({
-                          showLocation: !this.state.showLocation
-                        })
-                    : () => console.log("long press dans le vide")
-                }
-              >
-                {this.props.location.description !== ""
-                  ? this.state.showLocation
-                    ? this.props.location.description
-                    : this.props.location.description.length > 5
-                    ? this.props.location.description.slice(0, 4) + "..."
-                    : this.props.location.description
-                  : "Where ?"}
-              </Text>
-            </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <Event_DatePicker {...this.props} />
         <Event_TimePicker {...this.props} />

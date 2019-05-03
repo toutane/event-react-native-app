@@ -143,7 +143,7 @@ export default class MembersView extends React.Component {
                     fontWeight: "bold"
                   }}
                 >
-                  Add members
+                  Manage members
                 </Text>
               </View>
             </View>

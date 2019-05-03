@@ -124,7 +124,6 @@ export default class HomeScreen extends React.Component {
               {...this.props}
             />
           </View>
-          <View style={{ height: 200 }} />
         </ScrollView>
         <Animated.View
           style={[
