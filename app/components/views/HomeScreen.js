@@ -102,28 +102,30 @@ export default class HomeScreen extends React.Component {
 
       extrapolate: "clamp"
     });
+    const scrollAnimation = Animated.event([
+      {
+        nativeEvent: {
+          contentOffset: { y: this.AnimatedHeaderValue }
+        }
+      }
+    ]);
 
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
           style={{ zIndex: 1, top: 100 }}
-          scrollEventThrottle={1}
-          onScroll={Animated.event([
-            {
-              nativeEvent: {
-                contentOffset: { y: this.AnimatedHeaderValue }
-              }
-            }
-          ])}
+          scrollEventThrottle={16}
+          onScroll={scrollAnimation}
         >
-          <View style={{ zIndex: 1, marginTop: 100 }}>
-            <EventsList
-              eventsFilter={this.state.eventsFilter}
-              setNbInvitations={nb => this.setNbInvitations(nb)}
-              setNewSlideIndex={this.setNewSlideIndex}
-              {...this.props}
-            />
-          </View>
+          {/* <View style={{ zIndex: 1, marginTop: 100 }}> */}
+          <EventsList
+            scrollAnimation={scrollAnimation}
+            eventsFilter={this.state.eventsFilter}
+            setNbInvitations={nb => this.setNbInvitations(nb)}
+            setNewSlideIndex={this.setNewSlideIndex}
+            {...this.props}
+          />
+          {/* </View> */}
         </ScrollView>
         <Animated.View
           style={[

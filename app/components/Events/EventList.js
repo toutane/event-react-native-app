@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, ScrollView, Animated, FlatList } from "react-native";
 import { Spinner } from "native-base";
 import EventCard from "./EventCard";
 import firebase from "../../firebase/firebase";
@@ -272,6 +272,7 @@ export default class EventsList extends React.Component {
   render() {
     return (
       <Swiper
+        // style={{ marginTop: 100 }}
         showsPagination={false}
         loop={false}
         index={this.props.eventsFilter}
@@ -283,69 +284,96 @@ export default class EventsList extends React.Component {
           }
         }
       >
-        <View style={{ flex: 1, marginBottom: 100 }}>
-          {this.state.spinner ? (
-            <Spinner />
-          ) : this.state.eventsList.filter(
-              event => event.organizer.uid === firebase.auth.currentUser.uid
-            ).length === 0 ? (
-            <MyEventCard />
-          ) : (
-            this.state.eventsList
-              .filter(
+        <ScrollView
+          scrollEventThrottle={16}
+          style={{ marginBottom: 100 }}
+          onScroll={this.props.scrollAnimation}
+        >
+          <View style={{ marginTop: 100, marginBottom: 100 }}>
+            {this.state.spinner ? (
+              <Spinner />
+            ) : this.state.eventsList.filter(
                 event => event.organizer.uid === firebase.auth.currentUser.uid
-              )
-              .map((event, i) => (
-                <EventCard
-                  key={i}
-                  currentEvent={event}
-                  eventsFilter={this.props.eventsFilter}
-                  {...this.props}
-                />
-              ))
-          )}
-        </View>
-        <View style={{ flex: 1, marginBottom: 100 }}>
-          {this.state.eventsList
-            .filter(
-              event =>
-                event.organizer.uid === firebase.auth.currentUser.uid ||
-                event.participants.find(
-                  part =>
-                    part.uid === firebase.auth.currentUser.uid &&
-                    part.state === "available"
+              ).length === 0 ? (
+              <MyEventCard />
+            ) : (
+              this.state.eventsList
+                .filter(
+                  event => event.organizer.uid === firebase.auth.currentUser.uid
                 )
-            )
-            .map((event, i) => (
-              <EventCard
-                key={i}
-                currentEvent={event}
-                eventsFilter={this.props.eventsFilter}
-                {...this.props}
-              />
-            ))}
-        </View>
-        <View style={{ flex: 1, marginBottom: 100 }}>
-          {this.state.eventsList
-            .filter(
-              event => event.organizer.uid !== firebase.auth.currentUser.uid
-            )
-            .filter(event =>
-              event.participants.find(
-                part =>
-                  part.uid === firebase.auth.currentUser.uid &&
-                  part.state === "waiting"
-              )
-            )
-            .map((event, i) => (
-              <EventCard
-                key={i}
-                currentEvent={event}
-                eventsFilter={this.props.eventsFilter}
-                {...this.props}
-              />
-            ))}
-        </View>
+                .map((event, i) => (
+                  <EventCard
+                    key={i}
+                    currentEvent={event}
+                    eventsFilter={this.props.eventsFilter}
+                    {...this.props}
+                  />
+                ))
+            )}
+          </View>
+        </ScrollView>
+
+        <ScrollView
+          scrollEventThrottle={16}
+          style={{ marginBottom: 100 }}
+          onScroll={this.props.scrollAnimation}
+        >
+          <View style={{ marginTop: 100, marginBottom: 100 }}>
+            {this.state.spinner ? (
+              <Spinner />
+            ) : (
+              this.state.eventsList
+                .filter(
+                  event =>
+                    event.organizer.uid === firebase.auth.currentUser.uid ||
+                    event.participants.find(
+                      part =>
+                        part.uid === firebase.auth.currentUser.uid &&
+                        part.state === "available"
+                    )
+                )
+                .map((event, i) => (
+                  <EventCard
+                    key={i}
+                    currentEvent={event}
+                    eventsFilter={this.props.eventsFilter}
+                    {...this.props}
+                  />
+                ))
+            )}
+          </View>
+        </ScrollView>
+        <ScrollView
+          scrollEventThrottle={16}
+          style={{ marginBottom: 100 }}
+          onScroll={this.props.scrollAnimation}
+        >
+          <View style={{ marginTop: 100, marginBottom: 100 }}>
+            {this.state.spinner ? (
+              <Spinner />
+            ) : (
+              this.state.eventsList
+                .filter(
+                  event => event.organizer.uid !== firebase.auth.currentUser.uid
+                )
+                .filter(event =>
+                  event.participants.find(
+                    part =>
+                      part.uid === firebase.auth.currentUser.uid &&
+                      part.state === "waiting"
+                  )
+                )
+                .map((event, i) => (
+                  <EventCard
+                    key={i}
+                    currentEvent={event}
+                    eventsFilter={this.props.eventsFilter}
+                    {...this.props}
+                  />
+                ))
+            )}
+          </View>
+        </ScrollView>
       </Swiper>
     );
   }

@@ -11,8 +11,7 @@ export default class EventCard extends React.Component {
       <TouchableOpacity
         onPress={() =>
           this.props.navigation.navigate("EventView", {
-            currentEvent: this.props.currentEvent,
-            eventsFilter: this.props.eventsFilter
+            currentEvent: this.props.currentEvent
           })
         }
       >
