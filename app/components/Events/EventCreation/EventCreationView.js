@@ -8,6 +8,7 @@ import MiddleCreation from "./Middle";
 import Event_CreationInfo from "./Info";
 import MembersView from "./MembersView";
 import firebase from "../../../firebase/firebase";
+const moment = require("moment");
 
 export default class EventCreationView extends React.Component {
   static navigationOptions = {
@@ -16,6 +17,8 @@ export default class EventCreationView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      organizer_uid: firebase.auth.currentUser.uid,
+      organizer_username: firebase.auth.currentUser.displayName,
       organizer_avatar: "null",
       title: "",
       text: "",
@@ -81,18 +84,66 @@ export default class EventCreationView extends React.Component {
   setUpLocation = location => {
     this.setState({ location: location });
   };
-
+  addBadge() {
+    this.setState({
+      badge: [...this.state.badge, ""]
+    });
+  }
+  addBadgeValue(e, index) {
+    this.setState(
+      {
+        badge: [
+          ...this.state.badge.slice(0, index),
+          e,
+          ...this.state.badge.slice(index + 1, this.state.badge.length)
+        ]
+      },
+      () => console.log(this.state.badge)
+    );
+  }
+  filterBadge() {
+    this.setState({
+      badge: this.state.badge.filter(e => !/^\s*$/.test(e))
+    });
+  }
   render() {
+    async function createNewEvent(props, state) {
+      await firebase
+        .createNewEvent(
+          {
+            title: state.title,
+            text: state.text,
+            badge: state.badge,
+            date: moment(state.date).format("D/MM"),
+            time: moment(state.time).format("h:mm"),
+            location: state.location.description
+          },
+          {
+            uid: state.organizer_uid,
+            username: state.organizer_username,
+            avatar: state.organizer_avatar
+          },
+          { participants: state.invited_participants }
+        )
+        .then(props.navigation.navigate("Home"));
+    }
     return (
       <View>
         <ScrollView style={{ zIndex: 1 }} scrollEventThrottle={1}>
           <View style={[styles.headerBox, { zIndex: 99 }]}>
             <View style={{ marginTop: 45 }}>
-              <Header {...this.props} />
+              <Header
+                {...this.props}
+                createNewEvent={() => createNewEvent(this.props, this.state)}
+              />
               <MiddleCreation
                 setInputsStates={(stateContent, stateName) =>
                   this.setInputsStates(stateContent, stateName)
                 }
+                badge={this.state.badge}
+                addBadge={() => this.addBadge()}
+                addBadgeValue={(e, index) => this.addBadgeValue(e, index)}
+                filterBadge={() => this.filterBadge()}
               />
               <Event_CreationInfo
                 {...this.props}

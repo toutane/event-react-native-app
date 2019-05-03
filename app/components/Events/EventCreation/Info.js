@@ -7,7 +7,6 @@ import Event_TimePicker from "./TimePicker";
 import LocationPicker from "./LocationPicker";
 const moment = require("moment");
 
-moment.locale("fr");
 export default class Event_CreationInfo extends React.Component {
   state = { showLocation: false };
   render() {

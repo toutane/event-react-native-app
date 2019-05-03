@@ -66,13 +66,7 @@ export default class MiddleCreation extends React.Component {
               }}
             >
               <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({
-                      badge: [...this.state.badge, ""]
-                    })
-                  }
-                >
+                <TouchableOpacity onPress={() => this.props.addBadge()}>
                   <Icon.Feather
                     name="tag"
                     size={28}
@@ -80,7 +74,7 @@ export default class MiddleCreation extends React.Component {
                     style={{ marginRight: 7 }}
                   />
                 </TouchableOpacity>
-                {this.state.badge.map((wrd, index) => (
+                {this.props.badge.map((wrd, index) => (
                   <TextInput
                     key={index}
                     style={{
@@ -97,35 +91,10 @@ export default class MiddleCreation extends React.Component {
                     autoFocus={true}
                     returnKeyType="go"
                     selectionColor={"#797979"}
-                    onChangeText={e =>
-                      this.setState(
-                        {
-                          badge: [
-                            ...this.state.badge.slice(0, index),
-                            e,
-                            ...this.state.badge.slice(
-                              index + 1,
-                              this.state.badge.length
-                            )
-                          ]
-                          // [...this.state.badge, ]
-                          // this.state.badge
-                          //   .find((e, i) => i === index)
-                          //   .concat([e])
-                          // .concat(this.state.badge)
-                          // .filter((e, i) => i !== index)
-                        },
-                        () => console.log(this.state.badge)
-                      )
-                    }
+                    onChangeText={e => this.props.addBadgeValue(e, index)}
                     onSubmitEditing={
                       /^\s*$/.test(wrd)
-                        ? () =>
-                            this.setState({
-                              badge: this.state.badge.filter(
-                                e => !/^\s*$/.test(e)
-                              )
-                            })
+                        ? () => this.props.filterBadge()
                         : () => null
                     }
                   />
