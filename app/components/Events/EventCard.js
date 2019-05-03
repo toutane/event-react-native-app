@@ -49,7 +49,7 @@ export default class EventCard extends React.Component {
                 #{" "}
                 {this.props.currentEvent.event.title.length > 15 &&
                 this.props.currentEvent.participants.length !== 0
-                  ? this.props.currentEvent.event.title.slice(0, 15) + "..."
+                  ? this.props.currentEvent.event.title.slice(0, 12) + "..."
                   : this.props.currentEvent.event.title.length > 20
                   ? this.props.currentEvent.event.title.slice(0, 17) + "..."
                   : this.props.currentEvent.event.title}
