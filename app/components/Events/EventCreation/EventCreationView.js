@@ -21,6 +21,7 @@ export default class EventCreationView extends React.Component {
       text: "",
       badge: [],
       invited_participants: [],
+      selectedUsers: [],
       date: new Date(),
       isDatePickerVisible: false,
       time: new Date(),
@@ -36,7 +37,7 @@ export default class EventCreationView extends React.Component {
   addParticipants(s_parts) {
     this.setState(
       {
-        invited_participants: this.state.invited_participants.concat(s_parts)
+        invited_participants: s_parts
       },
       console.log(
         "here the invited of this event : " + this.state.invited_participants
@@ -80,6 +81,7 @@ export default class EventCreationView extends React.Component {
   setUpLocation = location => {
     this.setState({ location: location });
   };
+
   render() {
     return (
       <View>

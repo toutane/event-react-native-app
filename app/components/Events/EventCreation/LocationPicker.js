@@ -28,7 +28,7 @@ export default class LocationPicker extends React.Component {
         <View
           style={{
             marginTop: 55,
-            marginBottom: 30,
+            marginBottom: 15,
             flexDirection: "row",
             justifyContent: "center"
           }}
@@ -83,11 +83,13 @@ export default class LocationPicker extends React.Component {
               paddingHorizontal: 10
             },
             textInput: {
-              height: 34,
+              height: 36,
+              marginRight: 5,
+              marginLeft: 5,
+              backgroundColor: "rgba(0, 0, 0, 0.04)",
               borderRadius: 10,
-              position: "absolute",
-              width: "100%",
-              top: -15
+              paddingHorizontal: 10,
+              fontSize: 18
             },
             description: {
               fontWeight: "bold"

@@ -9,17 +9,20 @@ import {
   CheckBox,
   Button
 } from "native-base";
-import { View } from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import { HeaderBackButton } from "react-navigation";
 import firebase from "../../../firebase/firebase";
-import { TextInput } from "react-native";
-
+import { screenWidth } from "../../../utils/dimensions";
+import { Icon } from "expo";
 export default class ECUsersList extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
   constructor(props) {
     super(props);
     this.state = {
       usersList: [],
-      usersSelected: []
+      selectedUsers: []
     };
   }
   componentDidMount() {
@@ -28,98 +31,162 @@ export default class ECUsersList extends React.Component {
         usersList: usersList
       })
     );
+    this.setState({
+      selectedUsers: this.props.navigation.getParam("invited_participants")
+    });
   }
 
   render() {
-    // async function createNewChat(props, usersSelected, chatName) {
-    //   await firebase.createNewChat(chatName).then(groupUid =>
-    //     firebase.setUpUsers(groupUid, usersSelected, chatName).then(
-    //       props.navigation.navigate("ChatScreen", {
-    //         groupUid: groupUid,
-    //         groupTitle: chatName
-    //       })
-    //     )
-    //   );
-    // }
-
-    const toggleUserToUsersSelected = (uid, avatar) => {
-      // add uid from usersSelected []
-      if (this.state.usersSelected.some(user => user.uid === uid) === false) {
+    const toggleUserToselectedUsers = (uid, avatar) => {
+      // add uid from selectedUsers []
+      if (this.state.selectedUsers.some(user => user.uid === uid) === false) {
         this.setState(
           {
-            usersSelected: [
-              ...this.state.usersSelected,
+            selectedUsers: [
+              ...this.state.selectedUsers,
               // uid
               { uid: uid, avatar: avatar }
             ]
           },
-          () => console.log(this.state.usersSelected)
+          () => console.log(this.state.selectedUsers)
         );
       }
-      // supress uid from usersSelected []
+      // supress uid from selectedUsers []
       else {
         this.setState(
           {
-            usersSelected: this.state.usersSelected.filter(
+            selectedUsers: this.state.selectedUsers.filter(
               uidItem => uidItem.uid !== uid
             )
           },
-          () => console.log(this.state.usersSelected)
+          () => console.log(this.state.selectedUsers)
         );
       }
     };
 
     return (
       <View>
-        {/* <View style={{ marginTop: 15, alignItems: "center" }}>
-          {this.state.usersSelected.length !== 0 ? (
-            <View style={{ flexDirection: "row" }}>
-              <TextInput
-                placeholder="Enter chat name..."
-                style={{
-                  fontSize: 18,
-                  margin: 14,
-                  height: 37,
-                  width: 170,
-                  paddingHorizontal: 10,
-                  borderRadius: 4,
-                  borderColor: "#0984e3",
-                  borderWidth: 1
-                }}
-                autoFocus={false}
-                returnKeyType="go"
-                color="#0984e3"
-                onChangeText={e => this.setState({ chatName: e })}
-                onSubmitEditing={() =>
-                  createNewChat(
-                    this.props,
-                    [
-                      ...this.state.usersSelected,
-                      firebase.auth.currentUser.uid
-                    ],
-                    this.state.chatName
-                  )
+        <View
+          style={{
+            paddingVertical: 15,
+            backgroundColor: "#F7F7F7"
+          }}
+        >
+          <View
+            style={{
+              marginTop: 40,
+              marginBottom: 23,
+              flexDirection: "row",
+              justifyContent: "center"
+            }}
+          >
+            <Text style={{ fontWeight: "500", fontSize: 16 }}>
+              Participants
+            </Text>
+            <Button
+              style={{
+                position: "absolute",
+                left: screenWidth - 50,
+                top: -7,
+                height: 35,
+                width: 35,
+                borderRadius: 10,
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+                justifyContent: "center"
+              }}
+              onPress={() =>
+                this.props.navigation.navigate("EventCreationView")
+              }
+            >
+              <Icon.Ionicons
+                name="ios-arrow-round-up"
+                size={25}
+                color="black"
+              />
+            </Button>
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <TextInput
+              style={{
+                width: screenWidth - 75,
+                height: 36,
+                marginRight: 15,
+                marginLeft: 15,
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+                borderRadius: 10,
+                paddingHorizontal: 10,
+                fontSize: 18
+              }}
+              selectionColor={"#1DC161"}
+              autoCapitalize="none"
+              placeholder={"search"}
+              autoFocus={false}
+              returnKeyType="next"
+              // onSubmitEditing={() => this.passwordInput.focus()}
+              // onChangeText={e =>
+              //   this.setState({
+              //     email: e,
+              //     emailInputColor: "rgba(0, 0, 0, 0.1)",
+              //     error: "null"
+              //   })
+              // }
+            />
+            <Button
+              style={{
+                position: "absolute",
+                left: screenWidth - 50,
+                height: 35,
+                width: 35,
+                borderRadius: 10,
+                backgroundColor:
+                  this.state.selectedUsers.length > 0 &&
+                  this.state.selectedUsers !==
+                    this.props.navigation.getParam("invited_participants")
+                    ? "#1DC161"
+                    : "rgba(0, 0, 0, 0.04)",
+                justifyContent: "center"
+              }}
+              onPress={
+                this.state.selectedUsers.length > 0 &&
+                this.state.selectedUsers !==
+                  this.props.navigation.getParam("invited_participants")
+                  ? () => {
+                      this.props.navigation.getParam("addParticipants")(
+                        this.state.selectedUsers
+                      );
+                      this.props.navigation.navigate("EventCreationView");
+                    }
+                  : null
+              }
+            >
+              <Icon.Feather
+                name="check"
+                size={20}
+                color={
+                  this.state.selectedUsers.length > 0 &&
+                  this.state.selectedUsers !==
+                    this.props.navigation.getParam("invited_participants")
+                    ? "white"
+                    : "black"
                 }
               />
-            </View>
-          ) : (
-            <View>
-              <Button
-                transparent
-                info
-                onPress={() => null}
-                style={{ margin: 10 }}
-              >
-                <Text style={{ fontSize: 18 }}>Select friend(s)</Text>
-              </Button>
-            </View>
-          )}
-        </View> */}
+            </Button>
+          </View>
+        </View>
         <List>
           {this.state.usersList.map((user, i) => (
             <ListItem avatar key={i}>
               <Left>
-                <Thumbnail source={{ uri: user.avatar }} />
+                <TouchableOpacity
+                  onPress={() =>
+                    toggleUserToselectedUsers(user.uid, user.avatar)
+                  }
+                >
+                  <Thumbnail
+                    source={{ uri: user.avatar }}
+                    style={{ borderRadius: 13, width: 50, height: 50 }}
+                  />
+                </TouchableOpacity>
               </Left>
               <Body>
                 <Text>{user.username}</Text>
@@ -127,25 +194,21 @@ export default class ECUsersList extends React.Component {
               </Body>
               {/* <Text note>3:43 pm</Text> */}
               <CheckBox
-                checked={this.state.usersSelected.some(
+                checked={this.state.selectedUsers.some(
                   c_user => c_user.uid === user.uid
                 )}
-                style={{ marginRight: 25 }}
-                onPress={() => toggleUserToUsersSelected(user.uid, user.avatar)}
+                color={"#1DC161"}
+                style={{
+                  height: 20,
+                  width: 20,
+                  borderRadius: 5,
+                  marginRight: 25
+                }}
+                onPress={() => toggleUserToselectedUsers(user.uid, user.avatar)}
               />
             </ListItem>
           ))}
         </List>
-        <Button
-          onPress={() => {
-            this.props.navigation.getParam("addParticipants")(
-              this.state.usersSelected
-            );
-            this.props.navigation.navigate("EventCreationView");
-          }}
-        >
-          <Text>Add selected users</Text>
-        </Button>
       </View>
     );
   }

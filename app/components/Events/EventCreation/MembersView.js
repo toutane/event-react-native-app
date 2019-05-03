@@ -128,7 +128,8 @@ export default class MembersView extends React.Component {
                   }}
                   onPress={() =>
                     this.props.navigation.navigate("EventCreation_UsersList", {
-                      addParticipants: part => this.props.addParticipants(part)
+                      addParticipants: part => this.props.addParticipants(part),
+                      invited_participants: this.props.invited_participants
                     })
                   }
                 >
