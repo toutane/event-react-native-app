@@ -39,7 +39,10 @@ export default class EventView extends React.Component {
       .get();
     return this.setState(
       {
-        currentEvent: currentEvent.data()
+        currentEvent: {
+          ...currentEvent.data(),
+          ...{ id: this.props.navigation.getParam("currentEvent").id }
+        }
       },
       () => console.log("updating event list")
     );

@@ -11,6 +11,14 @@ export default class Middle extends React.Component {
       moreView: false
     };
   }
+  deleteEventFunction = async id => {
+    await this.props.navigation.navigate("Home");
+    firebase.db
+      .collection("events")
+      .doc(id)
+      .delete()
+      .then(() => console.log("event deleted"));
+  };
   render() {
     return (
       <View style={{ paddingHorizontal: 25, marginBottom: 20 }}>
@@ -56,7 +64,15 @@ export default class Middle extends React.Component {
                   marginTop: 7,
                   backgroundColor: "#FE245D"
                 }}
-                onLongPress={"event deleted"}
+                onLongPress={
+                  () => this.deleteEventFunction(this.props.currentEvent.id)
+                  // firebase.db
+                  //   .collection("events")
+                  //   .doc(this.props.currentEvent.id)
+                  //   .delete()
+                  //   .then(() => this.props.navigation.navigate("Home"))
+                  // console.log(this.props.currentEvent.id)
+                }
               >
                 <Text style={{ color: "white" }}>delete</Text>
               </Button>
