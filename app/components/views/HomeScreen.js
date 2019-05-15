@@ -186,8 +186,18 @@ export default class HomeScreen extends React.Component {
                       backgroundColor: "rgba(255, 255, 255, 0.15)",
                       justifyContent: "center"
                     }}
+                    onPress={() =>
+                      this.props.navigation.navigate("NotificationsView")
+                    }
                   >
-                    <Icon.Feather name="bell" size={30} color="white" />
+                    <Icon.Feather
+                      name="bell"
+                      size={30}
+                      color="white"
+                      onPress={() =>
+                        this.props.navigation.navigate("NotificationsView")
+                      }
+                    />
                   </Button>
                 </Animated.View>
               </View>
@@ -218,8 +228,8 @@ export default class HomeScreen extends React.Component {
             rounded
             style={
               this.state.eventsFilter === 0
-                ? [styles.activeEventBtn, { marginLeft: 10 }]
-                : [styles.eventBtn, { marginLeft: 10 }]
+                ? [styles.activeEventBtn, { marginLeft: 13 }]
+                : [styles.eventBtn, { marginLeft: 13 }]
             }
             onPress={() => this.setState({ eventsFilter: 0 })}
           >
@@ -237,8 +247,8 @@ export default class HomeScreen extends React.Component {
             rounded
             style={
               this.state.eventsFilter === 1
-                ? [styles.activeEventBtn, { marginLeft: 10 }]
-                : [styles.eventBtn, { marginLeft: 10 }]
+                ? [styles.activeEventBtn, { marginLeft: 13 }]
+                : [styles.eventBtn, { marginLeft: 13 }]
             }
             onPress={() => this.setState({ eventsFilter: 1 })}
           >
@@ -257,8 +267,8 @@ export default class HomeScreen extends React.Component {
             rounded
             style={
               this.state.eventsFilter === 2
-                ? [styles.activeEventBtn, { marginLeft: 10 }]
-                : [styles.eventBtn, { marginLeft: 10 }]
+                ? [styles.activeEventBtn, { marginLeft: 13 }]
+                : [styles.eventBtn, { marginLeft: 13 }]
             }
             onPress={() => this.setState({ eventsFilter: 2 })}
           >

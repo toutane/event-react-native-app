@@ -22,7 +22,7 @@ export default class NotificationsScreen extends React.Component {
           <Button
             bordered
             style={{ borderColor: "#363A43", marginTop: 15 }}
-            onPress={() => logout(this.props)}
+            // onPress={() => logout(this.props)}
           >
             <Icon
               name="sign-out"
@@ -31,6 +31,21 @@ export default class NotificationsScreen extends React.Component {
               style={{ marginLeft: 10 }}
             />
             <Text style={{ color: "#363A43" }}>View my notifs🎈</Text>
+          </Button>
+          <Button
+            bordered
+            style={{ borderColor: "#363A43", marginTop: 15, marginLeft: 10 }}
+            onPress={() => {
+              this.props.navigation.navigate("Home");
+            }}
+          >
+            <Icon
+              name="sign-out"
+              size={20}
+              color={"#363A43"}
+              style={{ marginLeft: 10 }}
+            />
+            <Text style={{ color: "#363A43" }}>Back Home🏡</Text>
           </Button>
         </View>
       </View>
