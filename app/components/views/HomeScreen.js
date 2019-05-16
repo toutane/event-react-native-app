@@ -141,68 +141,66 @@ export default class HomeScreen extends React.Component {
             headerFrom={"#158E47"}
             headerTo={"#1DC161"}
           />
-          <Animated.View
-            style={{
-              top: AnimatedTextPosition,
-              position: "absolute"
-            }}
-          >
-            <View>
+        </Animated.View>
+        <Animated.View
+          style={{
+            zIndex: 10,
+
+            top: AnimatedTextPosition,
+            position: "absolute"
+          }}
+        >
+          <View>
+            <Animated.Text
+              style={[styles.subtitle, { opacity: AnimateHeaderSubtitle }]}
+            >
+              MARDI 23 AVRIL
+            </Animated.Text>
+            <View
+              style={{
+                flexDirection: "row"
+              }}
+            >
+              {/* <View style={{ zIndex: 10, flexDirection: "collum" }}> */}
               <Animated.Text
-                style={[styles.subtitle, { opacity: AnimateHeaderSubtitle }]}
+                style={[
+                  styles.mainTitle,
+                  {
+                    fontSize: AnimateHeaderText
+                  }
+                ]}
               >
-                MARDI 23 AVRIL
+                Home
               </Animated.Text>
-              <View
+              <Animated.View
                 style={{
-                  flexDirection: "row"
+                  top: AnimatedButtonsPosition,
+                  position: "absolute"
                 }}
+                onPress={() =>
+                  this.props.navigation.navigate("NotificationsView")
+                }
               >
-                <View style={{ zIndex: 10, flexDirection: "collum" }}>
-                  <Animated.Text
-                    style={[
-                      styles.mainTitle,
-                      {
-                        fontSize: AnimateHeaderText
-                      }
-                    ]}
-                  >
-                    Home
-                  </Animated.Text>
-                </View>
-                <Animated.View
+                <TouchableOpacity
                   style={{
-                    top: AnimatedButtonsPosition,
-                    position: "absolute"
+                    height: 50,
+                    width: 50,
+                    left: screenWidth - 80,
+                    position: "absolute",
+                    borderRadius: 13,
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    justifyContent: "center",
+                    alignItems: "center"
                   }}
+                  onPress={() =>
+                    this.props.navigation.navigate("NotificationsView")
+                  }
                 >
-                  <Button
-                    style={{
-                      height: 50,
-                      width: 50,
-                      borderRadius: 13,
-                      left: screenWidth - 80,
-                      position: "absolute",
-                      backgroundColor: "rgba(255, 255, 255, 0.15)",
-                      justifyContent: "center"
-                    }}
-                    onPress={() =>
-                      this.props.navigation.navigate("NotificationsView")
-                    }
-                  >
-                    <Icon.Feather
-                      name="bell"
-                      size={30}
-                      color="white"
-                      onPress={() =>
-                        this.props.navigation.navigate("NotificationsView")
-                      }
-                    />
-                  </Button>
-                </Animated.View>
-              </View>
+                  <Icon.Feather name="bell" size={30} color="white" />
+                </TouchableOpacity>
+              </Animated.View>
             </View>
-          </Animated.View>
+          </View>
         </Animated.View>
         <Animated.View
           style={{
