@@ -1,19 +1,17 @@
 import React from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  Animated,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import { Icon } from "expo";
 import { theme } from "../../themes";
+import FollowRequestList from "../notifications/FollowRequestList";
+import firebase from "../../firebase/firebase";
+import FollowRequestHeader from "../notifications/FollowRequestHeader";
 
 const Header_Maximum_Height = 150;
 const Header_Minimum_Height = 100;
+const FollowRequest_Maximum_Height = 170;
+const FollowRequest_Minimum_Height = 102;
 const Header_Maximum_Text_Pos = 75;
 const Header_Minimum_Text_Pos = 50;
 
@@ -23,13 +21,44 @@ export default class NotificationsScreen extends React.Component {
   };
   constructor(props) {
     super(props);
+    this.state = { notifications: [], spinner: true };
     this.AnimatedHeaderValue = new Animated.Value(0);
+  }
+  componentDidMount() {
+    this.listenToChanges();
+  }
+  async listenToChanges() {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .onSnapshot(() =>
+        this.setState({ spinner: true }, () =>
+          firebase
+            .getCurrentUserNotifications()
+            .then(notifications =>
+              this.setState(
+                { notifications: notifications },
+                this.setState({ spinner: false })
+              )
+            )
+        )
+      );
   }
   render() {
     const AnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
       inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
 
       outputRange: [Header_Maximum_Height, Header_Minimum_Height],
+
+      extrapolate: "clamp"
+    });
+    const AnimateFollowRequestHeight = this.AnimatedHeaderValue.interpolate({
+      inputRange: [
+        0,
+        FollowRequest_Maximum_Height - FollowRequest_Minimum_Height
+      ],
+
+      outputRange: [FollowRequest_Maximum_Height, FollowRequest_Minimum_Height],
 
       extrapolate: "clamp"
     });
@@ -61,56 +90,25 @@ export default class NotificationsScreen extends React.Component {
             shadowOpacity: 0.1,
             shadowRadius: 20,
             shadowColor: "rgba(0, 0, 0, 1)",
-            paddingHorizontal: 25,
+            // paddingHorizontal: 30,
             borderTopRightRadius: 35,
             borderTopLeftRadius: 35
           }}
         >
-          <ScrollView
-            style={{ top: 0 }}
-            scrollEventThrottle={16}
-            onScroll={scrollAnimation}
-          >
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
-              Text
-            </Text>
-          </ScrollView>
+          <FollowRequestList
+            scrollAnimation={scrollAnimation}
+            notifications={this.state.notifications}
+            spinner={this.state.spinner}
+          />
         </Animated.View>
+        <FollowRequestHeader
+          notifications={this.state.notifications}
+          AnimateFollowRequestHeight={AnimateFollowRequestHeight}
+        />
         <Animated.View
           style={[
             styles.headerBox,
             {
-              // height: AnimateHeaderHeight,
               height: 300,
               width: screenWidth
             }
@@ -136,9 +134,7 @@ export default class NotificationsScreen extends React.Component {
             }}
           >
             {/* <View style={{ zIndex: 10, flexDirection: "collum" }}> */}
-            <Animated.Text style={styles.mainTitle}>
-              2 Notifications
-            </Animated.Text>
+            <Animated.Text style={styles.mainTitle}>Notification</Animated.Text>
             <TouchableOpacity
               style={{
                 height: 50,
