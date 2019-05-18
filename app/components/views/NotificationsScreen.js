@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Text,
   Animated,
   TouchableOpacity
 } from "react-native";
@@ -11,18 +12,10 @@ import HeaderGradient from "../AnimatedHeader/styles";
 import { Icon } from "expo";
 import { theme } from "../../themes";
 
-// const Header_Maximum_Height = 150;
-// const Header_Minimum_Height = 100;
-const Header_Maximum_Text = 35;
-const Header_Minimum_Text = 35;
-const Header_Maximum_Text_Opacity = 1;
-const Header_Minimum_Text_Opacity = 0;
+const Header_Maximum_Height = 150;
+const Header_Minimum_Height = 100;
 const Header_Maximum_Text_Pos = 75;
-const Header_Minimum_Text_Pos = 30;
-const Header_Maximum_Buttons_Pos = 0;
-const Header_Minimum_Buttons_Pos = -5;
-const Header_Maximum_Event_Filter_Pos = 150;
-const Header_Minimum_Event_Filter_Pos = -5;
+const Header_Minimum_Text_Pos = 50;
 
 export default class NotificationsScreen extends React.Component {
   static navigationOptions = {
@@ -33,28 +26,10 @@ export default class NotificationsScreen extends React.Component {
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   render() {
-    // const AnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
-    //   inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
+    const AnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
+      inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
 
-    //   outputRange: [Header_Maximum_Height, Header_Minimum_Height],
-
-    //   extrapolate: "clamp"
-    // });
-
-    const AnimateHeaderText = this.AnimatedHeaderValue.interpolate({
-      inputRange: [0, Header_Maximum_Text - Header_Minimum_Text],
-
-      outputRange: [Header_Maximum_Text, Header_Minimum_Text],
-
-      extrapolate: "clamp"
-    });
-    const AnimateHeaderSubtitle = this.AnimatedHeaderValue.interpolate({
-      inputRange: [
-        0,
-        Header_Maximum_Text_Opacity - Header_Minimum_Text_Opacity
-      ],
-
-      outputRange: [Header_Maximum_Text_Opacity, Header_Minimum_Text_Opacity],
+      outputRange: [Header_Maximum_Height, Header_Minimum_Height],
 
       extrapolate: "clamp"
     });
@@ -62,26 +37,6 @@ export default class NotificationsScreen extends React.Component {
       inputRange: [0, Header_Maximum_Text_Pos - Header_Minimum_Text_Pos],
 
       outputRange: [Header_Maximum_Text_Pos, Header_Minimum_Text_Pos],
-
-      extrapolate: "clamp"
-    });
-    const AnimatedButtonsPosition = this.AnimatedHeaderValue.interpolate({
-      inputRange: [0, Header_Maximum_Buttons_Pos - Header_Minimum_Buttons_Pos],
-
-      outputRange: [Header_Maximum_Buttons_Pos, Header_Minimum_Buttons_Pos],
-
-      extrapolate: "clamp"
-    });
-    const EventFilterPosition = this.AnimatedHeaderValue.interpolate({
-      inputRange: [
-        0,
-        Header_Maximum_Event_Filter_Pos - Header_Minimum_Event_Filter_Pos
-      ],
-
-      outputRange: [
-        Header_Maximum_Event_Filter_Pos,
-        Header_Minimum_Event_Filter_Pos
-      ],
 
       extrapolate: "clamp"
     });
@@ -95,26 +50,62 @@ export default class NotificationsScreen extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView
-          style={{ zIndex: 1, top: 0 }}
-          scrollEventThrottle={16}
-          onScroll={scrollAnimation}
+        <Animated.View
+          style={{
+            zIndex: 1,
+            top: AnimateHeaderHeight,
+            width: screenWidth,
+            position: "absolute",
+            height: 900,
+            backgroundColor: "#fff",
+            shadowOpacity: 0.1,
+            shadowRadius: 20,
+            shadowColor: "rgba(0, 0, 0, 1)",
+            paddingHorizontal: 25,
+            borderTopRightRadius: 35,
+            borderTopLeftRadius: 35
+          }}
         >
-          <View
-            style={{
-              marginTop: 130,
-              height: 900,
-              backgroundColor: "#fff",
-              shadowOpacity: 0.1,
-              shadowRadius: 20,
-              shadowColor: "rgba(0, 0, 0, 1)",
-              paddingVertical: 30,
-              paddingHorizontal: 25,
-              borderTopRightRadius: 35,
-              borderTopLeftRadius: 35
-            }}
-          />
-        </ScrollView>
+          <ScrollView
+            style={{ top: 0 }}
+            scrollEventThrottle={16}
+            onScroll={scrollAnimation}
+          >
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 55, fontWeight: "bold" }}>
+              Text
+            </Text>
+          </ScrollView>
+        </Animated.View>
         <Animated.View
           style={[
             styles.headerBox,
@@ -145,38 +136,25 @@ export default class NotificationsScreen extends React.Component {
             }}
           >
             {/* <View style={{ zIndex: 10, flexDirection: "collum" }}> */}
-            <Animated.Text
-              style={[
-                styles.mainTitle,
-                {
-                  fontSize: AnimateHeaderText
-                }
-              ]}
-            >
+            <Animated.Text style={styles.mainTitle}>
               2 Notifications
             </Animated.Text>
-            <Animated.View
+            <TouchableOpacity
               style={{
-                top: AnimatedButtonsPosition,
-                position: "absolute"
+                height: 50,
+                width: 50,
+                left: screenWidth - 80,
+                top: -10,
+                position: "absolute",
+                borderRadius: 13,
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                justifyContent: "center",
+                alignItems: "center"
               }}
+              onPress={() => this.props.navigation.navigate("Home")}
             >
-              <TouchableOpacity
-                style={{
-                  height: 50,
-                  width: 50,
-                  left: screenWidth - 80,
-                  position: "absolute",
-                  borderRadius: 13,
-                  backgroundColor: "rgba(255, 255, 255, 0.15)",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-                onPress={() => this.props.navigation.navigate("Home")}
-              >
-                <Icon.Feather name="bell" size={30} color="white" />
-              </TouchableOpacity>
-            </Animated.View>
+              <Icon.Feather name="bell" size={30} color="white" />
+            </TouchableOpacity>
           </View>
         </Animated.View>
       </View>
@@ -193,6 +171,7 @@ const styles = StyleSheet.create({
     shadowRadius: 15
   },
   mainTitle: {
+    fontSize: 35,
     marginLeft: 30,
     fontWeight: "bold",
     color: "rgba(255,255,255,1)"
