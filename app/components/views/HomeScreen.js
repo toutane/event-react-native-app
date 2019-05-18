@@ -161,7 +161,6 @@ export default class HomeScreen extends React.Component {
                 flexDirection: "row"
               }}
             >
-              {/* <View style={{ zIndex: 10, flexDirection: "collum" }}> */}
               <Animated.Text
                 style={[
                   styles.mainTitle,
@@ -177,9 +176,6 @@ export default class HomeScreen extends React.Component {
                   top: AnimatedButtonsPosition,
                   position: "absolute"
                 }}
-                onPress={() =>
-                  this.props.navigation.navigate("NotificationsView")
-                }
               >
                 <TouchableOpacity
                   style={{

@@ -17,6 +17,7 @@ import NotificationNavigator from "./NotificationNavigator";
 
 import HomeScreen from "../components/views/HomeScreen";
 import MessageScreen from "../components/views/MessageScreen";
+import NotificationsScreen from "../components/views/NotificationsScreen";
 import ProfileScreen from "../components/views/ProfileScreen";
 
 const tabBar = {
@@ -32,6 +33,13 @@ const tabBar = {
     navigationOptions: {
       tabBarLabel: "Home",
       tabBarIcon: props => <TabIcon iconName="grid" {...props} />
+    }
+  },
+  NotificationsScreen: {
+    screen: NotificationsScreen,
+    navigationOptions: {
+      tabBarLabel: "Bell",
+      tabBarIcon: props => <TabIcon iconName="bell" {...props} />
     }
   },
   Profile: {
@@ -55,7 +63,7 @@ const tabBarConfig = {
       {...props}
     />
   ),
-  initialRouteName: "Home",
+  initialRouteName: "NotificationsScreen",
   tabBarOptions: {
     inactiveTintColor: theme.colors.inactiveColor
   }
