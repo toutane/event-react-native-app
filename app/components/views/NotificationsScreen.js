@@ -15,16 +15,40 @@ const FollowRequest_Minimum_Height = 102;
 const Header_Maximum_Text_Pos = 75;
 const Header_Minimum_Text_Pos = 50;
 
+const notifications = [
+  {
+    type: "follow_request",
+    user: {
+      username: "Paloa Jump",
+      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+      avatar:
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+      bio: "it's me Paola"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Julie Pummet",
+      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+      bio: "crazy girl"
+    }
+  }
+];
+
 export default class NotificationsScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
   constructor(props) {
     super(props);
-    this.state = { notifications: [], spinner: true };
+    this.state = { notifications: [], spinner: false };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
+    // this.setState({ notifications: notifications });
     this.listenToChanges();
   }
   async listenToChanges() {
@@ -32,7 +56,7 @@ export default class NotificationsScreen extends React.Component {
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
       .onSnapshot(() =>
-        this.setState({ spinner: true }, () =>
+        this.setState({ spinner: false }, () =>
           firebase
             .getCurrentUserNotifications()
             .then(notifications =>

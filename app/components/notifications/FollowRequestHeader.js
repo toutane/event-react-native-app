@@ -38,15 +38,17 @@ export default class FollowRequestHeader extends React.Component {
                 alignItems: "center"
               }}
             >
-              <View
-                style={{
-                  height: 7,
-                  width: 7,
-                  borderRadius: 50,
-                  marginRight: 5,
-                  backgroundColor: "#1DC161"
-                }}
-              />
+              {this.props.notifications.length !== 0 ? (
+                <View
+                  style={{
+                    height: 7,
+                    width: 7,
+                    borderRadius: 50,
+                    marginRight: 5,
+                    backgroundColor: "#1DC161"
+                  }}
+                />
+              ) : null}
               <Text style={{ fontSize: 22, fontWeight: "bold" }}>
                 {this.props.notifications.length}
               </Text>
