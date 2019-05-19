@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  TouchableOpacity
+} from "react-native";
+import { Button } from "native-base";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import { Icon } from "expo";
@@ -8,14 +15,158 @@ import FollowRequestList from "../notifications/FollowRequestList";
 import firebase from "../../firebase/firebase";
 import FollowRequestHeader from "../notifications/FollowRequestHeader";
 
-const Header_Maximum_Height = 150;
+const Header_Maximum_Height = 170;
 const Header_Minimum_Height = 100;
-const FollowRequest_Maximum_Height = 170;
+const FollowRequest_Maximum_Height = 175;
 const FollowRequest_Minimum_Height = 102;
-const Header_Maximum_Text_Pos = 75;
+const Header_Maximum_Text_Pos = 70;
 const Header_Minimum_Text_Pos = 50;
+const Header_Maximum_Event_Filter_Pos = 120;
+const Header_Minimum_Event_Filter_Pos = 50;
+const Header_Maximum_Text_Opacity = 1;
+const Header_Minimum_Text_Opacity = 0;
 
 const notifications = [
+  {
+    type: "follow_request",
+    user: {
+      username: "Paloa Jump",
+      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+      avatar:
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+      bio: "it's me Paola"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Julie Pummet",
+      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+      bio: "crazy girl"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Paloa Jump",
+      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+      avatar:
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+      bio: "it's me Paola"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Julie Pummet",
+      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+      bio: "crazy girl"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Paloa Jump",
+      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+      avatar:
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+      bio: "it's me Paola"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Julie Pummet",
+      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+      bio: "crazy girl"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Paloa Jump",
+      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+      avatar:
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+      bio: "it's me Paola"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Julie Pummet",
+      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+      bio: "crazy girl"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Paloa Jump",
+      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+      avatar:
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+      bio: "it's me Paola"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Julie Pummet",
+      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+      bio: "crazy girl"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Paloa Jump",
+      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+      avatar:
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+      bio: "it's me Paola"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Julie Pummet",
+      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+      bio: "crazy girl"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Paloa Jump",
+      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+      avatar:
+        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
+      bio: "it's me Paola"
+    }
+  },
+  {
+    type: "follow_request",
+    user: {
+      username: "Julie Pummet",
+      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
+      avatar:
+        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
+      bio: "crazy girl"
+    }
+  },
   {
     type: "follow_request",
     user: {
@@ -44,12 +195,17 @@ export default class NotificationsScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { notifications: [], spinner: false };
+    this.state = {
+      notifications: [],
+      disabled: false,
+      spinner: false,
+      eventsFilter: 0
+    };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
-    // this.setState({ notifications: notifications });
-    this.listenToChanges();
+    this.setState({ notifications: notifications });
+    // this.listenToChanges();
   }
   async listenToChanges() {
     firebase.db
@@ -90,6 +246,29 @@ export default class NotificationsScreen extends React.Component {
       inputRange: [0, Header_Maximum_Text_Pos - Header_Minimum_Text_Pos],
 
       outputRange: [Header_Maximum_Text_Pos, Header_Minimum_Text_Pos],
+
+      extrapolate: "clamp"
+    });
+    const EventFilterPosition = this.AnimatedHeaderValue.interpolate({
+      inputRange: [
+        0,
+        Header_Maximum_Event_Filter_Pos - Header_Minimum_Event_Filter_Pos
+      ],
+
+      outputRange: [
+        Header_Maximum_Event_Filter_Pos,
+        Header_Minimum_Event_Filter_Pos
+      ],
+
+      extrapolate: "clamp"
+    });
+    const AnimateHeaderSubtitle = this.AnimatedHeaderValue.interpolate({
+      inputRange: [
+        0,
+        Header_Maximum_Text_Opacity - Header_Minimum_Text_Opacity
+      ],
+
+      outputRange: [Header_Maximum_Text_Opacity, Header_Minimum_Text_Opacity],
 
       extrapolate: "clamp"
     });
@@ -147,7 +326,6 @@ export default class NotificationsScreen extends React.Component {
         <Animated.View
           style={{
             zIndex: 10,
-
             top: AnimatedTextPosition,
             position: "absolute"
           }}
@@ -158,7 +336,9 @@ export default class NotificationsScreen extends React.Component {
             }}
           >
             {/* <View style={{ zIndex: 10, flexDirection: "collum" }}> */}
-            <Animated.Text style={styles.mainTitle}>Notification</Animated.Text>
+            <Animated.Text style={styles.mainTitle}>
+              Notifications
+            </Animated.Text>
             <TouchableOpacity
               style={{
                 height: 50,
@@ -176,6 +356,65 @@ export default class NotificationsScreen extends React.Component {
               <Icon.Feather name="bell" size={30} color="white" />
             </TouchableOpacity>
           </View>
+        </Animated.View>
+        <Animated.View
+          style={{
+            zIndex: 10,
+            flexDirection: "row",
+            position: "absolute",
+            top: EventFilterPosition,
+            alignItems: "center",
+            opacity: AnimateHeaderSubtitle
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => this.setState({ disabled: !this.state.disabled })}
+          >
+            <Icon.Feather
+              name="moon"
+              size={28}
+              color={this.state.disabled ? "#364EE1" : "white"}
+              style={{ marginTop: 2, marginBottom: 3, marginLeft: 30 }}
+            />
+          </TouchableOpacity>
+          <Button
+            rounded
+            style={
+              this.state.eventsFilter === 0
+                ? [styles.activeEventBtn, { marginLeft: 13 }]
+                : [styles.eventBtn, { marginLeft: 13 }]
+            }
+            onPress={() => this.setState({ eventsFilter: 0 })}
+          >
+            <Text
+              style={
+                this.state.eventsFilter === 0
+                  ? { color: "#fead01", fontSize: 14 }
+                  : { color: "#158E47", fontSize: 14 }
+              }
+            >
+              following
+            </Text>
+          </Button>
+          <Button
+            rounded
+            style={
+              this.state.eventsFilter === 1
+                ? [styles.activeEventBtn, { marginLeft: 13 }]
+                : [styles.eventBtn, { marginLeft: 13 }]
+            }
+            onPress={() => this.setState({ eventsFilter: 1 })}
+          >
+            <Text
+              style={
+                this.state.eventsFilter === 1
+                  ? { color: "#fead01", fontSize: 14 }
+                  : { color: "#158E47", fontSize: 14 }
+              }
+            >
+              you
+            </Text>
+          </Button>
         </Animated.View>
       </View>
     );

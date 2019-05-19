@@ -256,7 +256,6 @@ export default class HomeScreen extends React.Component {
               all events
             </Text>
           </Button>
-
           <Button
             rounded
             style={

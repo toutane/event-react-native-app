@@ -1,7 +1,7 @@
 import React from "react";
-import { View, ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView, TouchableOpacity, Text } from "react-native";
 import { Icon } from "expo";
-import { Text, Button, Thumbnail, Spinner } from "native-base";
+import { Button, Thumbnail, Spinner } from "native-base";
 import firebase from "../../firebase/firebase";
 
 export default class FollowRequestList extends React.Component {
@@ -96,6 +96,7 @@ export default class FollowRequestList extends React.Component {
                         bordered
                         style={{
                           borderColor: "#1DC161",
+                          paddingHorizontal: 10,
                           height: 28,
                           alignItems: "center"
                         }}
@@ -117,6 +118,7 @@ export default class FollowRequestList extends React.Component {
                         style={{
                           marginRight: 5,
                           height: 28,
+                          paddingHorizontal: 10,
                           backgroundColor: "#1DC161",
                           alignItems: "center"
                         }}
@@ -133,8 +135,7 @@ export default class FollowRequestList extends React.Component {
                       >
                         <Text
                           style={{
-                            // fontWeight: "bold",
-                            fontSize: 15
+                            color: "white"
                           }}
                         >
                           Yes
@@ -145,6 +146,7 @@ export default class FollowRequestList extends React.Component {
                         bordered
                         style={{
                           borderColor: "rgba(0, 0, 0, 0.2)",
+                          paddingHorizontal: 10,
                           height: 28,
                           alignItems: "center"
                         }}

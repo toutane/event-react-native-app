@@ -28,17 +28,6 @@ export default class ConfirmQuit extends React.Component {
                 marginRight: 7,
                 paddingHorizontal: 10,
                 height: 28,
-                backgroundColor: "#FE245D"
-              }}
-              onPress={() => this.setState({ confirmView: false })}
-            >
-              <Text style={{ color: "white" }}>No</Text>
-            </Button>
-            <Button
-              rounded
-              style={{
-                paddingHorizontal: 10,
-                height: 28,
                 backgroundColor: "#1DC161"
               }}
               onPress={() =>
@@ -49,6 +38,17 @@ export default class ConfirmQuit extends React.Component {
               }
             >
               <Text style={{ color: "white" }}>Yes</Text>
+            </Button>
+            <Button
+              rounded
+              style={{
+                paddingHorizontal: 10,
+                height: 28,
+                backgroundColor: "#FE245D"
+              }}
+              onPress={() => this.setState({ confirmView: false })}
+            >
+              <Text style={{ color: "white" }}>No</Text>
             </Button>
           </View>
         ) : null}
