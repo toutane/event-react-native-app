@@ -12,6 +12,7 @@ import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import { Icon } from "expo";
 import { theme } from "../../themes";
+import NotificationsList from "../notifications/NotificationsList";
 import FollowRequestList from "../notifications/FollowRequestList";
 import firebase from "../../firebase/firebase";
 import FollowRequestHeader from "../notifications/FollowRequestHeader";
@@ -29,169 +30,6 @@ const Header_Minimum_Buttons_Pos = -10;
 const Header_Maximum_Event_Filter_Pos = 125;
 const Header_Minimum_Event_Filter_Pos = -5;
 
-const notifications = [
-  {
-    type: "follow_request",
-    user: {
-      username: "Paloa Jump",
-      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-      avatar:
-        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
-      bio: "it's me Paola"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Julie Pummet",
-      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
-      avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
-      bio: "crazy girl"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Paloa Jump",
-      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-      avatar:
-        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
-      bio: "it's me Paola"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Julie Pummet",
-      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
-      avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
-      bio: "crazy girl"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Paloa Jump",
-      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-      avatar:
-        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
-      bio: "it's me Paola"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Julie Pummet",
-      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
-      avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
-      bio: "crazy girl"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Paloa Jump",
-      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-      avatar:
-        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
-      bio: "it's me Paola"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Julie Pummet",
-      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
-      avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
-      bio: "crazy girl"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Paloa Jump",
-      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-      avatar:
-        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
-      bio: "it's me Paola"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Julie Pummet",
-      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
-      avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
-      bio: "crazy girl"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Paloa Jump",
-      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-      avatar:
-        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
-      bio: "it's me Paola"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Julie Pummet",
-      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
-      avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
-      bio: "crazy girl"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Paloa Jump",
-      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-      avatar:
-        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
-      bio: "it's me Paola"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Julie Pummet",
-      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
-      avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
-      bio: "crazy girl"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Paloa Jump",
-      uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-      avatar:
-        "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg",
-      bio: "it's me Paola"
-    }
-  },
-  {
-    type: "follow_request",
-    user: {
-      username: "Julie Pummet",
-      uid: "bJmDKkKJKTQa3tWihDzp64eiqht1",
-      avatar:
-        "https://us.123rf.com/450wm/golubovy/golubovy1903/golubovy190300377/119098073-young-woman-portrait-fake-female-smile-eyes-closed-black-and-white-headshot-.jpg?ver=6",
-      bio: "crazy girl"
-    }
-  }
-];
-
 export default class NotificationsScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -199,33 +37,13 @@ export default class NotificationsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifications: [],
-      disabled: false,
-      spinner: false,
       eventsFilter: 1
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
+    this.setNewSlideIndex = this.setNewSlideIndex.bind(this);
   }
-  componentDidMount() {
-    this.setState({ notifications: notifications });
-    // this.listenToChanges();
-  }
-  async listenToChanges() {
-    firebase.db
-      .collection("users")
-      .doc(firebase.auth.currentUser.uid)
-      .onSnapshot(() =>
-        this.setState({ spinner: false }, () =>
-          firebase
-            .getCurrentUserNotifications()
-            .then(notifications =>
-              this.setState(
-                { notifications: notifications },
-                this.setState({ spinner: false })
-              )
-            )
-        )
-      );
+  setNewSlideIndex(i) {
+    this.setState({ eventsFilter: i }, () => console.log(this.state));
   }
   render() {
     const AnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
@@ -300,6 +118,13 @@ export default class NotificationsScreen extends React.Component {
             notifications={this.state.notifications}
             spinner={this.state.spinner}
           /> */}
+          <NotificationsList
+            scrollAnimation={scrollAnimation}
+            eventsFilter={this.state.eventsFilter}
+            // setNbInvitations={nb => this.setNbInvitations(nb)}
+            setNewSlideIndex={this.setNewSlideIndex}
+            {...this.props}
+          />
         </ScrollView>
         <Animated.View
           style={[
