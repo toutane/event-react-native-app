@@ -72,7 +72,7 @@ export default class FollowRequestList extends React.Component {
                   style={{
                     flexDirection: "row",
                     marginBottom: 10,
-                    paddingHorizontal: 20,
+                    paddingHorizontal: 25,
                     alignItems: "center",
                     justifyContent: "space-between"
                   }}

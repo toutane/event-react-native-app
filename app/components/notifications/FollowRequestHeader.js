@@ -21,8 +21,6 @@ export default class FollowRequestHeader extends React.Component {
             paddingHorizontal: 30,
             borderTopRightRadius: 35,
             borderTopLeftRadius: 35
-            // marginLeft: 30,
-            // marginRight: 30
           }}
         >
           <View
