@@ -4,6 +4,7 @@ import { Spinner } from "native-base";
 import firebase from "../../firebase/firebase";
 import Swiper from "react-native-swiper";
 import MyEventCard from "../InfoCards/myEventsCard";
+import FollowRequestCard from "./FollowRequest/FollowRequestCard";
 
 const notifications = [
   {
@@ -241,23 +242,30 @@ export default class NotificationsList extends React.Component {
           style={{ marginBottom: 100 }}
           onScroll={this.props.scrollAnimation}
         >
-          <View style={{ marginTop: 100, marginBottom: 100 }}>
+          <View style={{ marginTop: 75, marginBottom: 100 }}>
             {this.state.spinner ? (
               <Spinner />
             ) : this.state.notifications.length === 0 ? (
               <MyEventCard />
             ) : (
-              this.state.notifications
-                .filter(notif => notif.type === "follow_request")
-                .map((notif, i) => (
-                  // <EventCard
-                  //   key={i}
-                  //   currentEvent={event}
-                  //   eventsFilter={this.props.eventsFilter}
-                  //   {...this.props}
-                  // />
-                  <Text key={i}>{notif.user.username}</Text>
-                ))
+              <View>
+                <FollowRequestCard
+                  style={{ marginBottom: 30 }}
+                  notifications={this.state.notifications}
+                  {...this.props}
+                />
+                {this.state.notifications
+                  .filter(notif => notif.type === "follow_request")
+                  .map((notif, i) => (
+                    // <EventCard
+                    //   key={i}
+                    //   currentEvent={event}
+                    //   eventsFilter={this.props.eventsFilter}
+                    //   {...this.props}
+                    // />
+                    <Text key={i}>{notif.user.username}</Text>
+                  ))}
+              </View>
             )}
           </View>
         </ScrollView>

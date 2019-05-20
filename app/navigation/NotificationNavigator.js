@@ -1,11 +1,11 @@
 import React from "react";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-import NotificationsScreen from "../components/views/NotificationsScreen";
+import FollowRequestScreen from "../components/notifications/FollowRequest/FollowRequestScreen";
 
 const NotificationNavigator = createStackNavigator(
   {
-    NotificationsScreen: { screen: NotificationsScreen }
+    FollowRequestScreen: { screen: FollowRequestScreen }
   },
   {
     navigationOptions: {
