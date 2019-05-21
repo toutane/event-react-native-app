@@ -5,12 +5,32 @@ import { Card } from "../../Card/styles";
 import firebase from "../../../firebase/firebase";
 
 export default class FollowRequestCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentUserFriends: []
+    };
+  }
+  componentDidMount() {
+    this.listenToChanges();
+  }
+  async listenToChanges() {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .onSnapshot(() =>
+        firebase
+          .getCurrentUserFriends()
+          .then(friends => this.setState({ currentUserFriends: friends }))
+      );
+  }
   render() {
     return (
       <TouchableOpacity
         onPress={() =>
           this.props.navigation.navigate("FollowRequestScreen", {
-            notifications: this.props.notifications
+            notifications: this.props.notifications,
+            currentUserFriends: this.state.currentUserFriends
           })
         }
       >

@@ -25,22 +25,37 @@ export default class FollowRequestScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = {
-      usersList: [],
-      selectedUsers: []
-    };
+    this.state = { acceptRequest: [], notifications: [] };
   }
-  // componentDidMount() {
-  //   firebase.getAllUsers().then(usersList =>
-  //     this.setState({
-  //       usersList: usersList
-  //     })
-  //   );
-  //   this.setState({
-  //     selectedUsers: []
-  //   });
-  // }
-
+  componentDidMount() {
+    this.setState({
+      notifications: this.props.navigation.getParam("notifications")
+    });
+  }
+  async acceptRequest(newFriend) {
+    await firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .update({
+        friends: this.props.navigation.getParam("currentUserFriends").concat({
+          uid: newFriend.user.uid,
+          username: newFriend.user.username,
+          avatar: newFriend.user.avatar,
+          bio: newFriend.user.bio
+        })
+      });
+    this.deletedNotif(newFriend);
+  }
+  deletedNotif(currentNotif) {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .update({
+        notifications: this.state.notifications.filter(
+          notif => notif.user.uid !== currentNotif.user.uid
+        )
+      });
+  }
   render() {
     return (
       <View>
@@ -61,27 +76,6 @@ export default class FollowRequestScreen extends React.Component {
             <Text style={{ fontWeight: "500", fontSize: 16 }}>
               Follow Request
             </Text>
-            <Button
-              style={{
-                position: "absolute",
-                left: screenWidth - 50,
-                top: -7,
-                height: 35,
-                width: 35,
-                borderRadius: 10,
-                backgroundColor: "rgba(0, 0, 0, 0.04)",
-                justifyContent: "center"
-              }}
-              onPress={() =>
-                this.props.navigation.navigate("NotificationsScreen")
-              }
-            >
-              <Icon.Ionicons
-                name="ios-arrow-round-up"
-                size={25}
-                color="black"
-              />
-            </Button>
           </View>
           <View style={{ flexDirection: "row" }}>
             <TextInput
@@ -116,52 +110,28 @@ export default class FollowRequestScreen extends React.Component {
                 height: 35,
                 width: 35,
                 borderRadius: 10,
-                backgroundColor:
-                  this.state.selectedUsers.length > 0 &&
-                  this.state.selectedUsers !==
-                    this.props.navigation.getParam("invited_participants")
-                    ? "#1DC161"
-                    : "rgba(0, 0, 0, 0.04)",
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
                 justifyContent: "center"
               }}
-              onPress={
-                this.state.selectedUsers.length > 0 &&
-                this.state.selectedUsers !==
-                  this.props.navigation.getParam("invited_participants")
-                  ? () => {
-                      this.props.navigation.getParam("addParticipants")(
-                        this.state.selectedUsers
-                      );
-                      this.props.navigation.navigate("EventCreationView");
-                    }
-                  : null
+              onPress={() =>
+                this.props.navigation.navigate("NotificationsScreen")
               }
             >
-              <Icon.Feather
-                name="check"
-                size={20}
-                color={
-                  this.state.selectedUsers.length > 0 &&
-                  this.state.selectedUsers !==
-                    this.props.navigation.getParam("invited_participants")
-                    ? "white"
-                    : "black"
-                }
+              <Icon.Ionicons
+                name="ios-arrow-round-up"
+                size={25}
+                color="black"
               />
             </Button>
           </View>
         </View>
         <List>
-          {this.props.navigation
-            .getParam("notifications")
+          {// this.props.navigation
+          // .getParam("notifications")
+          this.state.notifications
             .filter(notif => notif.type === "follow_request")
             .map((notif, i) => (
-              <TouchableWithoutFeedback
-                key={i}
-                onPress={() =>
-                  toggleUserToselectedUsers(notif.user.uid, notif.user.avatar)
-                }
-              >
+              <TouchableWithoutFeedback key={i}>
                 <View
                   key={i}
                   style={{
@@ -183,42 +153,89 @@ export default class FollowRequestScreen extends React.Component {
                         {notif.user.username}
                       </Text>
                       <Text style={{ color: "rgba(0, 0, 0, 0.3)" }}>
-                        {notif.user.bio}
+                        {notif.user.bio.length > 18
+                          ? notif.user.bio.slice(0, 18) + "..."
+                          : notif.user.bio}
                       </Text>
                     </View>
                   </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Button
-                      rounded
-                      style={{
-                        marginRight: 7,
-                        height: 28,
-                        paddingHorizontal: 10,
-                        backgroundColor: "#1DC161",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Text style={{ fontSize: 13, color: "white" }}>
-                        Accept
-                      </Text>
-                    </Button>
-                    <Button
-                      bordered
-                      rounded
-                      style={{
-                        height: 28,
-                        paddingHorizontal: 10,
-                        alignItems: "center",
-                        borderColor: "rgba(0, 0, 0, 0.3)"
-                      }}
-                    >
-                      <Text
-                        style={{ fontSize: 13, color: "rgba(0, 0, 0, 0.3)" }}
+                  {this.state.acceptRequest.some(
+                    uid => uid === notif.user.uid
+                  ) ? (
+                    <View>
+                      <Button
+                        rounded
+                        bordered
+                        style={{
+                          borderColor: "#1DC161",
+                          paddingHorizontal: 10,
+                          height: 28,
+                          alignItems: "center"
+                        }}
                       >
-                        Refuse
-                      </Text>
-                    </Button>
-                    {/* <TouchableOpacity
+                        <Text
+                          style={{
+                            fontSize: 13,
+                            color: "#1DC161"
+                          }}
+                        >
+                          Following
+                        </Text>
+                      </Button>
+                    </View>
+                  ) : (
+                    <View style={{ flexDirection: "row" }}>
+                      <Button
+                        rounded
+                        style={{
+                          marginRight: 7,
+                          height: 28,
+                          paddingHorizontal: 10,
+                          backgroundColor: "#1DC161",
+                          alignItems: "center"
+                        }}
+                        onPress={() =>
+                          this.setState(
+                            {
+                              acceptRequest: this.state.acceptRequest.concat(
+                                notif.user.uid
+                              )
+                            },
+                            () => this.acceptRequest(notif)
+                          )
+                        }
+                      >
+                        <Text style={{ fontSize: 13, color: "white" }}>
+                          Accept
+                        </Text>
+                      </Button>
+                      <Button
+                        bordered
+                        rounded
+                        style={{
+                          height: 28,
+                          paddingHorizontal: 10,
+                          alignItems: "center",
+                          borderColor: "rgba(0, 0, 0, 0.3)"
+                        }}
+                        onPress={() =>
+                          this.setState(
+                            {
+                              notifications: this.state.notifications.filter(
+                                notif => notif.user.uid !== notif.user.uid
+                              )
+                            },
+                            () => this.deletedNotif(notif)
+                          )
+                        }
+                      >
+                        <Text
+                          style={{ fontSize: 13, color: "rgba(0, 0, 0, 0.3)" }}
+                        >
+                          Refuse
+                        </Text>
+                      </Button>
+                      {/* <TouchableOpacity
                       onPress={() => this.acceptRequest(notif.user)}
                     >
                       <Icon.Feather
@@ -236,7 +253,8 @@ export default class FollowRequestScreen extends React.Component {
                         style={{ marginTop: 2, marginBottom: 3, marginLeft: 8 }}
                       />
                     </TouchableOpacity> */}
-                  </View>
+                    </View>
+                  )}
                 </View>
               </TouchableWithoutFeedback>
             ))}
