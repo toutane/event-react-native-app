@@ -1,21 +1,6 @@
 import React from "react";
-import {
-  List,
-  ListItem,
-  Left,
-  Body,
-  Thumbnail,
-  CheckBox,
-  Button
-} from "native-base";
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback
-} from "react-native";
-import { HeaderBackButton } from "react-navigation";
+import { List, Thumbnail, Button } from "native-base";
+import { View, TextInput, Text, TouchableWithoutFeedback } from "react-native";
 import firebase from "../../../firebase/firebase";
 import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
@@ -45,6 +30,21 @@ export default class FollowRequestScreen extends React.Component {
         })
       });
     this.deletedNotif(newFriend);
+  }
+  returnAcceptNotif(newFriend) {
+    firebase.db
+      .collection("users")
+      .doc(newFriend.user.uid)
+      .update({
+        notifications: this.props.navigation
+          .getParam("currentUserFriends")
+          .concat({
+            uid: newFriend.user.uid,
+            username: newFriend.user.username,
+            avatar: newFriend.user.avatar,
+            bio: newFriend.user.bio
+          })
+      });
   }
   deletedNotif(currentNotif) {
     firebase.db
@@ -126,9 +126,7 @@ export default class FollowRequestScreen extends React.Component {
           </View>
         </View>
         <List>
-          {// this.props.navigation
-          // .getParam("notifications")
-          this.state.notifications
+          {this.state.notifications
             .filter(notif => notif.type === "follow_request")
             .map((notif, i) => (
               <TouchableWithoutFeedback key={i}>
@@ -263,41 +261,3 @@ export default class FollowRequestScreen extends React.Component {
     );
   }
 }
-
-// <ListItem thumbnail>
-//   <Left>
-//     {/* <TouchableOpacity
-//     onPress={() =>
-//       toggleUserToselectedUsers(notif.user.uid, notif.user.avatar)
-//     }
-//   > */}
-//     <Thumbnail
-//       source={{ uri: notif.user.avatar }}
-//       style={{ borderRadius: 13 }}
-//     />
-//     {/* </TouchableOpacity> */}
-//   </Left>
-//   <Body>
-//     <Text>{notif.user.username}</Text>
-//     <Text note>{notif.user.bio}</Text>
-//   </Body>
-//   {/* <Text note>3:43 pm</Text> */}
-//   <CheckBox
-//     checked={this.state.selectedUsers.some(
-//       c_notif => c_notif.user.username === notif.user.username
-//     )}
-//     color={"#1DC161"}
-//     style={{
-//       height: 20,
-//       width: 20,
-//       borderRadius: 5,
-//       marginRight: 25
-//     }}
-//     onPress={() =>
-//       toggleUserToselectedUsers(
-//         notif.user.uid,
-//         notif.user.avatar
-//       )
-//     }
-//   />
-// </ListItem>

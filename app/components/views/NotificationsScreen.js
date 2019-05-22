@@ -13,9 +13,6 @@ import HeaderGradient from "../AnimatedHeader/styles";
 import { Icon } from "expo";
 import { theme } from "../../themes";
 import NotificationsList from "../notifications/NotificationsList";
-import FollowRequestList from "../notifications/FollowRequestList";
-import firebase from "../../firebase/firebase";
-import FollowRequestHeader from "../notifications/FollowRequestHeader";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 100;
@@ -113,15 +110,9 @@ export default class NotificationsScreen extends React.Component {
           scrollEventThrottle={16}
           onScroll={scrollAnimation}
         >
-          {/* <FollowRequestList
-            scrollAnimation={scrollAnimation}
-            notifications={this.state.notifications}
-            spinner={this.state.spinner}
-          /> */}
           <NotificationsList
             scrollAnimation={scrollAnimation}
             eventsFilter={this.state.eventsFilter}
-            // setNbInvitations={nb => this.setNbInvitations(nb)}
             setNewSlideIndex={this.setNewSlideIndex}
             {...this.props}
           />
@@ -245,142 +236,6 @@ export default class NotificationsScreen extends React.Component {
           </Button>
         </Animated.View>
       </View>
-      // <View style={{ flex: 1 }}>
-      //   <Animated.View
-      //     style={{
-      //       zIndex: 1,
-      //       top: AnimateHeaderHeight,
-      //       width: screenWidth,
-      //       position: "absolute",
-      //       height: 900,
-      //       backgroundColor: "#fff",
-      //       shadowOpacity: 0.1,
-      //       shadowRadius: 20,
-      //       shadowColor: "rgba(0, 0, 0, 1)",
-      //       // paddingHorizontal: 30,
-      //       borderTopRightRadius: 35,
-      //       borderTopLeftRadius: 35
-      //     }}
-      //   >
-      //     <FollowRequestList
-      //       scrollAnimation={scrollAnimation}
-      //       notifications={this.state.notifications}
-      //       spinner={this.state.spinner}
-      //     />
-      //   </Animated.View>
-      //   <FollowRequestHeader
-      //     notifications={this.state.notifications}
-      //     AnimateFollowRequestHeight={AnimateFollowRequestHeight}
-      //   />
-      //   <Animated.View
-      //     style={[
-      //       styles.headerBox,
-      //       {
-      //         height: 300,
-      //         width: screenWidth
-      //       }
-      //     ]}
-      //   >
-      //     <HeaderGradient
-      //       width={screenWidth}
-      //       headerFrom={"#158E47"}
-      //       headerTo={"#1DC161"}
-      //     />
-      //   </Animated.View>
-      //   <Animated.View
-      //     style={{
-      //       zIndex: 10,
-      //       top: AnimatedTextPosition,
-      //       position: "absolute"
-      //     }}
-      //   >
-      //     <View
-      //       style={{
-      //         flexDirection: "row"
-      //       }}
-      //     >
-      //       {/* <View style={{ zIndex: 10, flexDirection: "collum" }}> */}
-      //       <Animated.Text style={styles.mainTitle}>
-      //         Notifications
-      //       </Animated.Text>
-      //       <TouchableOpacity
-      //         style={{
-      //           height: 50,
-      //           width: 50,
-      //           left: screenWidth - 80,
-      //           top: -10,
-      //           position: "absolute",
-      //           borderRadius: 13,
-      //           backgroundColor: "rgba(255, 255, 255, 0.15)",
-      //           justifyContent: "center",
-      //           alignItems: "center"
-      //         }}
-      //         onPress={() => this.props.navigation.navigate("Home")}
-      //       >
-      //         <Icon.Feather name="bell" size={30} color="white" />
-      //       </TouchableOpacity>
-      //     </View>
-      //   </Animated.View>
-      //   <Animated.View
-      //     style={{
-      //       zIndex: 10,
-      //       flexDirection: "row",
-      //       position: "absolute",
-      //       top: EventFilterPosition,
-      //       alignItems: "center",
-      //       opacity: AnimateHeaderSubtitle
-      //     }}
-      //   >
-      //     <TouchableOpacity
-      //       onPress={() => this.setState({ disabled: !this.state.disabled })}
-      //     >
-      //       <Icon.Feather
-      //         name="moon"
-      //         size={28}
-      //         color={this.state.disabled ? "#364EE1" : "white"}
-      //         style={{ marginTop: 2, marginBottom: 3, marginLeft: 30 }}
-      //       />
-      //     </TouchableOpacity>
-      //     <Button
-      //       rounded
-      //       style={
-      //         this.state.eventsFilter === 0
-      //           ? [styles.activeEventBtn, { marginLeft: 13 }]
-      //           : [styles.eventBtn, { marginLeft: 13 }]
-      //       }
-      //       onPress={() => this.setState({ eventsFilter: 0 })}
-      //     >
-      //       <Text
-      //         style={
-      //           this.state.eventsFilter === 0
-      //             ? { color: "#fead01", fontSize: 14 }
-      //             : { color: "#158E47", fontSize: 14 }
-      //         }
-      //       >
-      //         following
-      //       </Text>
-      //     </Button>
-      //     <Button
-      //       rounded
-      //       style={
-      //         this.state.eventsFilter === 1
-      //           ? [styles.activeEventBtn, { marginLeft: 13 }]
-      //           : [styles.eventBtn, { marginLeft: 13 }]
-      //       }
-      //       onPress={() => this.setState({ eventsFilter: 1 })}
-      //     >
-      //       <Text
-      //         style={
-      //           this.state.eventsFilter === 1
-      //             ? { color: "#fead01", fontSize: 14 }
-      //             : { color: "#158E47", fontSize: 14 }
-      //         }
-      //       >
-      //         you
-      //       </Text>
-      //     </Button>
-      //   </Animated.View>
-      // </View>
     );
   }
 }

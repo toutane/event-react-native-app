@@ -245,9 +245,8 @@ export default class NotificationsList extends React.Component {
           <View style={{ marginTop: 75, marginBottom: 100 }}>
             {this.state.spinner ? (
               <Spinner />
-            ) : this.state.notifications.length === 0 ? (
-              <MyEventCard />
-            ) : (
+            ) : this.state.notifications.length === 0 ? // <MyEventCard />
+            null : (
               <View>
                 <FollowRequestCard
                   style={{ marginBottom: 30 }}

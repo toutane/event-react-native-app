@@ -122,7 +122,7 @@ export default class MiddleView extends React.Component {
               </View>
               {this.props.currentEvent.participants
                 .filter(part => part.state === "available")
-                .slice(0, 3)
+                .slice(0, 4)
                 .map((participants, i) => (
                   <Thumbnail
                     key={i}
@@ -159,7 +159,7 @@ export default class MiddleView extends React.Component {
                     +
                     {this.props.currentEvent.participants.filter(
                       part => part.state === "available"
-                    ).length - 3}
+                    ).length - 4}
                   </Text>
                 </View>
               ) : null}
