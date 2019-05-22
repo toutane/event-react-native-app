@@ -23,20 +23,28 @@ export const theme = {
   },
   tabColors: {
     home: {
-      active: "rgba(80, 108, 242, 1)",
-      background: "rgba(80, 108, 242, 0.1)"
+      // active: "rgba(80, 108, 242, 1)",
+      // background: "rgba(80, 108, 242, 0.1)"
+      active: "white",
+      background: "#1DC161"
     },
     message: {
-      active: "#158E47",
-      background: "rgba(29,193,97, 0.1)"
+      // active: "#158E47",
+      // background: "rgba(29,193,97, 0.1)"
+      active: "white",
+      background: "#1DC161"
     },
     profile: {
-      active: "rgba(80, 108, 242, 1)",
-      background: "rgba(80, 108, 242, 0.1)"
+      // active: "rgba(80, 108, 242, 1)",
+      // background: "rgba(80, 108, 242, 0.1)"
+      active: "white",
+      background: "#1DC161"
     },
     settings: {
-      active: "rgba(254 , 35, 93, 1)",
-      background: "rgba(254 , 35, 93, 0.1)"
+      // active: "rgba(254 , 35, 93, 1)",
+      // background: "rgba(254 , 35, 93, 0.1)"
+      active: "white",
+      background: "#1DC161"
     }
   }
 };

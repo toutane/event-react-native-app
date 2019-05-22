@@ -67,8 +67,12 @@ class Firebase {
     const notifications = await this.db
       .collection("users")
       .doc(this.auth.currentUser.uid)
+      .collection("notifications")
       .get();
-    return notifications.get("notifications");
+    return notifications.docs.map(doc => ({
+      ...doc.data(),
+      ...{ uid: doc.id }
+    }));
   }
   async getAllUsers() {
     const usersList = await this.db

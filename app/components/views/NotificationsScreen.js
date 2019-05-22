@@ -13,6 +13,7 @@ import HeaderGradient from "../AnimatedHeader/styles";
 import { Icon } from "expo";
 import { theme } from "../../themes";
 import NotificationsList from "../notifications/NotificationsList";
+import firebase from "../../firebase/firebase";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 100;
@@ -41,6 +42,26 @@ export default class NotificationsScreen extends React.Component {
   }
   setNewSlideIndex(i) {
     this.setState({ eventsFilter: i }, () => console.log(this.state));
+  }
+  // just example to add a false follow request
+  addFollowRequestExample() {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .collection("notifications")
+      .set(
+        {
+          type: "follow_request",
+          user: {
+            username: "Paola Jump",
+            uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+            bio: "hey ! I'm  Paola !",
+            avatar:
+              "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg"
+          }
+        },
+        { merge: true }
+      );
   }
   render() {
     const AnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
@@ -186,7 +207,11 @@ export default class NotificationsScreen extends React.Component {
           }}
         >
           <TouchableOpacity
-            onPress={() => this.setState({ disabled: !this.state.disabled })}
+            onPress={() =>
+              this.setState({ disabled: !this.state.disabled }, () =>
+                this.addFollowRequestExample()
+              )
+            }
           >
             <Icon.Feather
               name="moon"

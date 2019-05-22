@@ -29,32 +29,37 @@ export default class FollowRequestScreen extends React.Component {
           bio: newFriend.user.bio
         })
       });
+    this.returnAcceptNotif(newFriend);
     this.deletedNotif(newFriend);
   }
   returnAcceptNotif(newFriend) {
     firebase.db
       .collection("users")
       .doc(newFriend.user.uid)
-      .update({
-        notifications: this.props.navigation
-          .getParam("currentUserFriends")
-          .concat({
-            uid: newFriend.user.uid,
-            username: newFriend.user.username,
-            avatar: newFriend.user.avatar,
-            bio: newFriend.user.bio
-          })
-      });
+      .collection("notifications")
+      .set(
+        {
+          type: "follow_request_accepted",
+          text: `${
+            firebase.auth.currentUser.displayName
+          } has accept your follow request!`
+        },
+        { merge: true }
+      );
   }
+
   deletedNotif(currentNotif) {
     firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
-      .update({
-        notifications: this.state.notifications.filter(
-          notif => notif.user.uid !== currentNotif.user.uid
-        )
-      });
+      .collection("notifications")
+      .doc(currentNotif.uid)
+      .delete();
+    // .update({
+    //   notifications: this.state.notifications.filter(
+    //     notif => notif.user.uid !== currentNotif.user.uid
+    //   )
+    // });
   }
   render() {
     return (

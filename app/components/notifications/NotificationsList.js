@@ -188,6 +188,7 @@ export default class NotificationsList extends React.Component {
     firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
+      .collection("notifications")
       .onSnapshot(() =>
         this.setState({ spinner: true }, () => this.loadNotifications())
       );
@@ -245,8 +246,7 @@ export default class NotificationsList extends React.Component {
           <View style={{ marginTop: 75, marginBottom: 100 }}>
             {this.state.spinner ? (
               <Spinner />
-            ) : this.state.notifications.length === 0 ? // <MyEventCard />
-            null : (
+            ) : this.state.notifications.length === 0 ? null : ( // <MyEventCard />
               <View>
                 <FollowRequestCard
                   style={{ marginBottom: 30 }}
