@@ -10,7 +10,7 @@ export default class FollowRequestScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { acceptRequest: [], notifications: [] };
+    this.state = { acceptRequest: [], notifications: [], search: "" };
   }
   componentDidMount() {
     this.setState({
@@ -59,6 +59,11 @@ export default class FollowRequestScreen extends React.Component {
     // });
   }
   render() {
+    const searchedNotifs = this.state.notifications.filter(notif =>
+      notif.user.username
+        .toLowerCase()
+        .includes(this.state.search.toLowerCase())
+    );
     return (
       <View>
         <View
@@ -96,6 +101,8 @@ export default class FollowRequestScreen extends React.Component {
               placeholder={"search"}
               autoFocus={false}
               returnKeyType="next"
+              value={this.state.search}
+              onChangeText={e => this.setState({ search: e })}
               // onSubmitEditing={() => this.passwordInput.focus()}
               // onChangeText={e =>
               //   this.setState({
@@ -128,7 +135,7 @@ export default class FollowRequestScreen extends React.Component {
           </View>
         </View>
         <List>
-          {this.state.notifications
+          {searchedNotifs
             .filter(notif => notif.type === "follow_request")
             .map((notif, i) => (
               <TouchableWithoutFeedback key={i}>

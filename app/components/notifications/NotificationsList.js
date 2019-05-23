@@ -253,17 +253,6 @@ export default class NotificationsList extends React.Component {
                   notifications={this.state.notifications}
                   {...this.props}
                 />
-                {this.state.notifications
-                  .filter(notif => notif.type === "follow_request")
-                  .map((notif, i) => (
-                    // <EventCard
-                    //   key={i}
-                    //   currentEvent={event}
-                    //   eventsFilter={this.props.eventsFilter}
-                    //   {...this.props}
-                    // />
-                    <Text key={i}>{notif.user.username}</Text>
-                  ))}
               </View>
             )}
           </View>

@@ -27,7 +27,8 @@ export default class ECUsersList extends React.Component {
     super(props);
     this.state = {
       usersList: [],
-      selectedUsers: []
+      selectedUsers: [],
+      search: ""
     };
   }
   componentDidMount() {
@@ -68,7 +69,9 @@ export default class ECUsersList extends React.Component {
         );
       }
     };
-
+    const searchedUsers = this.state.usersList.filter(user =>
+      user.username.toLowerCase().includes(this.state.search.toLowerCase())
+    );
     return (
       <View>
         <View
@@ -128,13 +131,11 @@ export default class ECUsersList extends React.Component {
               autoFocus={false}
               returnKeyType="next"
               // onSubmitEditing={() => this.passwordInput.focus()}
-              // onChangeText={e =>
-              //   this.setState({
-              //     email: e,
-              //     emailInputColor: "rgba(0, 0, 0, 0.1)",
-              //     error: "null"
-              //   })
-              // }
+              onChangeText={e =>
+                this.setState({
+                  search: e
+                })
+              }
             />
             <Button
               style={{
@@ -179,7 +180,7 @@ export default class ECUsersList extends React.Component {
           </View>
         </View>
         <List>
-          {this.state.usersList.map((user, i) => (
+          {searchedUsers.map((user, i) => (
             <TouchableWithoutFeedback
               key={i}
               onPress={() => toggleUserToselectedUsers(user.uid, user.avatar)}
