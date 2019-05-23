@@ -29,23 +29,20 @@ export default class FollowRequestScreen extends React.Component {
           bio: newFriend.user.bio
         })
       });
-    this.returnAcceptNotif(newFriend);
     this.deletedNotif(newFriend);
+    this.returnAcceptNotif(newFriend);
   }
   returnAcceptNotif(newFriend) {
     firebase.db
       .collection("users")
       .doc(newFriend.user.uid)
       .collection("notifications")
-      .set(
-        {
-          type: "follow_request_accepted",
-          text: `${
-            firebase.auth.currentUser.displayName
-          } has accept your follow request!`
-        },
-        { merge: true }
-      );
+      .add({
+        type: "follow_request_accepted",
+        text: `${
+          firebase.auth.currentUser.displayName
+        } has accept your follow request!`
+      });
   }
 
   deletedNotif(currentNotif) {

@@ -49,7 +49,7 @@ export default class NotificationsScreen extends React.Component {
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
       .collection("notifications")
-      .set(
+      .add(
         {
           type: "follow_request",
           user: {
@@ -59,8 +59,8 @@ export default class NotificationsScreen extends React.Component {
             avatar:
               "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg"
           }
-        },
-        { merge: true }
+        }
+        // { merge: true }
       );
   }
   render() {
