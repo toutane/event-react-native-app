@@ -29,7 +29,7 @@ export default class FollowRequestScreen extends React.Component {
           bio: newFriend.user.bio
         })
       });
-    this.deletedNotif(newFriend);
+    await this.deletedNotif(newFriend);
     this.returnAcceptNotif(newFriend);
   }
   returnAcceptNotif(newFriend) {
