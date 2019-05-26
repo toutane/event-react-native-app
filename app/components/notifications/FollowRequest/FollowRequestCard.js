@@ -31,14 +31,15 @@ export default class FollowRequestCard extends React.Component {
           notif => notif.type === "follow_request"
         ).length !== 0 ? (
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("FollowRequestScreen", {
-                notifications: this.props.notifications.filter(
-                  notif => notif.type === "follow_request"
-                ),
-                currentUserFriends: this.state.currentUserFriends
-              })
-            }
+            // onPress={() =>
+            //   this.props.navigation.navigate("FollowRequestScreen", {
+            //     notifications: this.props.notifications.filter(
+            //       notif => notif.type === "follow_request"
+            //     ),
+            //     currentUserFriends: this.state.currentUserFriends
+            //   })
+            // }
+            onPress={() => console.log(this.props.notifications)}
           >
             <Card
               style={{

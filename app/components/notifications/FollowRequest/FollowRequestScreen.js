@@ -166,9 +166,7 @@ export default class FollowRequestScreen extends React.Component {
                       </Text>
                     </View>
                   </View>
-                  {this.state.acceptRequest.some(
-                    uid => uid === notif.user.uid
-                  ) ? (
+                  {this.state.acceptRequest.some(uid => uid === notif.uid) ? (
                     <View>
                       <Button
                         rounded
@@ -205,7 +203,7 @@ export default class FollowRequestScreen extends React.Component {
                           this.setState(
                             {
                               acceptRequest: this.state.acceptRequest.concat(
-                                notif.user.uid
+                                notif.uid
                               )
                             },
                             () => this.acceptRequest(notif)
@@ -229,7 +227,7 @@ export default class FollowRequestScreen extends React.Component {
                           this.setState(
                             {
                               notifications: this.state.notifications.filter(
-                                notif => notif.user.uid !== notif.user.uid
+                                notif => notif.uid !== notif.uid
                               )
                             },
                             () => this.deletedNotif(notif)

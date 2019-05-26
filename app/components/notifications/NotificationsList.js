@@ -200,7 +200,9 @@ export default class NotificationsList extends React.Component {
       .then(notifications =>
         this.setState(
           { notifications: notifications },
-          this.setState({ spinner: false })
+          this.setState({ spinner: false }, () =>
+            console.log(this.state.notifications)
+          )
         )
       );
   }
