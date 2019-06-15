@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Button } from "native-base";
 import { Card } from "../../Card/styles";
 import firebase from "../../../firebase/firebase";
+import { Icon } from "expo";
 
 export default class FollowRequestCard extends React.Component {
   constructor(props) {
@@ -39,27 +40,23 @@ export default class FollowRequestCard extends React.Component {
                 currentUserFriends: this.state.currentUserFriends
               })
             }
-            onPress={() => console.log(this.props.notifications)}
+            // onPress={() => console.log(this.props.notifications)}
           >
             <Card
               style={{
                 marginBottom: 20
+                // backgroundColor: "rgba(249,240,219, 1)"
+                // borderWidth: 1, borderColor: "#fead01"
               }}
             >
               <View
                 style={{
                   flexDirection: "row",
-                  alignItems: "center"
+                  alignItems: "center",
+                  justifyContent: "space-between"
                 }}
               >
-                <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                  {
-                    this.props.notifications.filter(
-                      notif => notif.type === "follow_request"
-                    ).length
-                  }
-                </Text>
-                <View
+                {/* <View
                   style={{
                     height: 7,
                     width: 7,
@@ -68,7 +65,7 @@ export default class FollowRequestCard extends React.Component {
                     marginRight: 10,
                     backgroundColor: "#1DC161"
                   }}
-                />
+                /> */}
                 <Text style={{ fontWeight: "bold", fontSize: 18 }}>
                   Follow Request
                   {this.props.notifications.filter(
@@ -77,6 +74,27 @@ export default class FollowRequestCard extends React.Component {
                     ? "s"
                     : null}
                 </Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: 18,
+                      color: "#1DC161"
+                    }}
+                  >
+                    {
+                      this.props.notifications.filter(
+                        notif => notif.type === "follow_request"
+                      ).length
+                    }
+                  </Text>
+                  <Icon.Ionicons
+                    name="ios-arrow-round-forward"
+                    size={30}
+                    color="black"
+                    style={{ marginLeft: 10 }}
+                  />
+                </View>
               </View>
               <View style={{ flexDirection: "row", marginTop: 15 }}>
                 {this.props.notifications
