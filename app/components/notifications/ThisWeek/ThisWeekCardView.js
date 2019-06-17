@@ -16,7 +16,7 @@ export default class ThisWeekCardView extends React.Component {
           )
           .map((notif, i) => (
             <FollowRequestNotifItem
-              notif={this.props.notif.filter()}
+              {...this.props}
               key={i}
               i={i}
               notif={notif}
