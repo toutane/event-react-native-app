@@ -137,9 +137,7 @@ export default class FollowRequestScreen extends React.Component {
                 backgroundColor: "rgba(0, 0, 0, 0.04)",
                 justifyContent: "center"
               }}
-              onPress={() =>
-                this.props.navigation.navigate("NotificationsScreen")
-              }
+              onPress={() => this.props.navigation.navigate("Notification")}
             >
               <Icon.Ionicons
                 name="ios-arrow-round-up"

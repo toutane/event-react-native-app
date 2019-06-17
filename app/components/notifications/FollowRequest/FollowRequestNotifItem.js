@@ -10,7 +10,8 @@ export default class FollowsRequestNotifItem extends React.Component {
           style={{
             flexDirection: "row",
             marginTop: this.props.i === 0 ? 20 : 0,
-            marginBottom: 20,
+            marginBottom:
+              this.props.i + 1 === this.props.notifications.length ? 0 : 20,
             alignItems: "center",
             justifyContent: "space-between"
           }}

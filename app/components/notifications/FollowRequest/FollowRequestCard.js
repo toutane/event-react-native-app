@@ -25,6 +25,8 @@ export default class FollowsRequestCard extends React.Component {
           <Card
             style={{
               marginBottom: 20
+              // marginLeft: 50,
+              // marginRight: 50
             }}
           >
             <View

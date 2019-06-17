@@ -7,9 +7,6 @@ export default class ThisWeekCardView extends React.Component {
     return (
       <View style={{ marginTop: 15 }}>
         {this.props.notifications
-          .filter(
-            notifs => notifs.type === "follow_request_accepted" || "new_friend"
-          )
           .slice(
             0,
             this.props.minimizeCard ? 3 : this.props.notifications.length
@@ -23,9 +20,7 @@ export default class ThisWeekCardView extends React.Component {
             />
           ))}
         {this.props.minimizeCard ? (
-          this.props.notifications.filter(
-            notif => notif.type === "follow_request_accepted" || "new_friend"
-          ).length > 4 ? (
+          this.props.notifications.length >= 4 ? (
             <View
               style={{
                 borderRadius: 13,
@@ -43,11 +38,7 @@ export default class ThisWeekCardView extends React.Component {
                   fontSize: 16
                 }}
               >
-                +
-                {this.props.notifications.filter(
-                  notif =>
-                    notif.type === "follow_request_accepted" || "new_friend"
-                ).length - 3}
+                +{this.props.notifications.length - 3}
               </Text>
             </View>
           ) : null

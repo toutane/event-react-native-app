@@ -256,15 +256,19 @@ export default class NotificationsList extends React.Component {
               <Spinner />
             ) : (
               <View>
-                <FollowRequestCard
-                  style={{ marginBottom: 30 }}
-                  notifications={this.state.notifications.filter(
-                    notifs => notifs.type === "follow_request"
-                  )}
-                  avatar={this.state.avatar}
-                  bio={this.state.bio}
-                  {...this.props}
-                />
+                {this.state.notifications.filter(
+                  notifs => notifs.type === "follow_request"
+                ).length !== 0 ? (
+                  <FollowRequestCard
+                    style={{ marginBottom: 30 }}
+                    notifications={this.state.notifications.filter(
+                      notifs => notifs.type === "follow_request"
+                    )}
+                    avatar={this.state.avatar}
+                    bio={this.state.bio}
+                    {...this.props}
+                  />
+                ) : null}
                 <ThisWeekCard
                   style={{ marginBottom: 30 }}
                   notifications={this.state.notifications.filter(

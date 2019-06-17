@@ -40,21 +40,23 @@ export default class ThisWeekCard extends React.Component {
               <Text style={{ fontWeight: "bold", fontSize: 26 }}>
                 This Week
               </Text>
-              {this.state.minimizeCard ? (
-                <Icon.Feather
-                  name="arrow-down"
-                  size={25}
-                  color="black"
-                  style={{ marginLeft: 10 }}
-                />
-              ) : (
-                <Icon.Feather
-                  name="arrow-up"
-                  size={25}
-                  color="black"
-                  style={{ marginLeft: 10 }}
-                />
-              )}
+              {this.props.notifications.length > 3 ? (
+                this.state.minimizeCard ? (
+                  <Icon.Feather
+                    name="arrow-down"
+                    size={25}
+                    color="black"
+                    style={{ marginLeft: 10 }}
+                  />
+                ) : (
+                  <Icon.Feather
+                    name="arrow-up"
+                    size={25}
+                    color="black"
+                    style={{ marginLeft: 10 }}
+                  />
+                )
+              ) : null}
             </View>
             <ThisWeekCardView
               minimizeCard={this.state.minimizeCard}
