@@ -227,10 +227,11 @@ export default class FollowRequestScreen extends React.Component {
                           this.setState(
                             {
                               notifications: this.state.notifications.filter(
-                                notif => notif.uid !== notif.uid
+                                notifs => notif.uid !== notifs.uid
                               )
                             },
                             () => this.deletedNotif(notif)
+                            // () => console.log(this.state.notifications)
                           )
                         }
                       >
