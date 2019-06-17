@@ -5,6 +5,7 @@ import firebase from "../../firebase/firebase";
 import Swiper from "react-native-swiper";
 import MyEventCard from "../InfoCards/myEventsCard";
 import FollowRequestCard from "./FollowRequest/FollowRequestCard";
+import ThisWeekCard from "./ThisWeek/ThisWeekCard";
 
 const notifications = [
   {
@@ -177,6 +178,7 @@ export default class NotificationsList extends React.Component {
     super(props);
     this.state = {
       notifications: [],
+      currentUserFriends: [],
       spinner: false
     };
   }
@@ -191,6 +193,14 @@ export default class NotificationsList extends React.Component {
       .collection("notifications")
       .onSnapshot(() =>
         this.setState({ spinner: true }, () => this.loadNotifications())
+      );
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .onSnapshot(() =>
+        firebase
+          .getCurrentUserFriends()
+          .then(friends => this.setState({ currentUserFriends: friends }))
       );
   }
 
@@ -253,6 +263,13 @@ export default class NotificationsList extends React.Component {
                 <FollowRequestCard
                   style={{ marginBottom: 30 }}
                   notifications={this.state.notifications}
+                  currentUserFriends={this.state.currentUserFriends}
+                  {...this.props}
+                />
+                <ThisWeekCard
+                  style={{ marginBottom: 30 }}
+                  notifications={this.state.notifications}
+                  currentUserFriends={this.state.currentUserFriends}
                   {...this.props}
                 />
               </View>

@@ -6,25 +6,25 @@ import firebase from "../../../firebase/firebase";
 import { Icon } from "expo";
 
 export default class FollowRequestCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUserFriends: []
-    };
-  }
-  componentDidMount() {
-    this.listenToChanges();
-  }
-  async listenToChanges() {
-    firebase.db
-      .collection("users")
-      .doc(firebase.auth.currentUser.uid)
-      .onSnapshot(() =>
-        firebase
-          .getCurrentUserFriends()
-          .then(friends => this.setState({ currentUserFriends: friends }))
-      );
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     currentUserFriends: []
+  //   };
+  // }
+  // componentDidMount() {
+  //   this.listenToChanges();
+  // }
+  // async listenToChanges() {
+  //   firebase.db
+  //     .collection("users")
+  //     .doc(firebase.auth.currentUser.uid)
+  //     .onSnapshot(() =>
+  //       firebase
+  //         .getCurrentUserFriends()
+  //         .then(friends => this.setState({ currentUserFriends: friends }))
+  //     );
+  // }
   render() {
     return (
       <View>
@@ -37,7 +37,7 @@ export default class FollowRequestCard extends React.Component {
                 notifications: this.props.notifications.filter(
                   notif => notif.type === "follow_request"
                 ),
-                currentUserFriends: this.state.currentUserFriends
+                currentUserFriends: this.props.currentUserFriends
               })
             }
             // onPress={() => console.log(this.props.notifications)}
@@ -88,9 +88,9 @@ export default class FollowRequestCard extends React.Component {
                       ).length
                     }
                   </Text>
-                  <Icon.Ionicons
-                    name="ios-arrow-round-forward"
-                    size={30}
+                  <Icon.Feather
+                    name="arrow-right"
+                    size={25}
                     color="black"
                     style={{ marginLeft: 10 }}
                   />
