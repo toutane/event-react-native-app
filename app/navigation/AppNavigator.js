@@ -35,7 +35,7 @@ const tabBar = {
       tabBarIcon: props => <TabIcon iconName="grid" {...props} />
     }
   },
-  NotificationsScreen: {
+  Notification: {
     screen: NotificationsScreen,
     navigationOptions: {
       tabBarLabel: "Bell",
@@ -64,7 +64,9 @@ const tabBarConfig = {
     />
   ),
   // initialRouteName: "Home",
-  initialRouteName: "NotificationsScreen",
+  // initialRouteName: "Notification",
+  initialRouteName: "Profile",
+
   tabBarOptions: {
     inactiveTintColor: theme.colors.inactiveColor
   }
