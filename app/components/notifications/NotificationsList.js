@@ -185,6 +185,10 @@ export default class NotificationsList extends React.Component {
   componentDidMount() {
     // this.setState({ notifications: notifications });
     this.listenToChanges();
+    firebase
+      .getCurrentUserAvatar()
+      .then(avatar => this.setState({ avatar: avatar }));
+    firebase.getCurrentUserBio().then(bio => this.setState({ bio: bio }));
   }
   async listenToChanges() {
     firebase.db
@@ -258,18 +262,25 @@ export default class NotificationsList extends React.Component {
           <View style={{ marginTop: 75, marginBottom: 100 }}>
             {this.state.spinner ? (
               <Spinner />
-            ) : this.state.notifications.length === 0 ? null : ( // <MyEventCard />
+            ) : (
               <View>
                 <FollowRequestCard
                   style={{ marginBottom: 30 }}
-                  notifications={this.state.notifications}
+                  notifications={this.state.notifications.filter(
+                    notifs => notifs.type === "follow_request"
+                  )}
                   currentUserFriends={this.state.currentUserFriends}
+                  avatar={this.state.avatar}
                   {...this.props}
                 />
                 <ThisWeekCard
                   style={{ marginBottom: 30 }}
-                  notifications={this.state.notifications}
+                  notifications={this.state.notifications.filter(
+                    notifs => notifs.type !== "follow_request"
+                  )}
                   currentUserFriends={this.state.currentUserFriends}
+                  avatar={this.state.avatar}
+                  bio={this.state.bio}
                   {...this.props}
                 />
               </View>

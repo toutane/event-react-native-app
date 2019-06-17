@@ -1,7 +1,23 @@
 import React from "react";
 import { Thumbnail, Button } from "native-base";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
-export default class FollowRequestNotifItem extends React.Component {
+import firebase from "../../../firebase/firebase";
+export default class FollowsRequestNotifItem extends React.Component {
+  setRequest(receiver) {
+    firebase.db
+      .collection("users")
+      .doc(receiver.user.uid)
+      .collection("notifications")
+      .add({
+        type: "follow_request",
+        user: {
+          uid: firebase.auth.currentUser.uid,
+          username: firebase.auth.currentUser.displayName,
+          bio: this.props.bio,
+          avatar: this.props.avatar
+        }
+      });
+  }
   render() {
     return (
       <TouchableWithoutFeedback>
@@ -19,21 +35,24 @@ export default class FollowRequestNotifItem extends React.Component {
               source={{ uri: this.props.notif.user.avatar }}
               style={{ borderRadius: 13, width: 50, height: 50 }}
             />
-            <View style={{ flexDirection: "row", marginLeft: 10, width: 150 }}>
+            <View style={{ flexDirection: "row", marginLeft: 10, width: 170 }}>
               <Text style={{ fontWeight: "600", fontSize: 15 }}>
                 {this.props.notif.user.username}
                 {this.props.notif.type === "follow_request_accepted" ? (
                   <Text style={{ fontWeight: "normal" }}>
                     {" "}
-                    started following you.
+                    has accepted your request.
                   </Text>
-                ) : null}
+                ) : (
+                  <Text style={{ fontWeight: "normal" }}>
+                    {" "}
+                    become your friend !
+                  </Text>
+                )}
               </Text>
             </View>
           </View>
-          {this.props.currentUserFriends.some(
-            user => user.uid === this.props.notif.user.uid
-          ) ? (
+          {
             <View>
               <Button
                 rounded
@@ -51,11 +70,11 @@ export default class FollowRequestNotifItem extends React.Component {
                     color: "#1DC161"
                   }}
                 >
-                  Following
+                  Friends
                 </Text>
               </Button>
             </View>
-          ) : null}
+          }
         </View>
       </TouchableWithoutFeedback>
     );

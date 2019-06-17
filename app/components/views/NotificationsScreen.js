@@ -50,16 +50,29 @@ export default class NotificationsScreen extends React.Component {
       .doc(firebase.auth.currentUser.uid)
       .collection("notifications")
       .add(
-        {
-          type: "follow_request",
-          user: {
-            username: "Paola Jump",
-            uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
-            bio: "hey ! I'm  Paola !",
-            avatar:
-              "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg"
-          }
-        }
+        // check if paola is logged
+        firebase.auth.currentUser.uid === "c2t4oE1EhGZzFZlbC2SuwwDYcfl1"
+          ? {
+              type: "follow_request",
+              user: {
+                username: "Alex Kokai",
+                uid: "iFBrOJHTJqd8IcIgVctD5qDvrO02",
+                bio: "I’m Alex Kokai 💋",
+                avatar:
+                  "https://www.abc.net.au/news/image/8094494-3x2-700x467.jpg"
+              }
+            }
+          : {
+              type: "follow_request",
+              user: {
+                username: "Paola Jump",
+                uid: "c2t4oE1EhGZzFZlbC2SuwwDYcfl1",
+                bio: "hey ! I'm  Paola !",
+                avatar:
+                  "https://img.freepik.com/photos-gratuite/seduisante-jeune-femme-aux-cheveux-boucles-prend-selfie-posant-regardant-camera_8353-6636.jpg?size=626&ext=jpg"
+              }
+            }
+
         // { merge: true }
       );
   }

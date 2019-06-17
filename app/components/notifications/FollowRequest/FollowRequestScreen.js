@@ -30,21 +30,37 @@ export default class FollowRequestScreen extends React.Component {
         })
       });
     await this.deletedNotif(newFriend);
-    this.returnAcceptNotif(newFriend);
+    this.acceptNotifForNewFriend(newFriend);
+    this.acceptNotifForCurrentUser(newFriend);
   }
-  returnAcceptNotif(newFriend) {
+  acceptNotifForNewFriend(newFriend) {
     firebase.db
       .collection("users")
       .doc(newFriend.user.uid)
       .collection("notifications")
       .add({
         type: "follow_request_accepted",
-        text: `${
-          firebase.auth.currentUser.displayName
-        } has accept your follow request!`
+        user: {
+          username: firebase.auth.currentUser.displayName,
+          avatar: this.props.navigation.getParam("avatar"),
+          uid: firebase.auth.currentUser.uid
+        }
       });
   }
-
+  acceptNotifForCurrentUser(newFriend) {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .collection("notifications")
+      .add({
+        type: "new_friend",
+        user: {
+          username: newFriend.user.username,
+          avatar: newFriend.user.avatar,
+          uid: newFriend.user.uid
+        }
+      });
+  }
   deletedNotif(currentNotif) {
     firebase.db
       .collection("users")
@@ -52,11 +68,6 @@ export default class FollowRequestScreen extends React.Component {
       .collection("notifications")
       .doc(currentNotif.uid)
       .delete();
-    // .update({
-    //   notifications: this.state.notifications.filter(
-    //     notif => notif.user.uid !== currentNotif.user.uid
-    //   )
-    // });
   }
   render() {
     const searchedNotifs = this.state.notifications.filter(notif =>
@@ -81,7 +92,7 @@ export default class FollowRequestScreen extends React.Component {
             }}
           >
             <Text style={{ fontWeight: "500", fontSize: 16 }}>
-              Follow Request
+              Friends Request
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
@@ -103,14 +114,6 @@ export default class FollowRequestScreen extends React.Component {
               returnKeyType="next"
               value={this.state.search}
               onChangeText={e => this.setState({ search: e })}
-              // onSubmitEditing={() => this.passwordInput.focus()}
-              // onChangeText={e =>
-              //   this.setState({
-              //     email: e,
-              //     emailInputColor: "rgba(0, 0, 0, 0.1)",
-              //     error: "null"
-              //   })
-              // }
             />
             <Button
               style={{
@@ -231,7 +234,6 @@ export default class FollowRequestScreen extends React.Component {
                               )
                             },
                             () => this.deletedNotif(notif)
-                            // () => console.log(this.state.notifications)
                           )
                         }
                       >
@@ -241,24 +243,6 @@ export default class FollowRequestScreen extends React.Component {
                           Refuse
                         </Text>
                       </Button>
-                      {/* <TouchableOpacity
-                      onPress={() => this.acceptRequest(notif.user)}
-                    >
-                      <Icon.Feather
-                        name="check"
-                        size={24}
-                        color="#1DC161"
-                        style={{ marginTop: 2, marginBottom: 3 }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <Icon.Feather
-                        name="x"
-                        size={24}
-                        color="#FE245D"
-                        style={{ marginTop: 2, marginBottom: 3, marginLeft: 8 }}
-                      />
-                    </TouchableOpacity> */}
                     </View>
                   )}
                 </View>
