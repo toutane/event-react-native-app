@@ -185,40 +185,51 @@ export default class ECUsersList extends React.Component {
               key={i}
               onPress={() => toggleUserToselectedUsers(user.uid, user.avatar)}
             >
-              <ListItem thumbnail>
-                <Left>
-                  {/* <TouchableOpacity
+              <View
+                key={i}
+                style={{
+                  flexDirection: "row",
+                  marginTop: i === 0 ? 20 : 0,
+                  marginBottom: 20,
+                  paddingHorizontal: 20,
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Thumbnail
+                    source={{ uri: user.avatar }}
+                    style={{ borderRadius: 13, width: 50, height: 50 }}
+                  />
+                  <View style={{ flexDirection: "column", marginLeft: 10 }}>
+                    <Text style={{ fontWeight: "600", fontSize: 15 }}>
+                      {user.username}
+                    </Text>
+                    <Text style={{ color: "rgba(0, 0, 0, 0.3)" }}>
+                      {user.bio.length > 18
+                        ? user.bio.slice(0, 18) + "..."
+                        : user.bio}
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <CheckBox
+                    checked={this.state.selectedUsers.some(
+                      c_user => c_user.uid === user.uid
+                    )}
+                    color={"#1DC161"}
+                    style={{
+                      height: 20,
+                      width: 20,
+                      borderRadius: 5,
+                      marginRight: 25
+                    }}
                     onPress={() =>
                       toggleUserToselectedUsers(user.uid, user.avatar)
                     }
-                  > */}
-                  <Thumbnail
-                    source={{ uri: user.avatar }}
-                    style={{ borderRadius: 13 }}
                   />
-                  {/* </TouchableOpacity> */}
-                </Left>
-                <Body>
-                  <Text>{user.username}</Text>
-                  <Text note>{user.bio}</Text>
-                </Body>
-                {/* <Text note>3:43 pm</Text> */}
-                <CheckBox
-                  checked={this.state.selectedUsers.some(
-                    c_user => c_user.uid === user.uid
-                  )}
-                  color={"#1DC161"}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    borderRadius: 5,
-                    marginRight: 25
-                  }}
-                  onPress={() =>
-                    toggleUserToselectedUsers(user.uid, user.avatar)
-                  }
-                />
-              </ListItem>
+                </View>
+              </View>
             </TouchableWithoutFeedback>
           ))}
         </List>

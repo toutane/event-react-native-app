@@ -63,7 +63,8 @@ const tabBarConfig = {
       {...props}
     />
   ),
-  initialRouteName: "NotificationsScreen",
+  initialRouteName: "Home",
+  // initialRouteName: "NotificationsScreen",
   tabBarOptions: {
     inactiveTintColor: theme.colors.inactiveColor
   }
