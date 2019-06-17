@@ -198,14 +198,6 @@ export default class NotificationsList extends React.Component {
       .onSnapshot(() =>
         this.setState({ spinner: true }, () => this.loadNotifications())
       );
-    firebase.db
-      .collection("users")
-      .doc(firebase.auth.currentUser.uid)
-      .onSnapshot(() =>
-        firebase
-          .getCurrentUserFriends()
-          .then(friends => this.setState({ currentUserFriends: friends }))
-      );
   }
 
   async loadNotifications() {
@@ -269,8 +261,8 @@ export default class NotificationsList extends React.Component {
                   notifications={this.state.notifications.filter(
                     notifs => notifs.type === "follow_request"
                   )}
-                  currentUserFriends={this.state.currentUserFriends}
                   avatar={this.state.avatar}
+                  bio={this.state.bio}
                   {...this.props}
                 />
                 <ThisWeekCard
@@ -278,7 +270,6 @@ export default class NotificationsList extends React.Component {
                   notifications={this.state.notifications.filter(
                     notifs => notifs.type !== "follow_request"
                   )}
-                  currentUserFriends={this.state.currentUserFriends}
                   avatar={this.state.avatar}
                   bio={this.state.bio}
                   {...this.props}

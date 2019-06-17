@@ -21,13 +21,25 @@ export default class FollowRequestScreen extends React.Component {
     await firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
-      .update({
-        friends: this.props.navigation.getParam("currentUserFriends").concat({
-          uid: newFriend.user.uid,
-          username: newFriend.user.username,
-          avatar: newFriend.user.avatar,
-          bio: newFriend.user.bio
-        })
+      .collection("friends")
+      .add({
+        // .update({
+        // friends: this.props.navigation.getParam("currentUserFriends").concat({
+        uid: newFriend.user.uid,
+        username: newFriend.user.username,
+        avatar: newFriend.user.avatar,
+        bio: newFriend.user.bio
+        // })
+      });
+    await firebase.db
+      .collection("users")
+      .doc(newFriend.user.uid)
+      .collection("friends")
+      .add({
+        username: firebase.auth.currentUser.displayName,
+        avatar: this.props.navigation.getParam("avatar"),
+        uid: firebase.auth.currentUser.uid,
+        bio: this.props.navigation.getParam("bio")
       });
     await this.deletedNotif(newFriend);
     this.acceptNotifForNewFriend(newFriend);

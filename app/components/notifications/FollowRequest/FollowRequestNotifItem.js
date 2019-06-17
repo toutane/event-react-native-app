@@ -3,21 +3,6 @@ import { Thumbnail, Button } from "native-base";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
 import firebase from "../../../firebase/firebase";
 export default class FollowsRequestNotifItem extends React.Component {
-  setRequest(receiver) {
-    firebase.db
-      .collection("users")
-      .doc(receiver.user.uid)
-      .collection("notifications")
-      .add({
-        type: "follow_request",
-        user: {
-          uid: firebase.auth.currentUser.uid,
-          username: firebase.auth.currentUser.displayName,
-          bio: this.props.bio,
-          avatar: this.props.avatar
-        }
-      });
-  }
   render() {
     return (
       <TouchableWithoutFeedback>
@@ -41,7 +26,7 @@ export default class FollowsRequestNotifItem extends React.Component {
                 {this.props.notif.type === "follow_request_accepted" ? (
                   <Text style={{ fontWeight: "normal" }}>
                     {" "}
-                    has accepted your request.
+                    has accepted your request !
                   </Text>
                 ) : (
                   <Text style={{ fontWeight: "normal" }}>

@@ -17,7 +17,8 @@ export default class FollowsRequestCard extends React.Component {
             this.props.navigation.navigate("FollowRequestScreen", {
               notifications: this.props.notifications,
               currentUserFriends: this.props.currentUserFriends,
-              avatar: this.props.avatar
+              avatar: this.props.avatar,
+              bio: this.props.bio
             })
           }
         >
