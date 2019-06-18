@@ -32,7 +32,9 @@ class Firebase {
       .collection("users")
       .doc(this.auth.currentUser.uid)
       .set({
-        bio: bio
+        bio: bio,
+        nb_friends: 0,
+        score: 0
       });
     return this.auth.currentUser.updateProfile({
       displayName: name
@@ -57,25 +59,32 @@ class Firebase {
     return avatar.get("avatar");
   }
   async getCurrentUserBio() {
-    const avatar = await this.db
+    const bio = await this.db
       .collection("users")
       .doc(this.auth.currentUser.uid)
       .get();
-    return avatar.get("bio");
+    return bio.get("bio");
   }
   async getCurrentUserScore() {
-    const avatar = await this.db
+    const bio = await this.db
       .collection("users")
       .doc(this.auth.currentUser.uid)
       .get();
-    return avatar.get("score");
+    return bio.get("score");
   }
   async getCurrentUserNumberOfFriends() {
-    const avatar = await this.db
+    const number = await this.db
       .collection("users")
       .doc(this.auth.currentUser.uid)
       .get();
-    return avatar.get("nb_friends");
+    return number.get("nb_friends");
+  }
+  async getUserNumberOfFriends(userUid) {
+    const number = await this.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return number.get("nb_friends");
   }
   async getCurrentUserNotifications() {
     const notifications = await this.db

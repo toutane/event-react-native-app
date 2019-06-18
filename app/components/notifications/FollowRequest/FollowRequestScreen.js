@@ -10,12 +10,30 @@ export default class FollowRequestScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { acceptRequest: [], notifications: [], search: "" };
+    this.state = {
+      acceptRequest: [],
+      notifications: [],
+      search: "",
+      currentuser_nb_friends: 0
+    };
   }
   componentDidMount() {
+    this.listenToChanges();
     this.setState({
       notifications: this.props.navigation.getParam("notifications")
     });
+  }
+  async listenToChanges() {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .onSnapshot(() =>
+        this.setState({ spinner: true }, () =>
+          firebase
+            .getCurrentUserNumberOfFriends()
+            .then(nb => this.setState({ currentuser_nb_friends: nb }))
+        )
+      );
   }
   async acceptRequest(newFriend) {
     await firebase.db
@@ -42,8 +60,26 @@ export default class FollowRequestScreen extends React.Component {
         bio: this.props.navigation.getParam("bio")
       });
     await this.deletedNotif(newFriend);
+    await firebase
+      .getUserNumberOfFriends(newFriend.user.uid)
+      .then(nb => this.setState({ newfriend_nb_friends: nb }));
+    this.updateNbOfFriends(newFriend);
     this.acceptNotifForNewFriend(newFriend);
     this.acceptNotifForCurrentUser(newFriend);
+  }
+  updateNbOfFriends(newFriend) {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .update({
+        nb_friends: this.state.currentuser_nb_friends + 1
+      });
+    firebase.db
+      .collection("users")
+      .doc(newFriend.user.uid)
+      .update({
+        nb_friends: this.state.newfriend_nb_friends + 1
+      });
   }
   acceptNotifForNewFriend(newFriend) {
     firebase.db
