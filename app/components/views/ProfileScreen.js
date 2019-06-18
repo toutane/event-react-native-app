@@ -38,7 +38,7 @@ export default class ProfileScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { avatar: "", bio: "", username: "" };
+    this.state = { avatar: "", bio: "", username: "", nb_friends: 0 };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
@@ -46,6 +46,9 @@ export default class ProfileScreen extends React.Component {
       .getCurrentUserAvatar()
       .then(avatar => this.setState({ avatar: avatar }));
     firebase.getCurrentUserBio().then(bio => this.setState({ bio: bio }));
+    firebase
+      .getCurrentUserNumberOfFriends()
+      .then(nb => this.setState({ nb_friends: nb }));
     this.setState({ username: firebase.auth.currentUser.displayName });
   }
   render() {
@@ -299,7 +302,7 @@ export default class ProfileScreen extends React.Component {
                       top: AnimatedButtonsPosition
                     }}
                   >
-                    437
+                    {this.state.nb_friends}
                   </Animated.Text>
                   <Animated.Text
                     style={{
@@ -308,7 +311,7 @@ export default class ProfileScreen extends React.Component {
                       opacity: AnimateOpacity
                     }}
                   >
-                    FRIENDS
+                    FRIEND{this.state.nb_friends > 1 ? "S" : null}
                   </Animated.Text>
                 </View>
               </View>
