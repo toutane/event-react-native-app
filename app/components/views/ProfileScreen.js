@@ -204,7 +204,7 @@ export default class ProfileScreen extends React.Component {
               }
             >
               <Icon.Feather
-                name="log-out"
+                name="user"
                 size={30}
                 color="white"
                 onPress={() => logout(this.props)}
@@ -275,7 +275,7 @@ export default class ProfileScreen extends React.Component {
                     height: 30,
                     width: 30,
                     borderRadius: 8,
-                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    backgroundColor: "#A8AFE0",
                     justifyContent: "center",
                     alignItems: "center"
                   }}
@@ -286,7 +286,7 @@ export default class ProfileScreen extends React.Component {
                   <Icon.Feather
                     name="user"
                     size={20}
-                    color="white"
+                    color="#364EE1"
                     onPress={() => logout(this.props)}
                   />
                 </TouchableOpacity>
@@ -324,7 +324,7 @@ export default class ProfileScreen extends React.Component {
                     height: 30,
                     width: 30,
                     borderRadius: 8,
-                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    backgroundColor: "#F9F0DB",
                     justifyContent: "center",
                     alignItems: "center"
                   }}
@@ -335,7 +335,7 @@ export default class ProfileScreen extends React.Component {
                   <Icon.Feather
                     name="star"
                     size={20}
-                    color="white"
+                    color="#fead01"
                     onPress={() => logout(this.props)}
                   />
                 </TouchableOpacity>
