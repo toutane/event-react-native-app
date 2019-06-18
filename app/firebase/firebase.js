@@ -63,6 +63,13 @@ class Firebase {
       .get();
     return avatar.get("bio");
   }
+  async getCurrentUserScore() {
+    const avatar = await this.db
+      .collection("users")
+      .doc(this.auth.currentUser.uid)
+      .get();
+    return avatar.get("score");
+  }
   async getCurrentUserNumberOfFriends() {
     const avatar = await this.db
       .collection("users")
