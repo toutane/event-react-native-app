@@ -10,22 +10,25 @@ import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import ProfileView from "../profile/ProfileView";
 import { Icon } from "expo";
+import { theme } from "../../themes";
 // import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../../firebase/firebase";
 import { Button, Text } from "native-base";
 
 const Header_Maximum_Height = 300;
-const Header_Minimum_Height = 100;
+const Header_Minimum_Height = 130;
 const Header_Maximum_Text = 50;
 const Header_Minimum_Text = 30;
 const Header_Maximum_Text_Pos = 75;
 const Header_Minimum_Text_Pos = -50;
+const Header_Maximum_Info_Pos = 0;
+const Header_Minimum_Info_Pos = -45;
 const Header_Maximum_Image_Pos = 150;
 const Header_Minimum_Image_Pos = 50;
 const Header_Maximum_Image_Height = 200;
 const Header_Minimum_Image_Height = 100;
 const Header_Maximum_Buttons_Pos = 0;
-const Header_Minimum_Buttons_Pos = -10;
+const Header_Minimum_Buttons_Pos = 7;
 const Header_Maximum_Text_Opacity = 1;
 const Header_Minimum_Text_Opacity = 0;
 
@@ -35,7 +38,7 @@ export default class ProfileScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { avatar: "" };
+    this.state = { avatar: "", bio: "", username: "" };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
@@ -43,8 +46,12 @@ export default class ProfileScreen extends React.Component {
       .getCurrentUserAvatar()
       .then(avatar => this.setState({ avatar: avatar }));
     firebase.getCurrentUserBio().then(bio => this.setState({ bio: bio }));
+    this.setState({ username: firebase.auth.currentUser.displayName });
   }
   render() {
+    const Username_Maximum_Text_Size =
+      this.state.username.length <= 10 ? 35 : 25;
+    const Username_Minimum_Text_Size = 25;
     async function logout(props) {
       await firebase.logout();
       props.navigation.navigate("SignIn");
@@ -56,7 +63,13 @@ export default class ProfileScreen extends React.Component {
 
       extrapolate: "clamp"
     });
+    const AnimateUsernameSize = this.AnimatedHeaderValue.interpolate({
+      inputRange: [0, Username_Maximum_Text_Size - Username_Minimum_Text_Size],
 
+      outputRange: [Username_Maximum_Text_Size, Username_Minimum_Text_Size],
+
+      extrapolate: "clamp"
+    });
     const AnimateHeaderText = this.AnimatedHeaderValue.interpolate({
       inputRange: [0, Header_Maximum_Text - Header_Minimum_Text],
 
@@ -68,6 +81,13 @@ export default class ProfileScreen extends React.Component {
       inputRange: [0, Header_Maximum_Text_Pos - Header_Minimum_Text_Pos],
 
       outputRange: [Header_Maximum_Text_Pos, Header_Minimum_Text_Pos],
+
+      extrapolate: "clamp"
+    });
+    const AnimatedInfoPosition = this.AnimatedHeaderValue.interpolate({
+      inputRange: [0, Header_Maximum_Info_Pos - Header_Minimum_Info_Pos],
+
+      outputRange: [Header_Maximum_Info_Pos, Header_Minimum_Info_Pos],
 
       extrapolate: "clamp"
     });
@@ -99,7 +119,7 @@ export default class ProfileScreen extends React.Component {
       extrapolate: "clamp"
     });
     const AnimatedButtonsPosition = this.AnimatedHeaderValue.interpolate({
-      inputRange: [0, Header_Maximum_Buttons_Pos - Header_Minimum_Buttons_Pos],
+      inputRange: [0, Header_Minimum_Buttons_Pos - Header_Maximum_Buttons_Pos],
 
       outputRange: [Header_Maximum_Buttons_Pos, Header_Minimum_Buttons_Pos],
 
@@ -193,7 +213,11 @@ export default class ProfileScreen extends React.Component {
           </Animated.View>
         </Animated.View>
         <Animated.View
-          style={{ top: AnimatedImagePosition, position: "absolute" }}
+          style={{
+            top: AnimatedImagePosition,
+            position: "absolute",
+            flexDirection: "row"
+          }}
         >
           {this.state.avatar !== "" ? (
             <Animated.Image
@@ -202,10 +226,143 @@ export default class ProfileScreen extends React.Component {
                 marginLeft: 30,
                 borderRadius: 13,
                 height: AnimatedImageHeight,
-                width: 150
+                width: 130
               }}
             />
           ) : null}
+          <View>
+            <Animated.Text
+              style={{
+                fontSize: AnimateUsernameSize,
+                marginTop: 5,
+                marginLeft: 15,
+                fontWeight: "bold",
+                color: "rgba(255,255,255,1)",
+                width: 200
+              }}
+            >
+              {firebase.auth.currentUser.displayName}
+            </Animated.Text>
+            <Animated.Text
+              style={{
+                fontSize: 16,
+                marginTop: 5,
+                marginLeft: 15,
+                fontWeight: "500",
+                color: theme.colors.grey,
+                width: 200,
+                opacity: AnimateOpacity
+              }}
+            >
+              {this.state.bio.toUpperCase()}
+            </Animated.Text>
+            <Animated.View
+              style={{
+                flexDirection: "row",
+                marginTop: 20,
+                top: AnimatedInfoPosition
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 15,
+                  alignItems: "center"
+                }}
+              >
+                <TouchableOpacity
+                  style={{
+                    height: 30,
+                    width: 30,
+                    borderRadius: 8,
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                  onPress={() =>
+                    this.props.navigation.navigate("NotificationsView")
+                  }
+                >
+                  <Icon.Feather
+                    name="user"
+                    size={20}
+                    color="white"
+                    onPress={() => logout(this.props)}
+                  />
+                </TouchableOpacity>
+                <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
+                  <Animated.Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "white",
+                      top: AnimatedButtonsPosition
+                    }}
+                  >
+                    437
+                  </Animated.Text>
+                  <Animated.Text
+                    style={{
+                      fontSize: 14,
+                      color: theme.colors.grey,
+                      opacity: AnimateOpacity
+                    }}
+                  >
+                    FRIENDS
+                  </Animated.Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 15,
+                  alignItems: "center"
+                }}
+              >
+                <TouchableOpacity
+                  style={{
+                    height: 30,
+                    width: 30,
+                    borderRadius: 8,
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                  onPress={() =>
+                    this.props.navigation.navigate("NotificationsView")
+                  }
+                >
+                  <Icon.Feather
+                    name="star"
+                    size={20}
+                    color="white"
+                    onPress={() => logout(this.props)}
+                  />
+                </TouchableOpacity>
+                <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
+                  <Animated.Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "white",
+                      top: AnimatedButtonsPosition
+                    }}
+                  >
+                    2300
+                  </Animated.Text>
+                  <Animated.Text
+                    style={{
+                      fontSize: 14,
+                      color: theme.colors.grey,
+                      opacity: AnimateOpacity
+                    }}
+                  >
+                    SCORE
+                  </Animated.Text>
+                </View>
+              </View>
+            </Animated.View>
+          </View>
         </Animated.View>
       </View>
     );
