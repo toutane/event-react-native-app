@@ -21,8 +21,10 @@ export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "Ca@ca.ca",
-      password: "cacaca",
+      email: "aa@aa.aa",
+      password: "alexander",
+      // email: "Ca@ca.ca",
+      // password: "cacaca",
       // email: "",
       // password: "",
       emailInputColor: "rgba(0, 0, 0, 0.1)",
