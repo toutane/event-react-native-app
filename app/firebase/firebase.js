@@ -63,6 +63,13 @@ class Firebase {
       .get();
     return avatar.get("bio");
   }
+  async getCurrentUserNumberOfFriends() {
+    const avatar = await this.db
+      .collection("users")
+      .doc(this.auth.currentUser.uid)
+      .get();
+    return avatar.get("nb_friends");
+  }
   async getCurrentUserNotifications() {
     const notifications = await this.db
       .collection("users")

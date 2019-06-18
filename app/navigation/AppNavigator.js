@@ -16,16 +16,16 @@ import EventCreationNavigator from "./EventCreationNavigator";
 import NotificationNavigator from "./NotificationNavigator";
 
 import HomeScreen from "../components/views/HomeScreen";
-import MessageScreen from "../components/views/MessageScreen";
+import ExploreScreen from "../components/views/ExploreScreen";
 import NotificationsScreen from "../components/views/NotificationsScreen";
 import ProfileScreen from "../components/views/ProfileScreen";
 
 const tabBar = {
-  Chat: {
-    screen: MessageScreen,
+  Explore: {
+    screen: ExploreScreen,
     navigationOptions: {
-      tabBarLabel: "Chat",
-      tabBarIcon: props => <TabIcon iconName="message-circle" {...props} />
+      tabBarLabel: "Explore",
+      tabBarIcon: props => <TabIcon iconName="search" {...props} />
     }
   },
   Home: {
@@ -65,7 +65,8 @@ const tabBarConfig = {
   ),
   // initialRouteName: "Home",
   // initialRouteName: "Notification",
-  initialRouteName: "Profile",
+  initialRouteName: "Explore",
+  // initialRouteName: "Profile",
 
   tabBarOptions: {
     inactiveTintColor: theme.colors.inactiveColor
