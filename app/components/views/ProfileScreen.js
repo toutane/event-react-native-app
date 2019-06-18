@@ -17,10 +17,10 @@ import { Button, Text } from "native-base";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
-const Header_Maximum_Text = 50;
-const Header_Minimum_Text = 30;
-const Header_Maximum_Text_Pos = 75;
-const Header_Minimum_Text_Pos = -50;
+const Header_Maximum_Text = 900;
+const Header_Minimum_Text = 720;
+const Header_Maximum_Text_Pos_Top = 75;
+const Header_Minimum_Text_Pos_Top = -60;
 const Header_Maximum_Info_Pos = 0;
 const Header_Minimum_Info_Pos = -45;
 const Header_Maximum_Image_Pos = 150;
@@ -42,6 +42,17 @@ export default class ProfileScreen extends React.Component {
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
+    this.listenToChanges();
+  }
+  async listenToChanges() {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .onSnapshot(() =>
+        this.setState({ spinner: true }, () => this.reUpdateCurrentUserInfo())
+      );
+  }
+  reUpdateCurrentUserInfo() {
     firebase
       .getCurrentUserAvatar()
       .then(avatar => this.setState({ avatar: avatar }));
@@ -55,9 +66,6 @@ export default class ProfileScreen extends React.Component {
     this.setState({ username: firebase.auth.currentUser.displayName });
   }
   render() {
-    const Username_Maximum_Text_Size =
-      this.state.username.length <= 10 ? 35 : 25;
-    const Username_Minimum_Text_Size = 25;
     async function logout(props) {
       await firebase.logout();
       props.navigation.navigate("SignIn");
@@ -69,13 +77,6 @@ export default class ProfileScreen extends React.Component {
 
       extrapolate: "clamp"
     });
-    const AnimateUsernameSize = this.AnimatedHeaderValue.interpolate({
-      inputRange: [0, Username_Maximum_Text_Size - Username_Minimum_Text_Size],
-
-      outputRange: [Username_Maximum_Text_Size, Username_Minimum_Text_Size],
-
-      extrapolate: "clamp"
-    });
     const AnimateHeaderText = this.AnimatedHeaderValue.interpolate({
       inputRange: [0, Header_Maximum_Text - Header_Minimum_Text],
 
@@ -83,10 +84,13 @@ export default class ProfileScreen extends React.Component {
 
       extrapolate: "clamp"
     });
-    const AnimatedTextPosition = this.AnimatedHeaderValue.interpolate({
-      inputRange: [0, Header_Maximum_Text_Pos - Header_Minimum_Text_Pos],
+    const AnimatedTextPositionTop = this.AnimatedHeaderValue.interpolate({
+      inputRange: [
+        0,
+        Header_Maximum_Text_Pos_Top - Header_Minimum_Text_Pos_Top
+      ],
 
-      outputRange: [Header_Maximum_Text_Pos, Header_Minimum_Text_Pos],
+      outputRange: [Header_Maximum_Text_Pos_Top, Header_Minimum_Text_Pos_Top],
 
       extrapolate: "clamp"
     });
@@ -172,26 +176,28 @@ export default class ProfileScreen extends React.Component {
         <Animated.View
           style={{
             zIndex: 10,
-            top: AnimatedTextPosition,
-            opacity: AnimateOpacity,
+            top: AnimatedTextPositionTop,
             position: "absolute",
             flexDirection: "row"
           }}
         >
           <Animated.Text
-            style={[
-              styles.mainTitle,
-              {
-                fontSize: AnimateHeaderText
-              }
-            ]}
+            style={{
+              fontSize: this.state.username.length <= 10 ? 50 : 38,
+              marginTop: 5,
+              marginLeft: 30,
+              fontWeight: "bold",
+              color: "rgba(255,255,255,1)",
+              width: 300
+            }}
           >
-            Profile
+            {firebase.auth.currentUser.displayName}
           </Animated.Text>
           <Animated.View
             style={{
               top: AnimatedButtonsPosition,
-              position: "absolute"
+              position: "absolute",
+              opacity: AnimateOpacity
             }}
           >
             <TouchableOpacity
@@ -239,15 +245,17 @@ export default class ProfileScreen extends React.Component {
           <View>
             <Animated.Text
               style={{
-                fontSize: AnimateUsernameSize,
+                fontSize: 25,
+                // fontSize: 20,
                 marginTop: 5,
                 marginLeft: 15,
                 fontWeight: "bold",
-                color: "rgba(255,255,255,1)",
-                width: 200
+                color: "rgba(255,255,255,0.9)",
+                width: 220,
+                opacity: AnimateOpacity
               }}
             >
-              {firebase.auth.currentUser.displayName}
+              {this.state.bio}
             </Animated.Text>
             <Animated.Text
               style={{
@@ -260,7 +268,7 @@ export default class ProfileScreen extends React.Component {
                 opacity: AnimateOpacity
               }}
             >
-              {this.state.bio.toUpperCase()}
+              Registered 2 months ago
             </Animated.Text>
             <Animated.View
               style={{
@@ -370,6 +378,19 @@ export default class ProfileScreen extends React.Component {
             </Animated.View>
           </View>
         </Animated.View>
+        <Animated.Text
+          style={{
+            position: "absolute",
+            bottom: AnimateHeaderText,
+            fontSize: 25,
+            marginLeft: 175,
+            fontWeight: "bold",
+            color: "rgba(255,255,255,1)",
+            width: 220
+          }}
+        >
+          {firebase.auth.currentUser.displayName}
+        </Animated.Text>
       </View>
     );
   }
