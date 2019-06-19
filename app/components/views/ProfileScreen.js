@@ -13,7 +13,7 @@ import { Icon } from "expo";
 import { theme } from "../../themes";
 // import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../../firebase/firebase";
-import { Button, Text } from "native-base";
+// import { Spinner } from "native-base";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
@@ -38,7 +38,15 @@ export default class ProfileScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { avatar: "", bio: "", username: "", nb_friends: 0, score: 0 };
+    this.state = {
+      skeleton: true,
+      avatar: "",
+      bio: "",
+      username: "",
+      nb_friends: 0,
+      score: 0,
+      usernameSize: 38
+    };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
@@ -49,21 +57,28 @@ export default class ProfileScreen extends React.Component {
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
       .onSnapshot(() =>
-        this.setState({ spinner: true }, () => this.reUpdateCurrentUserInfo())
+        this.setState({ skeleton: true }, () => this.reUpdateCurrentUserInfo())
       );
   }
   reUpdateCurrentUserInfo() {
     firebase
       .getCurrentUserAvatar()
       .then(avatar => this.setState({ avatar: avatar }));
-    firebase.getCurrentUserBio().then(bio => this.setState({ bio: bio }));
+    firebase
+      .getCurrentUserBio()
+      .then(bio =>
+        this.setState({ bio: bio }, this.setState({ skeleton: false }))
+      );
     firebase
       .getCurrentUserNumberOfFriends()
       .then(nb => this.setState({ nb_friends: nb }));
     firebase
       .getCurrentUserScore()
       .then(score => this.setState({ score: score }));
-    this.setState({ username: firebase.auth.currentUser.displayName });
+    this.setState({
+      username: firebase.auth.currentUser.displayName,
+      usernameSize: firebase.auth.currentUser.displayName.length <= 10 ? 50 : 38
+    });
   }
   render() {
     async function logout(props) {
@@ -173,17 +188,22 @@ export default class ProfileScreen extends React.Component {
             headerTo={"#1DC161"}
           />
         </Animated.View>
+        {/* {this.state.spinner ? (
+          <Spinner />
+        ) : ( */}
         <Animated.View
           style={{
             zIndex: 10,
             top: AnimatedTextPositionTop,
             position: "absolute",
-            flexDirection: "row"
+            flexDirection: "row",
+            justyContent: "space-between"
+            // alignItems: "center"
           }}
         >
           <Animated.Text
             style={{
-              fontSize: this.state.username.length <= 10 ? 50 : 38,
+              fontSize: this.state.usernameSize,
               marginTop: 5,
               marginLeft: 30,
               fontWeight: "bold",
@@ -195,6 +215,32 @@ export default class ProfileScreen extends React.Component {
           </Animated.Text>
           <Animated.View
             style={{
+              opacity: AnimateOpacity,
+              left: screenWidth - 70,
+              position: "absolute"
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                height: 40,
+                width: 40,
+                marginTop: 7,
+                borderRadius: 8,
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Icon.Feather
+                name="more-vertical"
+                size={25}
+                color="white"
+                onPress={() => logout(this.props)}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+          {/* <Animated.View
+            style={{
               top: AnimatedButtonsPosition,
               position: "absolute",
               opacity: AnimateOpacity
@@ -202,11 +248,11 @@ export default class ProfileScreen extends React.Component {
           >
             <TouchableOpacity
               style={{
-                height: 50,
-                width: 50,
-                left: screenWidth - 80,
-                position: "absolute",
-                borderRadius: 13,
+                height: 30,
+                width: 30,
+                // left: screenWidth - 80,
+                // position: "absolute",
+                borderRadius: 8,
                 backgroundColor: "rgba(255, 255, 255, 0.15)",
                 justifyContent: "center",
                 alignItems: "center"
@@ -216,13 +262,13 @@ export default class ProfileScreen extends React.Component {
               }
             >
               <Icon.Feather
-                name="user"
-                size={30}
+                name="settings"
+                size={20}
                 color="white"
                 onPress={() => logout(this.props)}
               />
             </TouchableOpacity>
-          </Animated.View>
+          </Animated.View> */}
         </Animated.View>
         <Animated.View
           style={{
@@ -231,32 +277,46 @@ export default class ProfileScreen extends React.Component {
             flexDirection: "row"
           }}
         >
-          {this.state.avatar !== "" ? (
-            <Animated.Image
-              source={{ uri: this.state.avatar }}
-              style={{
-                marginLeft: 30,
-                borderRadius: 13,
-                height: AnimatedImageHeight,
-                width: 130
-              }}
-            />
-          ) : null}
+          <View style={{ width: 160 }}>
+            {this.state.avatar !== "" ? (
+              <Animated.Image
+                source={{ uri: this.state.avatar }}
+                style={{
+                  zIndex: 99,
+                  marginLeft: 30,
+                  borderRadius: 13,
+                  height: AnimatedImageHeight,
+                  width: 130
+                }}
+              />
+            ) : null}
+          </View>
           <View>
-            <Animated.Text
-              style={{
-                fontSize: 25,
-                // fontSize: 20,
-                marginTop: 5,
-                marginLeft: 15,
-                fontWeight: "bold",
-                color: "rgba(255,255,255,0.9)",
-                width: 220,
-                opacity: AnimateOpacity
-              }}
-            >
-              {this.state.bio}
-            </Animated.Text>
+            {this.state.skeleton ? (
+              <View
+                style={{
+                  marginTop: 5,
+                  marginLeft: 15,
+                  width: 220,
+                  // backgroundColor: "#eee",
+                  height: 30
+                }}
+              />
+            ) : (
+              <Animated.Text
+                style={{
+                  fontSize: 25,
+                  marginTop: 5,
+                  marginLeft: 15,
+                  fontWeight: "bold",
+                  color: "rgba(255,255,255,0.9)",
+                  width: 220,
+                  opacity: AnimateOpacity
+                }}
+              >
+                {this.state.bio}
+              </Animated.Text>
+            )}
             <Animated.Text
               style={{
                 fontSize: 16,
@@ -284,7 +344,7 @@ export default class ProfileScreen extends React.Component {
                   alignItems: "center"
                 }}
               >
-                <TouchableOpacity
+                <View
                   style={{
                     height: 30,
                     width: 30,
@@ -293,17 +353,9 @@ export default class ProfileScreen extends React.Component {
                     justifyContent: "center",
                     alignItems: "center"
                   }}
-                  onPress={() =>
-                    this.props.navigation.navigate("NotificationsView")
-                  }
                 >
-                  <Icon.Feather
-                    name="user"
-                    size={20}
-                    color="#364EE1"
-                    onPress={() => logout(this.props)}
-                  />
-                </TouchableOpacity>
+                  <Icon.Feather name="user" size={20} color="#364EE1" />
+                </View>
                 <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
                   <Animated.Text
                     style={{
@@ -333,7 +385,7 @@ export default class ProfileScreen extends React.Component {
                   alignItems: "center"
                 }}
               >
-                <TouchableOpacity
+                <View
                   style={{
                     height: 30,
                     width: 30,
@@ -342,17 +394,9 @@ export default class ProfileScreen extends React.Component {
                     justifyContent: "center",
                     alignItems: "center"
                   }}
-                  onPress={() =>
-                    this.props.navigation.navigate("NotificationsView")
-                  }
                 >
-                  <Icon.Feather
-                    name="star"
-                    size={20}
-                    color="#fead01"
-                    onPress={() => logout(this.props)}
-                  />
-                </TouchableOpacity>
+                  <Icon.Feather name="star" size={20} color="#fead01" />
+                </View>
                 <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
                   <Animated.Text
                     style={{
@@ -378,6 +422,7 @@ export default class ProfileScreen extends React.Component {
             </Animated.View>
           </View>
         </Animated.View>
+
         <Animated.Text
           style={{
             position: "absolute",
