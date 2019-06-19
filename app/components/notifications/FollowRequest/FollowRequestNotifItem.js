@@ -2,6 +2,7 @@ import React from "react";
 import { Thumbnail, Button } from "native-base";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
 import firebase from "../../../firebase/firebase";
+import ThisWeekCardView from "../ThisWeek/ThisWeekCardView";
 export default class FollowsRequestNotifItem extends React.Component {
   render() {
     return (
@@ -23,18 +24,26 @@ export default class FollowsRequestNotifItem extends React.Component {
             />
             <View style={{ flexDirection: "row", marginLeft: 10, width: 170 }}>
               <Text style={{ fontWeight: "600", fontSize: 15 }}>
-                {this.props.notif.user.username}
+                {this.props.notif.user.username ===
+                firebase.auth.currentUser.displayName
+                  ? "You"
+                  : this.props.notif.user.username}
                 {this.props.notif.type === "follow_request_accepted" ? (
                   <Text style={{ fontWeight: "normal" }}>
                     {" "}
                     has accepted your request !
                   </Text>
-                ) : (
+                ) : this.props.notif.type === "new_friend" ? (
                   <Text style={{ fontWeight: "normal" }}>
                     {" "}
                     become your friend !
                   </Text>
-                )}
+                ) : this.props.notif.type === "event_created" ? (
+                  <Text style={{ fontWeight: "normal" }}>
+                    {" "}
+                    just created a event
+                  </Text>
+                ) : null}
               </Text>
             </View>
           </View>
