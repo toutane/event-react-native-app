@@ -270,9 +270,12 @@ export default class NotificationsList extends React.Component {
                 ) : null}
                 <ThisWeekCard
                   style={{ marginBottom: 30 }}
-                  notifications={this.state.notifications.filter(
-                    notifs => notifs.type !== "follow_request"
-                  )}
+                  notifications={
+                    this.state.notifications.filter(
+                      notifs => notifs.type !== "follow_request"
+                    )
+                    // .filter(notifs => notifs.type !== "event_created")
+                  }
                   avatar={this.state.avatar}
                   bio={this.state.bio}
                   {...this.props}

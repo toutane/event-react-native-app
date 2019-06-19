@@ -15,7 +15,9 @@ export default class FollowsRequestCard extends React.Component {
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate("FollowRequestScreen", {
-              notifications: this.props.notifications,
+              notifications: this.props.notifications.filter(
+                notif => notif.type === "follow_request"
+              ),
               currentUserFriends: this.props.currentUserFriends,
               avatar: this.props.avatar,
               bio: this.props.bio

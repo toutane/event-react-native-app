@@ -50,7 +50,7 @@ class NotifsActions {
         .collection("notifications")
         .add({
           type: "event_created",
-          organizer: {
+          user: {
             uid: organizer.uid,
             username: organizer.username,
             avatar: organizer.avatar
