@@ -129,13 +129,11 @@ export default class EventCreationView extends React.Component {
         .then(props.navigation.navigate("Home"));
       NotifsActions.EVENT_CREATED(
         {
-          uid: this.state.organizer_uid,
-          username: this.state.organizer_username,
-          avatar: this.state.organizer_avatar
+          uid: state.organizer_uid,
+          username: state.organizer_username,
+          avatar: state.organizer_avatar
         },
-        [{ uid: this.state.organizer_uid }].concat(
-          this.state.invited_participants
-        )
+        [{ uid: state.organizer_uid }].concat(state.invited_participants)
       );
     }
     return (
