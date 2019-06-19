@@ -1,6 +1,8 @@
 import firebase from "../firebase/firebase";
 
 class NotifsActions {
+  // FOLLOWS REQUESTS NOTIFICATIONS
+
   async DELETE_NOTIFICATION(user_uid, notif_uid) {
     firebase.db
       .collection("users")
@@ -23,7 +25,7 @@ class NotifsActions {
         }
       });
   }
-  async NEW_FRIEND(newFriend) {
+  async BECOME_NEW_FRIEND(newFriend) {
     firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
@@ -36,6 +38,25 @@ class NotifsActions {
           uid: newFriend.user.uid
         }
       });
+  }
+
+  // EVENTS_NOTIFICATIONS
+
+  async EVENT_CREATED(organizer, users) {
+    users.forEach(user => {
+      firebase.db
+        .collection("users")
+        .doc(user.uid)
+        .collection("notifications")
+        .add({
+          type: "event_created",
+          organizer: {
+            uid: organizer.uid,
+            username: organizer.username,
+            avatar: organizer.avatar
+          }
+        });
+    });
   }
 }
 
