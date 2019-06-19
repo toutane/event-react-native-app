@@ -8,6 +8,7 @@ import MiddleCreation from "./Middle";
 import Event_CreationInfo from "./Info";
 import MembersView from "./MembersView";
 import firebase from "../../../firebase/firebase";
+import NotifsActions from "../../../actions/notificationsActions";
 const moment = require("moment");
 
 export default class EventCreationView extends React.Component {
@@ -126,6 +127,16 @@ export default class EventCreationView extends React.Component {
           state.invited_participants
         )
         .then(props.navigation.navigate("Home"));
+      NotifsActions.EVENT_CREATED(
+        {
+          uid: this.state.organizer_uid,
+          username: this.state.organizer_username,
+          avatar: this.state.organizer_avatar
+        },
+        [{ uid: this.state.organizer_uid }].concat(
+          this.state.invited_participants
+        )
+      );
     }
     return (
       <View>
@@ -135,6 +146,18 @@ export default class EventCreationView extends React.Component {
               <Header
                 {...this.props}
                 createNewEvent={() => createNewEvent(this.props, this.state)}
+                // createNewEvent={() =>
+                //   NotifsActions.EVENT_CREATED(
+                //     {
+                //       uid: this.state.organizer_uid,
+                //       username: this.state.organizer_username,
+                //       avatar: this.state.organizer_avatar
+                //     },
+                //     [{ uid: this.state.organizer_uid }].concat(
+                //       this.state.invited_participants
+                //     )
+                //   )
+                // }
                 title={this.state.title}
               />
               <MiddleCreation

@@ -58,7 +58,7 @@ export default class FollowRequestScreen extends React.Component {
       newFriend.user.uid,
       this.props.navigation.getParam("avatar")
     );
-    NotifsActions.NEW_FRIEND(newFriend);
+    NotifsActions.BECOME_NEW_FRIEND(newFriend);
     FriendsActions.INCREASE_NB_FRIENDS(
       firebase.auth.currentUser.uid,
       this.state.currentuser_nb_friends
