@@ -1,7 +1,11 @@
 import React from "react";
 import { List, Thumbnail, Button } from "native-base";
 import { View, TextInput, Text, TouchableWithoutFeedback } from "react-native";
+
 import firebase from "../../../firebase/firebase";
+import FriendsActions from "../../../actions/friendsActions";
+import NotifsActions from "../../../actions/notificationsActions";
+
 import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
 export default class FollowRequestScreen extends React.Component {
@@ -14,7 +18,8 @@ export default class FollowRequestScreen extends React.Component {
       acceptRequest: [],
       notifications: [],
       search: "",
-      currentuser_nb_friends: 0
+      currentuser_nb_friends: 0,
+      newfriend_nb_friends: 0
     };
   }
   componentDidMount() {
@@ -36,86 +41,32 @@ export default class FollowRequestScreen extends React.Component {
       );
   }
   async acceptRequest(newFriend) {
-    await firebase.db
-      .collection("users")
-      .doc(firebase.auth.currentUser.uid)
-      .collection("friends")
-      .add({
-        // .update({
-        // friends: this.props.navigation.getParam("currentUserFriends").concat({
-        uid: newFriend.user.uid,
-        username: newFriend.user.username,
-        avatar: newFriend.user.avatar,
-        bio: newFriend.user.bio
-        // })
-      });
-    await firebase.db
-      .collection("users")
-      .doc(newFriend.user.uid)
-      .collection("friends")
-      .add({
-        username: firebase.auth.currentUser.displayName,
-        avatar: this.props.navigation.getParam("avatar"),
-        uid: firebase.auth.currentUser.uid,
-        bio: this.props.navigation.getParam("bio")
-      });
-    await this.deletedNotif(newFriend);
+    await FriendsActions.ADD_FRIEND_TO_CURRENTUSER(newFriend);
+    await FriendsActions.ADD_FRIEND_TO_USER(
+      newFriend.user.uid,
+      this.props.navigation.getParam("bio"),
+      this.props.navigation.getParam("avatar")
+    );
+    await NotifsActions.DELETE_NOTIFICATION(
+      firebase.auth.currentUser.uid,
+      newFriend.uid
+    );
     await firebase
       .getUserNumberOfFriends(newFriend.user.uid)
       .then(nb => this.setState({ newfriend_nb_friends: nb }));
-    this.updateNbOfFriends(newFriend);
-    this.acceptNotifForNewFriend(newFriend);
-    this.acceptNotifForCurrentUser(newFriend);
-  }
-  updateNbOfFriends(newFriend) {
-    firebase.db
-      .collection("users")
-      .doc(firebase.auth.currentUser.uid)
-      .update({
-        nb_friends: this.state.currentuser_nb_friends + 1
-      });
-    firebase.db
-      .collection("users")
-      .doc(newFriend.user.uid)
-      .update({
-        nb_friends: this.state.newfriend_nb_friends + 1
-      });
-  }
-  acceptNotifForNewFriend(newFriend) {
-    firebase.db
-      .collection("users")
-      .doc(newFriend.user.uid)
-      .collection("notifications")
-      .add({
-        type: "follow_request_accepted",
-        user: {
-          username: firebase.auth.currentUser.displayName,
-          avatar: this.props.navigation.getParam("avatar"),
-          uid: firebase.auth.currentUser.uid
-        }
-      });
-  }
-  acceptNotifForCurrentUser(newFriend) {
-    firebase.db
-      .collection("users")
-      .doc(firebase.auth.currentUser.uid)
-      .collection("notifications")
-      .add({
-        type: "new_friend",
-        user: {
-          username: newFriend.user.username,
-          avatar: newFriend.user.avatar,
-          uid: newFriend.user.uid
-        }
-      });
-  }
-  deletedNotif(currentNotif) {
-    firebase.db
-      .collection("users")
-      .doc(firebase.auth.currentUser.uid)
-      .collection("notifications")
-      .doc(currentNotif.uid)
-      .delete();
+    NotifsActions.FOLLOW_REQUEST_ACCEPTED(
+      newFriend.user.uid,
+      this.props.navigation.getParam("avatar")
+    );
+    NotifsActions.NEW_FRIEND(newFriend);
+    FriendsActions.INCREASE_NB_FRIENDS(
+      firebase.auth.currentUser.uid,
+      this.state.currentuser_nb_friends
+    );
+    FriendsActions.INCREASE_NB_FRIENDS(
+      newFriend.user.uid,
+      this.state.newfriend_nb_friends
+    );
   }
   render() {
     const searchedNotifs = this.state.notifications.filter(notif =>

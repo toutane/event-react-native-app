@@ -201,16 +201,15 @@ export default class NotificationsList extends React.Component {
   }
 
   async loadNotifications() {
-    firebase
-      .getCurrentUserNotifications()
-      .then(notifications =>
+    firebase.getCurrentUserNotifications().then(notifications =>
+      this.setState(
+        { notifications: notifications },
         this.setState(
-          { notifications: notifications },
-          this.setState({ spinner: false }, () =>
-            console.log(this.state.notifications)
-          )
+          { spinner: false }
+          // , () => console.log(this.state.notifications)
         )
-      );
+      )
+    );
   }
 
   render() {
