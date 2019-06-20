@@ -5,6 +5,7 @@ import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
 import firebase from "../../../firebase/firebase";
 import UsersActions from "../../../actions/usersActions";
+import Avatar from "../../Avatar/Avatar";
 
 export default class MembersView extends React.Component {
   static navigationOptions = {
@@ -49,7 +50,9 @@ export default class MembersView extends React.Component {
                 </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 20 }}>
-                <View>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate("Profile")}
+                >
                   <Thumbnail
                     source={{
                       uri: this.state.organizer_avatar
@@ -71,20 +74,28 @@ export default class MembersView extends React.Component {
                       height: 12
                     }}
                   />
-                </View>
+                </TouchableOpacity>
                 {this.props.invited_participants
                   .slice(0, 3)
-                  .map((participants, i) => (
-                    <Thumbnail
+                  .map((participant, i) => (
+                    <Avatar
                       key={i}
-                      source={{ uri: participants.avatar }}
-                      style={{
-                        borderRadius: 13,
-                        width: 45,
-                        height: 45,
-                        marginLeft: 8
+                      user={{
+                        uid: participant.uid,
+                        avatar: participant.avatar
                       }}
+                      {...this.props}
                     />
+                    // <Thumbnail
+                    //   key={i}
+                    //   source={{ uri: participants.avatar }}
+                    //   style={{
+                    //     borderRadius: 13,
+                    //     width: 45,
+                    //     height: 45,
+                    //     marginLeft: 8
+                    //   }}
+                    // />
                   ))}
                 {this.props.invited_participants.length > 4 ? (
                   <View

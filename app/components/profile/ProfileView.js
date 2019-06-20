@@ -211,7 +211,9 @@ export default class ProfileView extends React.Component {
               width: 300
             }}
           >
-            {this.state.username}
+            {this.state.username.length > 13
+              ? this.state.username.slice(0, 10) + "..."
+              : this.state.username}
           </Animated.Text>
           <Animated.View
             style={{
@@ -230,7 +232,10 @@ export default class ProfileView extends React.Component {
                 justifyContent: "center",
                 alignItems: "center"
               }}
-              onPress={() => this.props.navigation.navigate("Home")}
+              onPress={() =>
+                // this.props.navigation.navigate("Home")
+                this.props.navigation.pop()
+              }
             >
               <Icon.Feather name="arrow-up" size={25} color="white" />
             </TouchableOpacity>
@@ -420,7 +425,6 @@ export default class ProfileView extends React.Component {
             </Animated.View>
           </View>
         </Animated.View>
-
         <Animated.Text
           style={{
             position: "absolute",
@@ -432,7 +436,9 @@ export default class ProfileView extends React.Component {
             width: 220
           }}
         >
-          {this.state.username}
+          {this.state.username.length > 13
+            ? this.state.username.slice(0, 10) + "..."
+            : this.state.username}
         </Animated.Text>
       </View>
     );

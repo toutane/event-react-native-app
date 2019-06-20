@@ -13,6 +13,7 @@ import { Icon } from "expo";
 import { theme } from "../../themes";
 // import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../../firebase/firebase";
+import UsersActions from "../../actions/usersActions";
 // import { Spinner } from "native-base";
 
 const Header_Maximum_Height = 300;
@@ -61,20 +62,18 @@ export default class ProfileScreen extends React.Component {
       );
   }
   reUpdateCurrentUserInfo() {
-    firebase
-      .getCurrentUserAvatar()
-      .then(avatar => this.setState({ avatar: avatar }));
-    firebase
-      .getCurrentUserBio()
-      .then(bio =>
-        this.setState({ bio: bio }, this.setState({ skeleton: false }))
-      );
-    firebase
-      .getCurrentUserNumberOfFriends()
-      .then(nb => this.setState({ nb_friends: nb }));
-    firebase
-      .getCurrentUserScore()
-      .then(score => this.setState({ score: score }));
+    UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(avatar =>
+      this.setState({ avatar: avatar })
+    );
+    UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
+      this.setState({ bio: bio }, this.setState({ skeleton: false }))
+    );
+    UsersActions.GET_USER_NB_FRIENDS(firebase.auth.currentUser.uid).then(nb =>
+      this.setState({ nb_friends: nb })
+    );
+    UsersActions.GET_USER_SCORE(firebase.auth.currentUser.uid).then(score =>
+      this.setState({ score: score })
+    );
     this.setState({
       username: firebase.auth.currentUser.displayName,
       usernameSize: firebase.auth.currentUser.displayName.length <= 10 ? 50 : 38
@@ -211,7 +210,9 @@ export default class ProfileScreen extends React.Component {
               width: 300
             }}
           >
-            {firebase.auth.currentUser.displayName}
+            {firebase.auth.currentUser.displayName.length > 16
+              ? firebase.auth.currentUser.displayName.slice(0, 13) + "..."
+              : firebase.auth.currentUser.displayName}
           </Animated.Text>
           <Animated.View
             style={{
@@ -314,7 +315,9 @@ export default class ProfileScreen extends React.Component {
                   opacity: AnimateOpacity
                 }}
               >
-                {this.state.bio}
+                {this.state.bio.length > 15
+                  ? this.state.bio.slice(0, 13) + "..."
+                  : this.state.bio}
               </Animated.Text>
             )}
             <Animated.Text
@@ -434,7 +437,9 @@ export default class ProfileScreen extends React.Component {
             width: 220
           }}
         >
-          {firebase.auth.currentUser.displayName}
+          {firebase.auth.currentUser.displayName.length > 16
+            ? firebase.auth.currentUser.displayName.slice(0, 13) + "..."
+            : firebase.auth.currentUser.displayName}
         </Animated.Text>
       </View>
     );

@@ -1,10 +1,17 @@
 import React from "react";
 import { List, Thumbnail, Button } from "native-base";
-import { View, TextInput, Text, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  TextInput,
+  Text,
+  TouchableWithoutFeedback,
+  TouchableOpacity
+} from "react-native";
 
 import firebase from "../../../firebase/firebase";
 import FriendsActions from "../../../actions/friendsActions";
 import NotifsActions from "../../../actions/notificationsActions";
+import UsersActions from "../../../actions/usersActions";
 
 import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
@@ -34,9 +41,9 @@ export default class FollowRequestScreen extends React.Component {
       .doc(firebase.auth.currentUser.uid)
       .onSnapshot(() =>
         this.setState({ spinner: true }, () =>
-          firebase
-            .getCurrentUserNumberOfFriends()
-            .then(nb => this.setState({ currentuser_nb_friends: nb }))
+          UsersActions.GET_USER_NB_FRIENDS(firebase.auth.currentUser.uid).then(
+            nb => this.setState({ currentuser_nb_friends: nb })
+          )
         )
       );
   }
@@ -51,9 +58,9 @@ export default class FollowRequestScreen extends React.Component {
       firebase.auth.currentUser.uid,
       newFriend.uid
     );
-    await firebase
-      .getUserNumberOfFriends(newFriend.user.uid)
-      .then(nb => this.setState({ newfriend_nb_friends: nb }));
+    await UsersActions.GET_USER_NB_FRIENDS(newFriend.user.uid).then(nb =>
+      this.setState({ newfriend_nb_friends: nb })
+    );
     NotifsActions.FOLLOW_REQUEST_ACCEPTED(
       newFriend.user.uid,
       this.props.navigation.getParam("avatar")
@@ -150,7 +157,16 @@ export default class FollowRequestScreen extends React.Component {
                     justifyContent: "space-between"
                   }}
                 >
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <TouchableOpacity
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                    onPress={() =>
+                      // console.log("🖕")
+                      this.props.navigation.navigate("ProfileView", {
+                        // user_uid: "iFBrOJHTJqd8IcIgVctD5qDvrO02"
+                        user_uid: notif.user.uid
+                      })
+                    }
+                  >
                     <Thumbnail
                       source={{ uri: notif.user.avatar }}
                       style={{ borderRadius: 13, width: 50, height: 50 }}
@@ -165,7 +181,8 @@ export default class FollowRequestScreen extends React.Component {
                           : notif.user.bio}
                       </Text>
                     </View>
-                  </View>
+                  </TouchableOpacity>
+
                   {this.state.acceptRequest.some(uid => uid === notif.uid) ? (
                     <View>
                       <Button
@@ -230,7 +247,11 @@ export default class FollowRequestScreen extends React.Component {
                                 notifs => notif.uid !== notifs.uid
                               )
                             },
-                            () => this.deletedNotif(notif)
+                            () =>
+                              NotifsActions.DELETE_NOTIFICATION(
+                                firebase.auth.currentUser.uid,
+                                notif.uid
+                              )
                           )
                         }
                       >
