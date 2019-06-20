@@ -32,7 +32,10 @@ class Firebase {
       .collection("users")
       .doc(this.auth.currentUser.uid)
       .set({
+        username: name,
         bio: bio,
+        avatar:
+          "https://cdn.dribbble.com/users/2180306/screenshots/6493207/avatar_01.png",
         nb_friends: 0,
         score: 0
       });
@@ -51,61 +54,61 @@ class Firebase {
       this.auth.onAuthStateChanged(resolve);
     });
   }
-  async getCurrentUserAvatar() {
-    const avatar = await this.db
-      .collection("users")
-      .doc(this.auth.currentUser.uid)
-      .get();
-    return avatar.get("avatar");
-  }
-  async getCurrentUserBio() {
-    const bio = await this.db
-      .collection("users")
-      .doc(this.auth.currentUser.uid)
-      .get();
-    return bio.get("bio");
-  }
-  async getCurrentUserScore() {
-    const bio = await this.db
-      .collection("users")
-      .doc(this.auth.currentUser.uid)
-      .get();
-    return bio.get("score");
-  }
-  async getCurrentUserNumberOfFriends() {
-    const number = await this.db
-      .collection("users")
-      .doc(this.auth.currentUser.uid)
-      .get();
-    return number.get("nb_friends");
-  }
-  async getUserNumberOfFriends(userUid) {
-    const number = await this.db
-      .collection("users")
-      .doc(userUid)
-      .get();
-    return number.get("nb_friends");
-  }
-  async getCurrentUserNotifications() {
-    const notifications = await this.db
-      .collection("users")
-      .doc(this.auth.currentUser.uid)
-      .collection("notifications")
-      .get();
-    return notifications.docs.map(doc => ({
-      ...doc.data(),
-      ...{ uid: doc.id }
-    }));
-  }
-  async getAllUsers() {
-    const usersList = await this.db
-      .collection("users")
-      // .whereLessThan("uid", this.auth.currentUser.uid)
-      .get();
-    return usersList.docs
-      .map(doc => ({ ...doc.data(), ...{ uid: doc.id } }))
-      .filter(doc => (doc.uid === this.auth.currentUser.uid ? false : true));
-  }
+  // async getCurrentUserAvatar() {
+  //   const avatar = await this.db
+  //     .collection("uésers")
+  //     .doc(this.auth.currentUser.uid)
+  //     .get();
+  //   return avatar.get("avatar");
+  // }
+  // async getCurrentUserBio() {
+  //   const bio = await this.db
+  //     .collection("users")
+  //     .doc(this.auth.currentUser.uid)
+  //     .get();
+  //   return bio.get("bio");
+  // }
+  // async getCurrentUserScore() {
+  //   const bio = await this.db
+  //     .collection("users")
+  //     .doc(this.auth.currentUser.uid)
+  //     .get();
+  //   return bio.get("score");
+  // }
+  // async getCurrentUserNumberOfFriends() {
+  //   const number = await this.db
+  //     .collection("users")
+  //     .doc(this.auth.currentUser.uid)
+  //     .get();
+  //   return number.get("nb_friends");
+  // }
+  // async getUserNumberOfFriends(userUid) {
+  //   const number = await this.db
+  //     .collection("users")
+  //     .doc(userUid)
+  //     .get();
+  //   return number.get("nb_friends");
+  // }
+  // async getCurrentUserNotifications() {
+  //   const notifications = await this.db
+  //     .collection("users")
+  //     .doc(this.auth.currentUser.uid)
+  //     .collection("notifications")
+  //     .get();
+  //   return notifications.docs.map(doc => ({
+  //     ...doc.data(),
+  //     ...{ uid: doc.id }
+  //   }));
+  // }
+  // async getAllUsers() {
+  //   const usersList = await this.db
+  //     .collection("users")
+  //     // .whereLessThan("uid", this.auth.currentUser.uid)
+  //     .get();
+  //   return usersList.docs
+  //     .map(doc => ({ ...doc.data(), ...{ uid: doc.id } }))
+  //     .filter(doc => (doc.uid === this.auth.currentUser.uid ? false : true));
+  // }
   async createNewEvent(event, organizer, participants) {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
