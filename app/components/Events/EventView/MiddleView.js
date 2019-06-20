@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Badge, Button } from "native-base";
 import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
 import firebase from "../../../firebase/firebase";
 import ConfirmQuit from "./confirmQuit";
+import UsersActions from "../../../actions/usersActions";
 
 export default class MiddleView extends React.Component {
   static navigationOptions = {
@@ -18,9 +19,9 @@ export default class MiddleView extends React.Component {
     };
   }
   componentDidMount() {
-    firebase
-      .getCurrentUserAvatar()
-      .then(avatar => this.setState({ avatar: avatar }));
+    UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(avatar =>
+      this.setState({ avatar: avatar })
+    );
   }
   quitEventFunction(event, avatar) {
     firebase.db
@@ -123,17 +124,27 @@ export default class MiddleView extends React.Component {
               {this.props.currentEvent.participants
                 .filter(part => part.state === "available")
                 .slice(0, 4)
-                .map((participants, i) => (
-                  <Thumbnail
+                .map((participant, i) => (
+                  <TouchableOpacity
                     key={i}
-                    source={{ uri: participants.avatar }}
-                    style={{
-                      borderRadius: 13,
-                      width: 45,
-                      height: 45,
-                      marginLeft: 8
-                    }}
-                  />
+                    onPress={() =>
+                      // console.log("🖕")
+                      this.props.navigation.navigate("ProfileView", {
+                        // user_uid: "iFBrOJHTJqd8IcIgVctD5qDvrO02"
+                        user_uid: participant.uid
+                      })
+                    }
+                  >
+                    <Thumbnail
+                      source={{ uri: participant.avatar }}
+                      style={{
+                        borderRadius: 13,
+                        width: 45,
+                        height: 45,
+                        marginLeft: 8
+                      }}
+                    />
+                  </TouchableOpacity>
                 ))}
               {this.props.currentEvent.participants.filter(
                 part => part.state === "available"
