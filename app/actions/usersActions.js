@@ -1,0 +1,63 @@
+import firebase from "../firebase/firebase";
+
+class UsersActions {
+  async GET_USER_USERNAME(userUid) {
+    const username = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return username.get("username");
+  }
+  async GET_USER_AVATAR(userUid) {
+    const avatar = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return avatar.get("avatar");
+  }
+  async GET_USER_BIO(userUid) {
+    const bio = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return bio.get("bio");
+  }
+  async GET_USER_SCORE(userUid) {
+    const bio = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return bio.get("score");
+  }
+  async GET_USER_NB_FRIENDS(userUid) {
+    const number = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return number.get("nb_friends");
+  }
+  async GET_USER_NOTIFICATIONS(userUid) {
+    const notifications = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .collection("notifications")
+      .get();
+    return notifications.docs.map(doc => ({
+      ...doc.data(),
+      ...{ uid: doc.id }
+    }));
+  }
+  async GET_ALL_USERS() {
+    const usersList = await firebase.db
+      .collection("users")
+      // .whereLessThan("uid", this.auth.currentUser.uid)
+      .get();
+    return usersList.docs
+      .map(doc => ({ ...doc.data(), ...{ uid: doc.id } }))
+      .filter(doc =>
+        doc.uid === firebase.auth.currentUser.uid ? false : true
+      );
+  }
+}
+
+export default new UsersActions();
