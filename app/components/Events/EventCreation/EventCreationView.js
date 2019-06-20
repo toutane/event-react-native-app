@@ -9,6 +9,7 @@ import Event_CreationInfo from "./Info";
 import MembersView from "./MembersView";
 import firebase from "../../../firebase/firebase";
 import NotifsActions from "../../../actions/notificationsActions";
+import UsersActions from "../../../actions/usersActions";
 const moment = require("moment");
 
 export default class EventCreationView extends React.Component {
@@ -34,9 +35,9 @@ export default class EventCreationView extends React.Component {
     };
   }
   componentDidMount() {
-    firebase
-      .getCurrentUserAvatar()
-      .then(avatar => this.setState({ organizer_avatar: avatar }));
+    UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(avatar =>
+      this.setState({ organizer_avatar: avatar })
+    );
   }
   addParticipants(s_parts) {
     this.setState(

@@ -6,6 +6,7 @@ import Swiper from "react-native-swiper";
 import MyEventCard from "../InfoCards/myEventsCard";
 import FollowRequestCard from "./FollowRequest/FollowRequestCard";
 import ThisWeekCard from "./ThisWeek/ThisWeekCard";
+import UsersActions from "../../actions/usersActions";
 
 const notifications = [
   {
@@ -185,10 +186,12 @@ export default class NotificationsList extends React.Component {
   componentDidMount() {
     // this.setState({ notifications: notifications });
     this.listenToChanges();
-    firebase
-      .getCurrentUserAvatar()
-      .then(avatar => this.setState({ avatar: avatar }));
-    firebase.getCurrentUserBio().then(bio => this.setState({ bio: bio }));
+    UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(avatar =>
+      this.setState({ avatar: avatar })
+    );
+    UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
+      this.setState({ bio: bio })
+    );
   }
   async listenToChanges() {
     firebase.db
@@ -201,14 +204,15 @@ export default class NotificationsList extends React.Component {
   }
 
   async loadNotifications() {
-    firebase.getCurrentUserNotifications().then(notifications =>
-      this.setState(
-        { notifications: notifications },
+    UsersActions.GET_USER_NOTIFICATIONS(firebase.auth.currentUser.uid).then(
+      notifications =>
         this.setState(
-          { spinner: false }
-          // , () => console.log(this.state.notifications)
+          { notifications: notifications },
+          this.setState(
+            { spinner: false }
+            // , () => console.log(this.state.notifications)
+          )
         )
-      )
     );
   }
 
