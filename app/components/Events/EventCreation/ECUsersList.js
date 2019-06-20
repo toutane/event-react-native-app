@@ -18,6 +18,8 @@ import {
 import { HeaderBackButton } from "react-navigation";
 import firebase from "../../../firebase/firebase";
 import { screenWidth } from "../../../utils/dimensions";
+import UsersActions from "../../../actions/usersActions";
+import Avatar from "../../Avatar/Avatar";
 import { Icon } from "expo";
 export default class ECUsersList extends React.Component {
   static navigationOptions = {
@@ -32,7 +34,7 @@ export default class ECUsersList extends React.Component {
     };
   }
   componentDidMount() {
-    firebase.getAllUsers().then(usersList =>
+    UsersActions.GET_ALL_USERS().then(usersList =>
       this.setState({
         usersList: usersList
       })
@@ -197,13 +199,19 @@ export default class ECUsersList extends React.Component {
                 }}
               >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Thumbnail
+                  {/* <Thumbnail
                     source={{ uri: user.avatar }}
                     style={{ borderRadius: 13, width: 50, height: 50 }}
+                  /> */}
+                  <Avatar
+                    user={{ uid: user.uid, avatar: user.avatar }}
+                    {...this.props}
                   />
                   <View style={{ flexDirection: "column", marginLeft: 10 }}>
                     <Text style={{ fontWeight: "600", fontSize: 15 }}>
-                      {user.username}
+                      {user.username.length > 18
+                        ? user.username.slice(0, 18) + "..."
+                        : user.username}
                     </Text>
                     <Text style={{ color: "rgba(0, 0, 0, 0.3)" }}>
                       {user.bio.length > 18
