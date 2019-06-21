@@ -109,18 +109,21 @@ class Firebase {
   //     .map(doc => ({ ...doc.data(), ...{ uid: doc.id } }))
   //     .filter(doc => (doc.uid === this.auth.currentUser.uid ? false : true));
   // }
-  async createNewEvent(event, organizer, participants) {
-    if (!this.auth.currentUser) {
-      return alert("Not authorized");
-    }
-
-    const newEvent = await this.db.collection("events").add({
-      event: event,
-      organizer: organizer,
-      participants: participants
-      // id: doc.id
-    });
-    // return newEvent.id;
-  }
+  // async createNewEvent(event, organizer, participants) {
+  //   if (!this.auth.currentUser) {
+  //     return alert("Not authorized");
+  //   }
+  //   const newEvent = await this.db
+  //     .collection("events")
+  //     .add({
+  //       event: event,
+  //       organizer: organizer,
+  //       participants: participants
+  //       // id: doc.id
+  //     })
+  //     .then(ref => {
+  //       console.log("Added document with ID: ", ref.id);
+  //     });
+  // }
 }
 export default new Firebase();
