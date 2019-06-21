@@ -1,12 +1,39 @@
 import React from "react";
 import { Thumbnail, Button } from "native-base";
-import { View, Text, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  TouchableOpacity
+} from "react-native";
 import firebase from "../../../firebase/firebase";
 import ThisWeekCardView from "../ThisWeek/ThisWeekCardView";
+import Avatar from "../../Avatar/Avatar";
+import EventsActions from "../../../actions/eventsActions";
+
 export default class FollowsRequestNotifItem extends React.Component {
+  async loadEvent(event_id) {
+    await EventsActions.LOAD_UNIQUE_EVENT(event_id).then(
+      // event => console.log(event)
+      event =>
+        this.props.navigation.navigate("EventView", {
+          currentEvent: event
+        })
+    );
+  }
   render() {
     return (
-      <TouchableWithoutFeedback>
+      <TouchableOpacity
+        onPress={() =>
+          this.props.notif.type === "new_friend"
+            ? this.props.navigation.navigate("ProfileView", {
+                user_uid: this.props.notif.user.uid
+              })
+            : this.props.notif.type === "event_created"
+            ? this.loadEvent(this.props.notif.event.uid)
+            : console.log(this.props.notif.type)
+        }
+      >
         <View
           style={{
             flexDirection: "row",
@@ -18,9 +45,15 @@ export default class FollowsRequestNotifItem extends React.Component {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Thumbnail
-              source={{ uri: this.props.notif.user.avatar }}
-              style={{ borderRadius: 13, width: 50, height: 50 }}
+            <Avatar
+              width={50}
+              height={50}
+              user={{
+                uid: this.props.notif.user.uid,
+                avatar: this.props.notif.user.avatar
+              }}
+              {...this.props}
+              marginLeft={0}
             />
             <View style={{ flexDirection: "row", marginLeft: 10, width: 170 }}>
               <Text style={{ fontWeight: "600", fontSize: 15 }}>
@@ -47,31 +80,36 @@ export default class FollowsRequestNotifItem extends React.Component {
               </Text>
             </View>
           </View>
-          {
-            <View>
-              <Button
-                rounded
-                bordered
+          <View>
+            <Button
+              rounded
+              bordered
+              style={{
+                borderColor:
+                  this.props.notif.type === "event_created"
+                    ? "#364EE1"
+                    : "#1DC161",
+                paddingHorizontal: 10,
+                height: 28,
+                alignItems: "center"
+              }}
+              // onPress={() => console.log("🍕")}
+            >
+              <Text
                 style={{
-                  borderColor: "#1DC161",
-                  paddingHorizontal: 10,
-                  height: 28,
-                  alignItems: "center"
+                  fontSize: 13,
+                  color:
+                    this.props.notif.type === "event_created"
+                      ? "#364EE1"
+                      : "#1DC161"
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 13,
-                    color: "#1DC161"
-                  }}
-                >
-                  Friends
-                </Text>
-              </Button>
-            </View>
-          }
+                {this.props.notif.type === "event_created" ? "Event" : "Friend"}
+              </Text>
+            </Button>
+          </View>
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   }
 }

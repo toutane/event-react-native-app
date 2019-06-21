@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Button } from "native-base";
 import { Icon } from "expo";
+import firebase from "../../../firebase/firebase";
 
 export default class Header extends React.Component {
   render() {
@@ -13,12 +14,20 @@ export default class Header extends React.Component {
           paddingHorizontal: 25
         }}
       >
-        <View
+        <TouchableOpacity
           style={{
             flex: 1,
             flexDirection: "row",
             alignItems: "center"
           }}
+          onPress={() =>
+            this.props.currentEvent.organizer.uid ===
+            firebase.auth.currentUser.uid
+              ? this.props.navigation.navigate("Profile")
+              : this.props.navigation.navigate("ProfileView", {
+                  user_uid: this.props.currentEvent.organizer.uid
+                })
+          }
         >
           <Thumbnail
             source={{ uri: this.props.currentEvent.organizer.avatar }}
@@ -38,7 +47,10 @@ export default class Header extends React.Component {
                 fontFamily: "Arial"
               }}
             >
-              {this.props.currentEvent.organizer.username}
+              {this.props.currentEvent.organizer.username.length > 18
+                ? this.props.currentEvent.organizer.username.slice(0, 15) +
+                  "..."
+                : this.props.currentEvent.organizer.username}
             </Text>
             <Text
               style={{
@@ -52,7 +64,7 @@ export default class Header extends React.Component {
               Organizer
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
         <Button
           style={{
             height: 50,
@@ -61,7 +73,7 @@ export default class Header extends React.Component {
             backgroundColor: "rgba(0, 0, 0, 0.04)",
             justifyContent: "center"
           }}
-          onPress={() => this.props.navigation.navigate("Home")}
+          onPress={() => this.props.navigation.pop()}
         >
           <Icon.Ionicons name="ios-arrow-round-up" size={35} color="black" />
         </Button>

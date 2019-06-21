@@ -199,26 +199,29 @@ export default class ECUsersList extends React.Component {
                 }}
               >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  {/* <Thumbnail
-                    source={{ uri: user.avatar }}
-                    style={{ borderRadius: 13, width: 50, height: 50 }}
-                  /> */}
-                  <Avatar
-                    user={{ uid: user.uid, avatar: user.avatar }}
-                    {...this.props}
-                  />
-                  <View style={{ flexDirection: "column", marginLeft: 10 }}>
-                    <Text style={{ fontWeight: "600", fontSize: 15 }}>
-                      {user.username.length > 18
-                        ? user.username.slice(0, 18) + "..."
-                        : user.username}
-                    </Text>
-                    <Text style={{ color: "rgba(0, 0, 0, 0.3)" }}>
-                      {user.bio.length > 18
-                        ? user.bio.slice(0, 18) + "..."
-                        : user.bio}
-                    </Text>
-                  </View>
+                  <TouchableOpacity
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                    onPress={() =>
+                      this.props.navigation.navigate("ProfileView", {
+                        user_uid: user.uid
+                      })
+                    }
+                  >
+                    <Thumbnail
+                      source={{ uri: user.avatar }}
+                      style={{ borderRadius: 13, width: 50, height: 50 }}
+                    />
+                    <View style={{ flexDirection: "column", marginLeft: 10 }}>
+                      <Text style={{ fontWeight: "600", fontSize: 15 }}>
+                        {user.username}
+                      </Text>
+                      <Text style={{ color: "rgba(0, 0, 0, 0.3)" }}>
+                        {user.bio.length > 18
+                          ? user.bio.slice(0, 18) + "..."
+                          : user.bio}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
                 <View>
                   <CheckBox

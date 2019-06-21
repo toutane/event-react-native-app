@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Thumbnail, Button } from "native-base";
+import { Button } from "native-base";
 import { Card } from "../Card/styles";
 import EventInfo from "./EventInfo";
 import firebase from "../../firebase/firebase";
+import Avatar from "../Avatar/Avatar";
 
 export default class EventCard extends React.Component {
   render() {
@@ -17,9 +18,14 @@ export default class EventCard extends React.Component {
       >
         <Card style={{ marginBottom: 20, paddingHorizontal: 0 }}>
           <View style={{ flexDirection: "row", paddingHorizontal: 25 }}>
-            <Thumbnail
-              source={{ uri: this.props.currentEvent.organizer.avatar }}
-              style={{ borderRadius: 13, width: 50, height: 50 }}
+            <Avatar
+              key={0}
+              user={{
+                uid: this.props.currentEvent.organizer.uid,
+                avatar: this.props.currentEvent.organizer.avatar
+              }}
+              marginLeft={0}
+              {...this.props}
             />
             {this.props.currentEvent.participants.length > 0 ? (
               <View
@@ -54,19 +60,41 @@ export default class EventCard extends React.Component {
                   ? this.props.currentEvent.event.title.slice(0, 17) + "..."
                   : this.props.currentEvent.event.title}
               </Text>
-              <Text style={{ marginLeft: 15, fontSize: 16, color: "#797979" }}>
-                {"by "}
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.currentEvent.organizer.uid ===
+                  firebase.auth.currentUser.uid
+                    ? this.props.navigation.navigate("Profile")
+                    : this.props.navigation.navigate("ProfileView", {
+                        user_uid: this.props.currentEvent.organizer.uid
+                      })
+                }
+              >
                 <Text
-                  style={
-                    this.props.currentEvent.organizer.uid ===
-                    firebase.auth.currentUser.uid
-                      ? { color: "#364EE1" }
-                      : { color: "#797979" }
-                  }
+                  style={{ marginLeft: 15, fontSize: 16, color: "#797979" }}
                 >
-                  {this.props.currentEvent.organizer.username}
+                  {"by "}
+                  <Text
+                    style={
+                      this.props.currentEvent.organizer.uid ===
+                      firebase.auth.currentUser.uid
+                        ? {
+                            color: "#364EE1"
+                            // color: "black",
+                            // fontWeight: "bold"
+                          }
+                        : { color: "#797979" }
+                    }
+                  >
+                    {this.props.currentEvent.organizer.username.length > 18
+                      ? this.props.currentEvent.organizer.username.slice(
+                          0,
+                          15
+                        ) + "..."
+                      : this.props.currentEvent.organizer.username}
+                  </Text>
                 </Text>
-              </Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View
