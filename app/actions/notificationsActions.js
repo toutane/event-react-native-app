@@ -39,25 +39,6 @@ class NotifsActions {
         }
       });
   }
-
-  // EVENTS_NOTIFICATIONS
-
-  async EVENT_CREATED(organizer, users) {
-    users.forEach(user => {
-      firebase.db
-        .collection("users")
-        .doc(user.uid)
-        .collection("notifications")
-        .add({
-          type: "event_created",
-          user: {
-            uid: organizer.uid,
-            username: organizer.username,
-            avatar: organizer.avatar
-          }
-        });
-    });
-  }
 }
 
 export default new NotifsActions();
