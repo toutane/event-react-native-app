@@ -211,8 +211,8 @@ export default class ProfileView extends React.Component {
               width: 300
             }}
           >
-            {this.state.username.length > 13
-              ? this.state.username.slice(0, 10) + "..."
+            {this.state.username.length > 16
+              ? this.state.username.slice(0, 13) + "..."
               : this.state.username}
           </Animated.Text>
           <Animated.View
