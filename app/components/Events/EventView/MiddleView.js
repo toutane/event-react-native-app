@@ -6,6 +6,7 @@ import { Icon } from "expo";
 import firebase from "../../../firebase/firebase";
 import ConfirmQuit from "./confirmQuit";
 import UsersActions from "../../../actions/usersActions";
+import Avatar from "../../Avatar/Avatar";
 
 export default class MiddleView extends React.Component {
   static navigationOptions = {
@@ -101,50 +102,40 @@ export default class MiddleView extends React.Component {
             </View>
             <View style={{ flexDirection: "row", marginTop: 20 }}>
               <View>
-                <Thumbnail
-                  source={{ uri: this.props.currentEvent.organizer.avatar }}
-                  style={{
-                    borderRadius: 13,
-                    width: 45,
-                    height: 45
-                  }}
-                />
-                <Badge
-                  primary
-                  style={{
-                    backgroundColor: "#1DC161",
-                    position: "absolute",
-                    top: 35,
-                    right: -4,
-                    width: 10,
-                    height: 12
-                  }}
-                />
+                <View>
+                  <Avatar
+                    user={{
+                      uid: this.props.currentEvent.organizer.uid,
+                      avatar: this.props.currentEvent.organizer.avatar
+                    }}
+                    marginLeft={0}
+                    {...this.props}
+                  />
+                  <Badge
+                    primary
+                    style={{
+                      backgroundColor: "#1DC161",
+                      position: "absolute",
+                      top: 35,
+                      right: -4,
+                      width: 10,
+                      height: 12
+                    }}
+                  />
+                </View>
               </View>
               {this.props.currentEvent.participants
                 .filter(part => part.state === "available")
                 .slice(0, 4)
                 .map((participant, i) => (
-                  <TouchableOpacity
+                  <Avatar
                     key={i}
-                    onPress={() =>
-                      // console.log("🖕")
-                      this.props.navigation.navigate("ProfileView", {
-                        // user_uid: "iFBrOJHTJqd8IcIgVctD5qDvrO02"
-                        user_uid: participant.uid
-                      })
-                    }
-                  >
-                    <Thumbnail
-                      source={{ uri: participant.avatar }}
-                      style={{
-                        borderRadius: 13,
-                        width: 45,
-                        height: 45,
-                        marginLeft: 8
-                      }}
-                    />
-                  </TouchableOpacity>
+                    user={{
+                      uid: participant.uid,
+                      avatar: participant.avatar
+                    }}
+                    {...this.props}
+                  />
                 ))}
               {this.props.currentEvent.participants.filter(
                 part => part.state === "available"

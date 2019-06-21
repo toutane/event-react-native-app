@@ -4,6 +4,7 @@ import { Thumbnail, Button } from "native-base";
 import { Card } from "../../Card/styles";
 import firebase from "../../../firebase/firebase";
 import { Icon } from "expo";
+import Avatar from "../../Avatar/Avatar";
 
 export default class FollowsRequestCard extends React.Component {
   render() {
@@ -66,15 +67,24 @@ export default class FollowsRequestCard extends React.Component {
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               {this.props.notifications.slice(0, 4).map((notif, i) => (
-                <Thumbnail
+                // <Thumbnail
+                //   key={i}
+                //   source={{ uri: notif.user.avatar }}
+                //   style={{
+                //     borderRadius: 13,
+                //     width: 45,
+                //     height: 45,
+                //     marginLeft: i === 0 ? 0 : 8
+                //   }}
+                // />
+                <Avatar
                   key={i}
-                  source={{ uri: notif.user.avatar }}
-                  style={{
-                    borderRadius: 13,
-                    width: 45,
-                    height: 45,
-                    marginLeft: i === 0 ? 0 : 8
+                  marginLeft={i === 0 ? 0 : 8}
+                  user={{
+                    uid: notif.user.uid,
+                    avatar: notif.user.avatar
                   }}
+                  {...this.props}
                 />
               ))}
               {this.props.notifications.length > 4 ? (

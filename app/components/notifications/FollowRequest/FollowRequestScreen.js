@@ -182,7 +182,6 @@ export default class FollowRequestScreen extends React.Component {
                       </Text>
                     </View>
                   </TouchableOpacity>
-
                   {this.state.acceptRequest.some(uid => uid === notif.uid) ? (
                     <View>
                       <Button

@@ -8,7 +8,7 @@ import MiddleCreation from "./Middle";
 import Event_CreationInfo from "./Info";
 import MembersView from "./MembersView";
 import firebase from "../../../firebase/firebase";
-import NotifsActions from "../../../actions/notificationsActions";
+import EventsActions from "../../../actions/eventsActions";
 import UsersActions from "../../../actions/usersActions";
 const moment = require("moment");
 
@@ -110,9 +110,13 @@ export default class EventCreationView extends React.Component {
   }
   render() {
     async function createNewEvent(props, state) {
-      await firebase
-        .createNewEvent(
-          {
+      if (!firebase.auth.currentUser) {
+        return alert("Not authorized");
+      }
+      const newEvent = await firebase.db
+        .collection("events")
+        .add({
+          event: {
             title: state.title,
             text: state.text,
             badge: state.badge,
@@ -120,22 +124,26 @@ export default class EventCreationView extends React.Component {
             time: moment(state.time).format("h:mm"),
             location: state.location.description
           },
-          {
+          organizer: {
             uid: state.organizer_uid,
             username: state.organizer_username,
             avatar: state.organizer_avatar
           },
-          state.invited_participants
-        )
-        .then(props.navigation.navigate("Home"));
-      NotifsActions.EVENT_CREATED(
-        {
-          uid: state.organizer_uid,
-          username: state.organizer_username,
-          avatar: state.organizer_avatar
-        },
-        [{ uid: state.organizer_uid }].concat(state.invited_participants)
-      );
+          participants: state.invited_participants
+          // id: doc.id
+        })
+        .then(event => {
+          EventsActions.EVENT_CREATED_NOTIFICATION(
+            {
+              uid: state.organizer_uid,
+              username: state.organizer_username,
+              avatar: state.organizer_avatar
+            },
+            [{ uid: state.organizer_uid }].concat(state.invited_participants),
+            event.id
+          );
+          props.navigation.navigate("Home");
+        });
     }
     return (
       <View>
@@ -146,7 +154,7 @@ export default class EventCreationView extends React.Component {
                 {...this.props}
                 createNewEvent={() => createNewEvent(this.props, this.state)}
                 // createNewEvent={() =>
-                //   NotifsActions.EVENT_CREATED(
+                //   NotifsActions.EVENT_CREATED_NOTIFICATION(
                 //     {
                 //       uid: this.state.organizer_uid,
                 //       username: this.state.organizer_username,
