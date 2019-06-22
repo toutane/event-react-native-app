@@ -13,7 +13,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  FlatList
 } from "react-native";
 import { HeaderBackButton } from "react-navigation";
 import firebase from "../../../firebase/firebase";
@@ -33,11 +34,19 @@ export default class ECUsersList extends React.Component {
       search: ""
     };
   }
+  _keyExtractor = (item, index) => item.uid;
   componentDidMount() {
     UsersActions.GET_ALL_USERS().then(usersList =>
-      this.setState({
-        usersList: usersList
-      })
+      this.setState(
+        {
+          usersList: usersList
+          // [...usersList, { key: usersList.indexOf(user) }]
+          // usersList.forEach(user => {
+          //   user, { key: usersList.indexOf(user) };
+          // })
+        },
+        () => console.log(this.state.usersList)
+      )
     );
     this.setState({
       selectedUsers: this.props.navigation.getParam("invited_participants")
@@ -181,7 +190,79 @@ export default class ECUsersList extends React.Component {
             </Button>
           </View>
         </View>
-        <List>
+        <FlatList
+          style={{
+            // marginTop: 20,
+            marginBottom: 150
+          }}
+          data={searchedUsers}
+          keyExtractor={this._keyExtractor}
+          renderItem={({ item }) => (
+            <TouchableWithoutFeedback
+              onPress={() => toggleUserToselectedUsers(item.uid, item.avatar)}
+            >
+              <View
+                style={{
+                  marginTop:
+                    searchedUsers.findIndex(user => user.uid === item.uid) === 0
+                      ? 20
+                      : 0,
+                  flexDirection: "row",
+                  marginBottom: 20,
+                  paddingHorizontal: 20,
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <TouchableOpacity
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                    onPress={() =>
+                      this.props.navigation.navigate("ProfileView", {
+                        user_uid: item.uid
+                      })
+                    }
+                  >
+                    <Thumbnail
+                      source={{ uri: item.avatar }}
+                      style={{ borderRadius: 13, width: 50, height: 50 }}
+                    />
+                    <View style={{ flexDirection: "column", marginLeft: 10 }}>
+                      <Text style={{ fontWeight: "600", fontSize: 15 }}>
+                        {item.username.length > 19
+                          ? item.username.slice(0, 16) + "..."
+                          : item.username}
+                      </Text>
+                      <Text style={{ color: "rgba(0, 0, 0, 0.3)" }}>
+                        {item.bio.length > 18
+                          ? item.bio.slice(0, 18) + "..."
+                          : item.bio}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <CheckBox
+                    checked={this.state.selectedUsers.some(
+                      c_item => c_item.uid === item.uid
+                    )}
+                    color={"#1DC161"}
+                    style={{
+                      height: 20,
+                      width: 20,
+                      borderRadius: 5,
+                      marginRight: 25
+                    }}
+                    onPress={() =>
+                      toggleUserToselectedUsers(item.uid, item.avatar)
+                    }
+                  />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        />
+        {/* <List>
           {searchedUsers.map((user, i) => (
             <TouchableWithoutFeedback
               key={i}
@@ -213,7 +294,9 @@ export default class ECUsersList extends React.Component {
                     />
                     <View style={{ flexDirection: "column", marginLeft: 10 }}>
                       <Text style={{ fontWeight: "600", fontSize: 15 }}>
-                        {user.username}
+                        {user.username.length > 19
+                          ? user.username.slice(0, 16) + "..."
+                          : user.username}
                       </Text>
                       <Text style={{ color: "rgba(0, 0, 0, 0.3)" }}>
                         {user.bio.length > 18
@@ -243,7 +326,7 @@ export default class ECUsersList extends React.Component {
               </View>
             </TouchableWithoutFeedback>
           ))}
-        </List>
+        </List> */}
       </View>
     );
   }
