@@ -49,6 +49,7 @@ export default class ProfileView extends React.Component {
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
+    // console.log(this.props.navigation.getParam("user_uid"));
     this.listenToChanges(this.props.navigation.getParam("user_uid"));
   }
   async listenToChanges(user_uid) {

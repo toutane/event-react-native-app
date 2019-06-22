@@ -74,6 +74,18 @@ export default class FollowRequestScreen extends React.Component {
       newFriend.user.uid,
       this.state.newfriend_nb_friends
     );
+    this.state.notifications.length === 1
+      ? this.props.navigation.navigate("Notification")
+      : null;
+  }
+  async deleteFunction(notifUid) {
+    await NotifsActions.DELETE_NOTIFICATION(
+      firebase.auth.currentUser.uid,
+      notifUid
+    );
+    this.state.notifications.length === 0
+      ? this.props.navigation.navigate("Notification")
+      : null;
   }
   render() {
     const searchedNotifs = this.state.notifications.filter(notif =>
@@ -145,7 +157,16 @@ export default class FollowRequestScreen extends React.Component {
           {searchedNotifs
             .filter(notif => notif.type === "follow_request")
             .map((notif, i) => (
-              <TouchableWithoutFeedback key={i}>
+              <TouchableOpacity
+                key={i}
+                onPress={() =>
+                  // console.log("🖕")
+                  this.props.navigation.navigate("ProfileView", {
+                    // user_uid: "iFBrOJHTJqd8IcIgVctD5qDvrO02"
+                    user_uid: notif.user.uid
+                  })
+                }
+              >
                 <View
                   key={i}
                   style={{
@@ -246,11 +267,7 @@ export default class FollowRequestScreen extends React.Component {
                                 notifs => notif.uid !== notifs.uid
                               )
                             },
-                            () =>
-                              NotifsActions.DELETE_NOTIFICATION(
-                                firebase.auth.currentUser.uid,
-                                notif.uid
-                              )
+                            () => this.deleteFunction(notif.uid)
                           )
                         }
                       >
@@ -263,7 +280,7 @@ export default class FollowRequestScreen extends React.Component {
                     </View>
                   )}
                 </View>
-              </TouchableWithoutFeedback>
+              </TouchableOpacity>
             ))}
         </List>
       </View>

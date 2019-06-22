@@ -72,9 +72,8 @@ export default class ProfileScreen extends React.Component {
     UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
       this.setState(
         {
-          bio:
-            //  bio
-            "efdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrd"
+          bio: bio
+          // "efdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrd"
         },
         this.setState({ skeleton: false })
       )

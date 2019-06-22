@@ -125,7 +125,13 @@ export default class FriendsList extends React.Component {
           data={searchedFriends}
           keyExtractor={this._keyExtractor}
           renderItem={({ item }) => (
-            <TouchableWithoutFeedback>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("ProfileView", {
+                  user_uid: item.uid
+                })
+              }
+            >
               <View
                 style={{
                   marginTop:
@@ -143,11 +149,11 @@ export default class FriendsList extends React.Component {
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <TouchableOpacity
                     style={{ flexDirection: "row", alignItems: "center" }}
-                    // onPress={() =>
-                    //   this.props.navigation.navigate("ProfileView", {
-                    //     user_uid: item.uid
-                    //   })
-                    // }
+                    onPress={() =>
+                      this.props.navigation.navigate("ProfileView", {
+                        user_uid: item.uid
+                      })
+                    }
                   >
                     <Thumbnail
                       source={{ uri: item.avatar }}
@@ -167,8 +173,9 @@ export default class FriendsList extends React.Component {
                     </View>
                   </TouchableOpacity>
                 </View>
-                {/* <View>
-                  <CheckBox
+                <View>
+                  <Icon.Feather name="more-vertical" size={25} color="black" />
+                  {/* <CheckBox
                     checked={this.state.selectedUsers.some(
                       c_item => c_item.uid === item.uid
                     )}
@@ -182,10 +189,10 @@ export default class FriendsList extends React.Component {
                     onPress={() =>
                       toggleUserToselectedUsers(item.uid, item.avatar)
                     }
-                  />
-                </View> */}
+                  /> */}
+                </View>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           )}
         />
         {/* <List>

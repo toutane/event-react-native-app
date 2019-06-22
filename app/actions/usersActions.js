@@ -61,8 +61,7 @@ class UsersActions {
       .collection("friends")
       .get();
     return friends.docs.map(doc => ({
-      ...doc.data(),
-      ...{ uid: doc.id }
+      ...doc.data()
     }));
   }
   async GET_ALL_USERS() {
