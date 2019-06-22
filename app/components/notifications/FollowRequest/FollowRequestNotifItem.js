@@ -60,6 +60,8 @@ export default class FollowsRequestNotifItem extends React.Component {
                 {this.props.notif.user.username ===
                 firebase.auth.currentUser.displayName
                   ? "You"
+                  : this.props.notif.user.username.length > 16
+                  ? this.props.notif.user.username.slice(0, 13) + "..."
                   : this.props.notif.user.username}
                 {this.props.notif.type === "follow_request_accepted" ? (
                   <Text style={{ fontWeight: "normal" }}>
