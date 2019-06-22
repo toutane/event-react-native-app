@@ -2,6 +2,8 @@ import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firebase-firestore";
 
+const moment = require("moment");
+
 const config = {
   apiKey: "AIzaSyAehZaXp5l3uo_8WLYFzKTJh8X2OmIeMhA",
   authDomain: "event-reactnative-app.firebaseapp.com",
@@ -37,7 +39,9 @@ class Firebase {
         avatar:
           "https://cdn.dribbble.com/users/2180306/screenshots/6493207/avatar_01.png",
         nb_friends: 0,
-        score: 0
+        score: 0,
+        register_date: moment().format()
+        // register_date: moment(new Date()).format("X")
       });
     return this.auth.currentUser.updateProfile({
       displayName: name
