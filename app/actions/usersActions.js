@@ -29,6 +29,13 @@ class UsersActions {
       .get();
     return bio.get("score");
   }
+  async GET_USER_REGISTER_DATE(userUid) {
+    const date = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return date.get("register_date");
+  }
   async GET_USER_NB_FRIENDS(userUid) {
     const number = await firebase.db
       .collection("users")
@@ -43,6 +50,17 @@ class UsersActions {
       .collection("notifications")
       .get();
     return notifications.docs.map(doc => ({
+      ...doc.data(),
+      ...{ uid: doc.id }
+    }));
+  }
+  async GET_USER_FRIENDS(userUid) {
+    const friends = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .collection("friends")
+      .get();
+    return friends.docs.map(doc => ({
       ...doc.data(),
       ...{ uid: doc.id }
     }));
