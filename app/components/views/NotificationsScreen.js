@@ -77,6 +77,10 @@ export default class NotificationsScreen extends React.Component {
       );
   }
   render() {
+    async function logout(props) {
+      await firebase.logout();
+      props.navigation.navigate("SignIn");
+    }
     const AnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
       inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
 
@@ -201,9 +205,7 @@ export default class NotificationsScreen extends React.Component {
                 justifyContent: "center",
                 alignItems: "center"
               }}
-              onPress={() =>
-                this.props.navigation.navigate("NotificationsView")
-              }
+              onPress={() => logout(this.props)}
             >
               <Icon.Feather name="bell" size={30} color="white" />
             </TouchableOpacity>
