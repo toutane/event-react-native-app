@@ -4,8 +4,10 @@ import {
   View,
   Animated,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Text
 } from "react-native";
+import { Button } from "native-base";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import ProfileView from "../profile/ProfileView";
@@ -15,6 +17,7 @@ import { theme } from "../../themes";
 import firebase from "../../firebase/firebase";
 import UsersActions from "../../actions/usersActions";
 // import { Spinner } from "native-base";
+const moment = require("moment");
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
@@ -22,8 +25,8 @@ const Header_Maximum_Text = 900;
 const Header_Minimum_Text = 720;
 const Header_Maximum_Text_Pos_Top = 75;
 const Header_Minimum_Text_Pos_Top = -60;
-const Header_Maximum_Info_Pos = 0;
-const Header_Minimum_Info_Pos = -45;
+const Header_Maximum_Info_Pos = 225;
+const Header_Minimum_Info_Pos = 65;
 const Header_Maximum_Image_Pos = 150;
 const Header_Minimum_Image_Pos = 50;
 const Header_Maximum_Image_Height = 200;
@@ -46,7 +49,8 @@ export default class ProfileScreen extends React.Component {
       username: "",
       nb_friends: 0,
       score: 0,
-      usernameSize: 38
+      usernameSize: 38,
+      register_date: undefined
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
@@ -66,13 +70,23 @@ export default class ProfileScreen extends React.Component {
       this.setState({ avatar: avatar })
     );
     UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
-      this.setState({ bio: bio }, this.setState({ skeleton: false }))
+      this.setState(
+        {
+          bio:
+            //  bio
+            "efdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrd"
+        },
+        this.setState({ skeleton: false })
+      )
     );
     UsersActions.GET_USER_NB_FRIENDS(firebase.auth.currentUser.uid).then(nb =>
       this.setState({ nb_friends: nb })
     );
     UsersActions.GET_USER_SCORE(firebase.auth.currentUser.uid).then(score =>
       this.setState({ score: score })
+    );
+    UsersActions.GET_USER_REGISTER_DATE(firebase.auth.currentUser.uid).then(
+      date => this.setState({ register_date: date })
     );
     this.setState({
       username: firebase.auth.currentUser.displayName,
@@ -233,7 +247,7 @@ export default class ProfileScreen extends React.Component {
               }}
             >
               <Icon.Feather
-                name="more-vertical"
+                name="settings"
                 size={25}
                 color="white"
                 onPress={() => logout(this.props)}
@@ -292,6 +306,7 @@ export default class ProfileScreen extends React.Component {
               />
             ) : null}
           </View>
+
           <View>
             {this.state.skeleton ? (
               <View
@@ -306,23 +321,31 @@ export default class ProfileScreen extends React.Component {
             ) : (
               <Animated.Text
                 style={{
-                  fontSize: 25,
+                  fontSize:
+                    this.state.bio.length <= 39
+                      ? this.state.bio.length <= 23
+                        ? 25
+                        : 20
+                      : 15,
                   marginTop: 5,
                   marginLeft: 15,
                   fontWeight: "bold",
-                  color: "rgba(255,255,255,0.9)",
+                  color: "rgba(255,255,255,1)",
                   width: 220,
                   opacity: AnimateOpacity
                 }}
               >
-                {this.state.bio.length > 15
-                  ? this.state.bio.slice(0, 13) + "..."
+                {this.state.bio.length > 75
+                  ? this.state.bio.slice(0, 75) + "..."
                   : this.state.bio}
+                {/* {this.state.bio} */}
               </Animated.Text>
             )}
-            <Animated.Text
+            {/* <Animated.Text
               style={{
-                fontSize: 16,
+                position: "absolute",
+                top: 45,
+                fontSize: 13,
                 marginTop: 5,
                 marginLeft: 15,
                 fontWeight: "500",
@@ -331,101 +354,129 @@ export default class ProfileScreen extends React.Component {
                 opacity: AnimateOpacity
               }}
             >
-              Registered 2 months ago
-            </Animated.Text>
-            <Animated.View
+              {this.state.register_date === undefined
+                ? "Registered 2 months ago"
+                : "Registered " + moment(this.state.register_date).fromNow()}
+            </Animated.Text> */}
+          </View>
+        </Animated.View>
+        <Animated.View
+          style={{
+            zIndex: 10,
+            top: AnimatedInfoPosition,
+            left: 160,
+            position: "absolute"
+          }}
+        >
+          <Animated.Text
+            style={{
+              fontSize: 14,
+              marginLeft: 15,
+              color: "white",
+              width: 200,
+              opacity: AnimateOpacity
+            }}
+          >
+            follow by <Text style={{ fontWeight: "bold" }}>Alex Kokai</Text>
+          </Animated.Text>
+          <Animated.View
+            style={{
+              flexDirection: "row",
+              position: "absolute",
+              marginTop: 20
+            }}
+          >
+            <TouchableOpacity
               style={{
                 flexDirection: "row",
-                marginTop: 20,
-                top: AnimatedInfoPosition
+                marginLeft: 15,
+                alignItems: "center"
+              }}
+              onPress={() =>
+                this.props.navigation.navigate("FriendsList", {
+                  user_uid: firebase.auth.currentUser.uid
+                })
+              }
+            >
+              <View
+                style={{
+                  height: 30,
+                  width: 30,
+                  borderRadius: 8,
+                  backgroundColor: "#A8AFE0",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Icon.Feather name="user" size={20} color="#364EE1" />
+              </View>
+              <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
+                <Animated.Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: "white",
+                    top: AnimatedButtonsPosition
+                  }}
+                >
+                  {this.state.nb_friends}
+                </Animated.Text>
+                <Animated.Text
+                  style={{
+                    fontSize: 14,
+                    color: theme.colors.grey,
+                    opacity: AnimateOpacity,
+                    fontWeight: "500"
+                  }}
+                >
+                  FRIEND{this.state.nb_friends > 1 ? "S" : null}
+                </Animated.Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                marginLeft: 15,
+                alignItems: "center"
               }}
             >
               <View
                 style={{
-                  flexDirection: "row",
-                  marginLeft: 15,
+                  height: 30,
+                  width: 30,
+                  borderRadius: 8,
+                  backgroundColor: "#F9F0DB",
+                  justifyContent: "center",
                   alignItems: "center"
                 }}
               >
-                <View
+                <Icon.Feather name="star" size={20} color="#fead01" />
+              </View>
+              <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
+                <Animated.Text
                   style={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: 8,
-                    backgroundColor: "#A8AFE0",
-                    justifyContent: "center",
-                    alignItems: "center"
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: "white",
+                    top: AnimatedButtonsPosition
                   }}
                 >
-                  <Icon.Feather name="user" size={20} color="#364EE1" />
-                </View>
-                <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
-                  <Animated.Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      color: "white",
-                      top: AnimatedButtonsPosition
-                    }}
-                  >
-                    {this.state.nb_friends}
-                  </Animated.Text>
-                  <Animated.Text
-                    style={{
-                      fontSize: 14,
-                      color: theme.colors.grey,
-                      opacity: AnimateOpacity
-                    }}
-                  >
-                    FRIEND{this.state.nb_friends > 1 ? "S" : null}
-                  </Animated.Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginLeft: 15,
-                  alignItems: "center"
-                }}
-              >
-                <View
+                  {this.state.score}
+                </Animated.Text>
+                <Animated.Text
                   style={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: 8,
-                    backgroundColor: "#F9F0DB",
-                    justifyContent: "center",
-                    alignItems: "center"
+                    fontSize: 14,
+                    fontWeight: "500",
+                    color: theme.colors.grey,
+                    opacity: AnimateOpacity
                   }}
                 >
-                  <Icon.Feather name="star" size={20} color="#fead01" />
-                </View>
-                <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
-                  <Animated.Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      color: "white",
-                      top: AnimatedButtonsPosition
-                    }}
-                  >
-                    {this.state.score}
-                  </Animated.Text>
-                  <Animated.Text
-                    style={{
-                      fontSize: 14,
-                      color: theme.colors.grey,
-                      opacity: AnimateOpacity
-                    }}
-                  >
-                    SCORE
-                  </Animated.Text>
-                </View>
+                  SCORE
+                </Animated.Text>
               </View>
-            </Animated.View>
-          </View>
+            </TouchableOpacity>
+          </Animated.View>
         </Animated.View>
-
         <Animated.Text
           style={{
             position: "absolute",

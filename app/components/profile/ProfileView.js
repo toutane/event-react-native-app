@@ -4,7 +4,8 @@ import {
   View,
   Animated,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Text
 } from "react-native";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
@@ -19,8 +20,8 @@ const Header_Maximum_Text = 900;
 const Header_Minimum_Text = 810;
 const Header_Maximum_Text_Pos_Top = 75;
 const Header_Minimum_Text_Pos_Top = -150;
-const Header_Maximum_Info_Pos = 0;
-const Header_Minimum_Info_Pos = -45;
+const Header_Maximum_Info_Pos = 80;
+const Header_Minimum_Info_Pos = 25;
 const Header_Maximum_Image_Pos = 150;
 const Header_Minimum_Image_Pos = 50;
 const Header_Maximum_Image_Height = 200;
@@ -306,7 +307,12 @@ export default class ProfileView extends React.Component {
             ) : (
               <Animated.Text
                 style={{
-                  fontSize: 25,
+                  fontSize:
+                    this.state.bio.length <= 39
+                      ? this.state.bio.length <= 23
+                        ? 25
+                        : 20
+                      : 15,
                   marginTop: 5,
                   marginLeft: 15,
                   fontWeight: "bold",
@@ -315,12 +321,12 @@ export default class ProfileView extends React.Component {
                   opacity: AnimateOpacity
                 }}
               >
-                {this.state.bio.length > 20
-                  ? this.state.bio.slice(0, 13) + "..."
+                {this.state.bio.length > 75
+                  ? this.state.bio.slice(0, 75) + "..."
                   : this.state.bio}
               </Animated.Text>
             )}
-            <Animated.Text
+            {/* <Animated.Text
               style={{
                 fontSize: 16,
                 marginTop: 5,
@@ -332,11 +338,27 @@ export default class ProfileView extends React.Component {
               }}
             >
               Registered 2 months ago
+            </Animated.Text> */}
+            <Animated.Text
+              style={{
+                position: "absolute",
+                top: 65,
+                fontSize: 14,
+                marginTop: 5,
+                marginLeft: 15,
+                // fontWeight: "500",
+                color: "white",
+                width: 200,
+                opacity: AnimateOpacity
+              }}
+            >
+              follow by <Text style={{ fontWeight: "bold" }}>Alex Kokai</Text>
             </Animated.Text>
             <Animated.View
               style={{
                 flexDirection: "row",
-                marginTop: 20,
+                marginTop: 10,
+                position: "absolute",
                 top: AnimatedInfoPosition
               }}
             >
