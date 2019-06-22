@@ -2,12 +2,10 @@ import React from "react";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import ProfileView from "../components/profile/ProfileView";
-import FriendsList from "../components/profile/FriendsList";
 
-const ProfileNavigator = createStackNavigator(
+const ProfileViewNavigator = createStackNavigator(
   {
-    ProfileView: { screen: ProfileView },
-    FriendsList: { screen: FriendsList }
+    ProfileView: { screen: ProfileView }
   },
   {
     navigationOptions: {
@@ -19,4 +17,4 @@ const ProfileNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(ProfileNavigator);
+export default createAppContainer(ProfileViewNavigator);

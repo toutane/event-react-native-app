@@ -46,9 +46,12 @@ export default class FriendsList extends React.Component {
 
   async loadFriends(userUid) {
     UsersActions.GET_USER_FRIENDS(userUid).then(friendsList =>
-      this.setState({
-        friendsList: friendsList
-      })
+      this.setState(
+        {
+          friendsList: friendsList
+        },
+        () => console.log(this.state.friendsList)
+      )
     );
   }
 
@@ -140,11 +143,11 @@ export default class FriendsList extends React.Component {
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <TouchableOpacity
                     style={{ flexDirection: "row", alignItems: "center" }}
-                    onPress={() =>
-                      this.props.navigation.navigate("ProfileView", {
-                        user_uid: item.uid
-                      })
-                    }
+                    // onPress={() =>
+                    //   this.props.navigation.navigate("ProfileView", {
+                    //     user_uid: item.uid
+                    //   })
+                    // }
                   >
                     <Thumbnail
                       source={{ uri: item.avatar }}

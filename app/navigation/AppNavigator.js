@@ -14,7 +14,8 @@ import TabIcon from "../components/TabBar/TabIcon";
 import EventViewNavigator from "./EventViewNavigator";
 import EventCreationNavigator from "./EventCreationNavigator";
 import NotificationNavigator from "./NotificationNavigator";
-import ProfileNavigator from "./ProfileNavigator";
+import ProfileViewNavigator from "./ProfileViewNavigator";
+import FriendsListNavigator from "./FriendsListNavigator";
 
 import HomeScreen from "../components/views/HomeScreen";
 import ExploreScreen from "../components/views/ExploreScreen";
@@ -82,7 +83,8 @@ const AppNavigator = createStackNavigator(
     EventView: EventViewNavigator,
     EventCreation: EventCreationNavigator,
     NotificationNavigator: NotificationNavigator,
-    ProfileNavigator: ProfileNavigator
+    ProfileViewNavigator: ProfileViewNavigator,
+    FriendsListNavigator: FriendsListNavigator
   },
   {
     headerMode: "none",
