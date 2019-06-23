@@ -13,16 +13,23 @@ import { Icon } from "expo";
 import { theme } from "../../themes";
 import firebase from "../../firebase/firebase";
 import UsersActions from "../../actions/usersActions";
+import RequestInfoCard from "./RequestInfoCard";
 
-const Header_Maximum_Height = 300;
+const moment = require("moment");
+
+const Header_Maximum_Height = 340;
+// const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
+const Yellow_Header_Maximum_Height = 100;
+const Yellow_Header_Minimum_Height = 0;
 const Header_Maximum_Text = 900;
 const Header_Minimum_Text = 810;
-const Header_Maximum_Text_Pos_Top = 75;
+// const Header_Maximum_Text_Pos_Top = 75;
+const Header_Maximum_Text_Pos_Top = 115;
 const Header_Minimum_Text_Pos_Top = -150;
-const Header_Maximum_Info_Pos = 80;
-const Header_Minimum_Info_Pos = 25;
-const Header_Maximum_Image_Pos = 150;
+const Header_Maximum_Info_Pos = 265;
+const Header_Minimum_Info_Pos = 65;
+const Header_Maximum_Image_Pos = 190;
 const Header_Minimum_Image_Pos = 50;
 const Header_Maximum_Image_Height = 200;
 const Header_Minimum_Image_Height = 100;
@@ -44,6 +51,7 @@ export default class ProfileView extends React.Component {
       username: "",
       nb_friends: 0,
       score: 0,
+      register_date: undefined,
       usernameSize: 38
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
@@ -91,6 +99,16 @@ export default class ProfileView extends React.Component {
       inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
 
       outputRange: [Header_Maximum_Height, Header_Minimum_Height],
+
+      extrapolate: "clamp"
+    });
+    const YellowAnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
+      inputRange: [
+        0,
+        Yellow_Header_Maximum_Height - Yellow_Header_Minimum_Height
+      ],
+
+      outputRange: [Yellow_Header_Maximum_Height, Yellow_Header_Minimum_Height],
 
       extrapolate: "clamp"
     });
@@ -175,13 +193,32 @@ export default class ProfileView extends React.Component {
           /> */}
           {/* <ProfileView scrollAnimation={scrollAnimation} /> */}
         </ScrollView>
-        <Animated.View
+        {/* <Animated.View
           style={[
             styles.headerBox,
             {
-              height: AnimateHeaderHeight,
-              width: screenWidth
+              height: YellowAnimateHeaderHeight,
+              zIndex: 9999,
+              backgroundColor: "#fead01",
+              // height: 100,
+              width: screenWidth,
+              borderTopRightRadius: 0,
+              borderTopLeftRadius: 0,
+              borderRadius: 35,
+              paddingHorizontal: 30
             }
+          ]}
+        >
+          <Text style={{ marginTop: 40, fontSize: 20, color: "white" }}>
+            <Text style={{ fontWeight: "bold" }}>{this.state.username}</Text> is
+            not your friend yet... Ask her to be one !
+          </Text>
+        </Animated.View> */}
+        <RequestInfoCard scrollAnimation={scrollAnimation} />
+        <Animated.View
+          style={[
+            styles.headerBox,
+            { height: AnimateHeaderHeight, width: screenWidth }
           ]}
         >
           <HeaderGradient
@@ -294,6 +331,7 @@ export default class ProfileView extends React.Component {
               />
             ) : null}
           </View>
+
           <View>
             {this.state.skeleton ? (
               <View
@@ -311,13 +349,15 @@ export default class ProfileView extends React.Component {
                   fontSize:
                     this.state.bio.length <= 39
                       ? this.state.bio.length <= 23
-                        ? 25
+                        ? this.state.bio.length <= 13
+                          ? 30
+                          : 25
                         : 20
                       : 15,
                   marginTop: 5,
                   marginLeft: 15,
                   fontWeight: "bold",
-                  color: "rgba(255,255,255,0.9)",
+                  color: "rgba(255,255,255,1)",
                   width: 220,
                   opacity: AnimateOpacity
                 }}
@@ -325,11 +365,14 @@ export default class ProfileView extends React.Component {
                 {this.state.bio.length > 75
                   ? this.state.bio.slice(0, 75) + "..."
                   : this.state.bio}
+                {/* {this.state.bio} */}
               </Animated.Text>
             )}
             {/* <Animated.Text
               style={{
-                fontSize: 16,
+                position: "absolute",
+                top: 45,
+                fontSize: 13,
                 marginTop: 5,
                 marginLeft: 15,
                 fontWeight: "500",
@@ -338,115 +381,128 @@ export default class ProfileView extends React.Component {
                 opacity: AnimateOpacity
               }}
             >
-              Registered 2 months ago
+              {this.state.register_date === undefined
+                ? "Registered 2 months ago"
+                : "Registered " + moment(this.state.register_date).fromNow()}
             </Animated.Text> */}
-            <Animated.Text
-              style={{
-                position: "absolute",
-                top: 65,
-                fontSize: 14,
-                marginTop: 5,
-                marginLeft: 15,
-                // fontWeight: "500",
-                color: "white",
-                width: 200,
-                opacity: AnimateOpacity
-              }}
-            >
-              follow by <Text style={{ fontWeight: "bold" }}>Alex Kokai</Text>
-            </Animated.Text>
-            <Animated.View
+          </View>
+        </Animated.View>
+        <Animated.View
+          style={{
+            zIndex: 10,
+            top: AnimatedInfoPosition,
+            left: 160,
+            position: "absolute"
+          }}
+        >
+          <Animated.Text
+            style={{
+              fontSize: 14,
+              marginLeft: 15,
+              color: "white",
+              width: 200,
+              opacity: AnimateOpacity
+            }}
+          >
+            follow by <Text style={{ fontWeight: "bold" }}>Alex Kokai</Text>
+          </Animated.Text>
+          <Animated.View
+            style={{
+              flexDirection: "row",
+              position: "absolute",
+              marginTop: 20
+            }}
+          >
+            <TouchableOpacity
               style={{
                 flexDirection: "row",
-                marginTop: 10,
-                position: "absolute",
-                top: AnimatedInfoPosition
+                marginLeft: 15,
+                alignItems: "center"
+              }}
+              onPress={() =>
+                this.props.navigation.navigate("FriendsList", {
+                  user_uid: this.props.navigation.getParam("user_uid")
+                })
+              }
+            >
+              <View
+                style={{
+                  height: 30,
+                  width: 30,
+                  borderRadius: 8,
+                  backgroundColor: "#A8AFE0",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Icon.Feather name="user" size={20} color="#364EE1" />
+              </View>
+              <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
+                <Animated.Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: "white",
+                    top: AnimatedButtonsPosition
+                  }}
+                >
+                  {this.state.nb_friends}
+                </Animated.Text>
+                <Animated.Text
+                  style={{
+                    fontSize: 14,
+                    color: theme.colors.grey,
+                    opacity: AnimateOpacity,
+                    fontWeight: "500"
+                  }}
+                >
+                  FRIEND{this.state.nb_friends > 1 ? "S" : null}
+                </Animated.Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                marginLeft: 15,
+                alignItems: "center"
               }}
             >
               <View
                 style={{
-                  flexDirection: "row",
-                  marginLeft: 15,
+                  height: 30,
+                  width: 30,
+                  borderRadius: 8,
+                  backgroundColor: "#F9F0DB",
+                  justifyContent: "center",
                   alignItems: "center"
                 }}
               >
-                <View
+                <Icon.Feather name="star" size={20} color="#fead01" />
+              </View>
+              <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
+                <Animated.Text
                   style={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: 8,
-                    backgroundColor: "#A8AFE0",
-                    justifyContent: "center",
-                    alignItems: "center"
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: "white",
+                    top: AnimatedButtonsPosition
                   }}
                 >
-                  <Icon.Feather name="user" size={20} color="#364EE1" />
-                </View>
-                <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
-                  <Animated.Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      color: "white",
-                      top: AnimatedButtonsPosition
-                    }}
-                  >
-                    {this.state.nb_friends}
-                  </Animated.Text>
-                  <Animated.Text
-                    style={{
-                      fontSize: 14,
-                      color: theme.colors.grey,
-                      opacity: AnimateOpacity
-                    }}
-                  >
-                    FRIEND{this.state.nb_friends > 1 ? "S" : null}
-                  </Animated.Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginLeft: 15,
-                  alignItems: "center"
-                }}
-              >
-                <View
+                  {this.state.score}
+                </Animated.Text>
+                <Animated.Text
                   style={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: 8,
-                    backgroundColor: "#F9F0DB",
-                    justifyContent: "center",
-                    alignItems: "center"
+                    fontSize: 14,
+                    fontWeight: "500",
+                    color: theme.colors.grey,
+                    opacity: AnimateOpacity
                   }}
                 >
-                  <Icon.Feather name="star" size={20} color="#fead01" />
-                </View>
-                <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
-                  <Animated.Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      color: "white",
-                      top: AnimatedButtonsPosition
-                    }}
-                  >
-                    {this.state.score}
-                  </Animated.Text>
-                  <Animated.Text
-                    style={{
-                      fontSize: 14,
-                      color: theme.colors.grey,
-                      opacity: AnimateOpacity
-                    }}
-                  >
-                    SCORE
-                  </Animated.Text>
-                </View>
+                  SCORE
+                </Animated.Text>
               </View>
-            </Animated.View>
-          </View>
+            </TouchableOpacity>
+          </Animated.View>
         </Animated.View>
         <Animated.Text
           style={{

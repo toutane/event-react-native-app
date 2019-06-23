@@ -323,7 +323,9 @@ export default class ProfileScreen extends React.Component {
                   fontSize:
                     this.state.bio.length <= 39
                       ? this.state.bio.length <= 23
-                        ? 25
+                        ? this.state.bio.length <= 13
+                          ? 30
+                          : 25
                         : 20
                       : 15,
                   marginTop: 5,
