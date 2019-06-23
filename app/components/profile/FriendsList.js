@@ -36,6 +36,9 @@ export default class FriendsList extends React.Component {
   componentDidMount() {
     this.listenToChanges(this.props.navigation.getParam("user_uid"));
   }
+  componentWillUpdate() {
+    this.listenToChanges(this.props.navigation.getParam("user_uid"));
+  }
   async listenToChanges(userUid) {
     firebase.db
       .collection("users")
