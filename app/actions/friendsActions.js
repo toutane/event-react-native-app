@@ -1,4 +1,6 @@
 import firebase from "../firebase/firebase";
+import usersActions from "./usersActions";
+import UsersActions from "./usersActions";
 
 class FriendsActions {
   async INCREASE_NB_FRIENDS(user_uid, nb_friends) {
@@ -31,6 +33,21 @@ class FriendsActions {
         username: firebase.auth.currentUser.displayName,
         bio: currentUser_bio,
         avatar: currentUser_avatar
+      });
+  }
+  async ADD_FRIEND_REQUEST(user_uid, user_bio, user_avatar) {
+    await firebase.db
+      .collection("users")
+      .doc(user_uid)
+      .collection("notifications")
+      .add({
+        type: "follow_request",
+        user: {
+          uid: firebase.auth.currentUser.uid,
+          username: firebase.auth.currentUser.displayName,
+          bio: user_bio,
+          avatar: user_avatar
+        }
       });
   }
 }
