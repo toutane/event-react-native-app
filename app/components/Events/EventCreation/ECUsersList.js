@@ -44,8 +44,9 @@ export default class ECUsersList extends React.Component {
           // usersList.forEach(user => {
           //   user, { key: usersList.indexOf(user) };
           // })
-        },
-        () => console.log(this.state.usersList)
+        }
+        // ,
+        // () => console.log(this.state.usersList)
       )
     );
     this.setState({
@@ -64,8 +65,9 @@ export default class ECUsersList extends React.Component {
               // uid
               { uid: uid, avatar: avatar, state: "waiting" }
             ]
-          },
-          () => console.log(this.state.selectedUsers)
+          }
+          // ,
+          // () => console.log(this.state.selectedUsers)
         );
       }
       // supress uid from selectedUsers []
@@ -75,8 +77,9 @@ export default class ECUsersList extends React.Component {
             selectedUsers: this.state.selectedUsers.filter(
               uidItem => uidItem.uid !== uid
             )
-          },
-          () => console.log(this.state.selectedUsers)
+          }
+          // ,
+          // () => console.log(this.state.selectedUsers)
         );
       }
     };
