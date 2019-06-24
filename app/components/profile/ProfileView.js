@@ -15,6 +15,7 @@ import { theme } from "../../themes";
 import firebase from "../../firebase/firebase";
 import UsersActions from "../../actions/usersActions";
 import RequestInfoCard from "./RequestInfoCard";
+import FriendsActions from "../../actions/friendsActions";
 
 const moment = require("moment");
 
@@ -52,6 +53,8 @@ export default class ProfileView extends React.Component {
       skeleton: true,
       avatar: "",
       bio: "",
+      currentUser_avatar: "",
+      currentUser_bio: "",
       username: "",
       nb_friends: 0,
       score: 0,
@@ -73,6 +76,24 @@ export default class ProfileView extends React.Component {
           this.reUpdateCurrentUserInfo(user_uid)
         )
       );
+  }
+  async SEND_FRIEND_REQUEST(user_uid) {
+    await UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(
+      avatar =>
+        this.setState({
+          currentUser_avatar: avatar
+        })
+    );
+    await UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
+      this.setState({
+        currentUser_bio: bio
+      })
+    );
+    FriendsActions.ADD_FRIEND_REQUEST(
+      user_uid,
+      this.state.currentUser_bio,
+      this.state.currentUser_avatar
+    );
   }
   reUpdateCurrentUserInfo(user_uid) {
     UsersActions.GET_USER_USERNAME(user_uid).then(username =>
@@ -96,10 +117,6 @@ export default class ProfileView extends React.Component {
     );
   }
   render() {
-    async function logout(props) {
-      await firebase.logout();
-      props.navigation.navigate("SignIn");
-    }
     const AnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
       inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
 
@@ -529,6 +546,11 @@ export default class ProfileView extends React.Component {
                 justifyContent: "center"
               }}
               outline
+              onPress={() =>
+                this.SEND_FRIEND_REQUEST(
+                  this.props.navigation.getParam("user_uid")
+                )
+              }
             >
               <Text style={{ color: "white" }}>Friends Request</Text>
             </Button>
