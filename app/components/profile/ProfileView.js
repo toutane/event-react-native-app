@@ -7,6 +7,7 @@ import {
   ScrollView,
   Text
 } from "react-native";
+import { Button } from "native-base";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import { Icon } from "expo";
@@ -17,21 +18,24 @@ import RequestInfoCard from "./RequestInfoCard";
 
 const moment = require("moment");
 
-const Header_Maximum_Height = 340;
-// const Header_Maximum_Height = 300;
+// const Header_Maximum_Height = 340;
+const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
 const Yellow_Header_Maximum_Height = 100;
 const Yellow_Header_Minimum_Height = 0;
 const Header_Maximum_Text = 900;
 const Header_Minimum_Text = 810;
-// const Header_Maximum_Text_Pos_Top = 75;
-const Header_Maximum_Text_Pos_Top = 115;
+const Header_Maximum_Text_Pos_Top = 75;
+// const Header_Maximum_Text_Pos_Top = 115;
 const Header_Minimum_Text_Pos_Top = -150;
-const Header_Maximum_Info_Pos = 265;
+// const Header_Maximum_Info_Pos = 225;
+const Header_Maximum_Info_Pos = 185;
 const Header_Minimum_Info_Pos = 65;
-const Header_Maximum_Image_Pos = 190;
+const Header_Maximum_Image_Pos = 150;
 const Header_Minimum_Image_Pos = 50;
 const Header_Maximum_Image_Height = 200;
+// const Header_Maximum_Image_Height = 130;
+// const Header_Minimum_Image_Height = 130;
 const Header_Minimum_Image_Height = 100;
 const Header_Maximum_Buttons_Pos = 0;
 const Header_Minimum_Buttons_Pos = 7;
@@ -74,7 +78,8 @@ export default class ProfileView extends React.Component {
     UsersActions.GET_USER_USERNAME(user_uid).then(username =>
       this.setState({
         username: username,
-        usernameSize: username.length <= 10 ? 50 : 38
+        // usernameSize: username.length <= 10 ? 50 : 38
+        usernameSize: username.length <= 10 ? 38 : 38
       })
     );
     UsersActions.GET_USER_AVATAR(user_uid).then(avatar =>
@@ -214,7 +219,7 @@ export default class ProfileView extends React.Component {
             not your friend yet... Ask her to be one !
           </Text>
         </Animated.View> */}
-        <RequestInfoCard scrollAnimation={scrollAnimation} />
+        {/* <RequestInfoCard scrollAnimation={scrollAnimation} /> */}
         <Animated.View
           style={[
             styles.headerBox,
@@ -266,7 +271,7 @@ export default class ProfileView extends React.Component {
                 height: 40,
                 width: 40,
                 marginTop: 7,
-                borderRadius: 8,
+                borderRadius: 12,
                 backgroundColor: "rgba(255, 255, 255, 0.15)",
                 justifyContent: "center",
                 alignItems: "center"
@@ -276,7 +281,13 @@ export default class ProfileView extends React.Component {
                 this.props.navigation.pop()
               }
             >
-              <Icon.Feather name="arrow-up" size={25} color="white" />
+              {/* <Icon.Feather name="arrow-up" size={25} color="white" /> */}
+              <Icon.Ionicons
+                style={{ top: 2 }}
+                name="ios-arrow-round-up"
+                size={35}
+                color="white"
+              />
             </TouchableOpacity>
           </Animated.View>
           {/* <Animated.View
@@ -324,7 +335,7 @@ export default class ProfileView extends React.Component {
                 style={{
                   zIndex: 99,
                   marginLeft: 30,
-                  borderRadius: 13,
+                  borderRadius: 15,
                   height: AnimatedImageHeight,
                   width: 130
                 }}
@@ -336,7 +347,7 @@ export default class ProfileView extends React.Component {
             {this.state.skeleton ? (
               <View
                 style={{
-                  marginTop: 5,
+                  // marginTop: 5,
                   marginLeft: 15,
                   width: 220,
                   // backgroundColor: "#eee",
@@ -350,16 +361,17 @@ export default class ProfileView extends React.Component {
                     this.state.bio.length <= 39
                       ? this.state.bio.length <= 23
                         ? this.state.bio.length <= 13
-                          ? 30
+                          ? 25
                           : 25
-                        : 20
-                      : 15,
+                        : 25
+                      : 17,
                   marginTop: 5,
                   marginLeft: 15,
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   color: "rgba(255,255,255,1)",
                   width: 220,
                   opacity: AnimateOpacity
+                  // bottom: 8
                 }}
               >
                 {this.state.bio.length > 75
@@ -397,14 +409,15 @@ export default class ProfileView extends React.Component {
         >
           <Animated.Text
             style={{
-              fontSize: 14,
+              fontSize: 12,
               marginLeft: 15,
               color: "white",
               width: 200,
               opacity: AnimateOpacity
             }}
           >
-            follow by <Text style={{ fontWeight: "bold" }}>Alex Kokai</Text>
+            {/* follow by{" "}
+            <Text style={{ fontWeight: "bold", fontSize: 13 }}>Alex Kokai</Text> */}
           </Animated.Text>
           <Animated.View
             style={{
@@ -429,7 +442,7 @@ export default class ProfileView extends React.Component {
                 style={{
                   height: 30,
                   width: 30,
-                  borderRadius: 8,
+                  borderRadius: 10,
                   backgroundColor: "#A8AFE0",
                   justifyContent: "center",
                   alignItems: "center"
@@ -450,13 +463,13 @@ export default class ProfileView extends React.Component {
                 </Animated.Text>
                 <Animated.Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 12,
                     color: theme.colors.grey,
                     opacity: AnimateOpacity,
                     fontWeight: "500"
                   }}
                 >
-                  FRIEND{this.state.nb_friends > 1 ? "S" : null}
+                  Friend{this.state.nb_friends > 1 ? "s" : null}
                 </Animated.Text>
               </View>
             </TouchableOpacity>
@@ -471,7 +484,7 @@ export default class ProfileView extends React.Component {
                 style={{
                   height: 30,
                   width: 30,
-                  borderRadius: 8,
+                  borderRadius: 10,
                   backgroundColor: "#F9F0DB",
                   justifyContent: "center",
                   alignItems: "center"
@@ -492,16 +505,33 @@ export default class ProfileView extends React.Component {
                 </Animated.Text>
                 <Animated.Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: "500",
                     color: theme.colors.grey,
                     opacity: AnimateOpacity
                   }}
                 >
-                  SCORE
+                  Score
                 </Animated.Text>
               </View>
             </TouchableOpacity>
+          </Animated.View>
+          <Animated.View
+            style={{ marginLeft: 15, top: 55, opacity: AnimateOpacity }}
+          >
+            <Button
+              style={{
+                height: 28,
+                width: 200,
+                borderRadius: 10,
+                paddingHorizontal: 10,
+                backgroundColor: "#1DC161",
+                justifyContent: "center"
+              }}
+              outline
+            >
+              <Text style={{ color: "white" }}>Friends Request</Text>
+            </Button>
           </Animated.View>
         </Animated.View>
         <Animated.Text
@@ -519,6 +549,30 @@ export default class ProfileView extends React.Component {
             ? this.state.username.slice(0, 10) + "..."
             : this.state.username}
         </Animated.Text>
+        {/* <Animated.View
+          style={{
+            position: "absolute",
+            top: 315,
+            left: 175,
+            opacity: AnimateOpacity
+          }}
+        >
+          <Button
+            // rounded
+            style={{
+              marginRight: 7,
+              height: 28,
+              paddingHorizontal: 10,
+              backgroundColor: "#1DC161",
+              alignItems: "center",
+              borderRadius: 8
+            }}
+          >
+            <Text style={{ fontSize: 13, color: "white" }}>
+              Friends Request
+            </Text>
+          </Button>
+        </Animated.View> */}
       </View>
     );
   }
