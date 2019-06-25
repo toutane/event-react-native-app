@@ -52,8 +52,8 @@ export default class FriendsList extends React.Component {
       this.setState(
         {
           friendsList: friendsList
-        },
-        () => console.log(this.state.friendsList)
+        }
+        // () => console.log(this.state.friendsList)
       )
     );
   }
