@@ -16,8 +16,10 @@ import { theme } from "../../themes";
 // import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "../../firebase/firebase";
 import UsersActions from "../../actions/usersActions";
+import NotifsActions from "../../actions/notificationsActions";
 // import { Spinner } from "native-base";
 const moment = require("moment");
+import { Notifications } from "expo";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
@@ -54,7 +56,9 @@ export default class ProfileScreen extends React.Component {
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
+
   componentDidMount() {
+    NotifsActions.REGISTER_FOR_PUSH_NOTIFICATIONS();
     this.listenToChanges();
   }
   async listenToChanges() {
@@ -68,6 +72,9 @@ export default class ProfileScreen extends React.Component {
   reUpdateCurrentUserInfo() {
     UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(avatar =>
       this.setState({ avatar: avatar })
+    );
+    UsersActions.GET_USER_EXPO_PUSH_TOKEN(firebase.auth.currentUser.uid).then(
+      token => (token === undefined ? () => getExpoToken() : null)
     );
     UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
       this.setState(
@@ -91,6 +98,13 @@ export default class ProfileScreen extends React.Component {
       username: firebase.auth.currentUser.displayName,
       usernameSize: firebase.auth.currentUser.displayName.length <= 10 ? 50 : 38
     });
+  }
+  async getExpoToken() {
+    let token = await Notifications.getExpoPushTokenAsync();
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .update({ expoPushToken: token });
   }
   render() {
     async function logout(props) {
