@@ -35,7 +35,13 @@ class FriendsActions {
         avatar: currentUser_avatar
       });
   }
-  async ADD_FRIEND_REQUEST(user_uid, user_bio, user_avatar) {
+  async ADD_FRIEND_REQUEST(
+    user_uid,
+    user_username,
+    user_expoPushToken,
+    currentUser_bio,
+    currentUser_avatar
+  ) {
     await firebase.db
       .collection("users")
       .doc(user_uid)
@@ -44,10 +50,33 @@ class FriendsActions {
         type: "follow_request",
         user: {
           uid: firebase.auth.currentUser.uid,
+          expoPushToken: user_expoPushToken,
           username: firebase.auth.currentUser.displayName,
-          bio: user_bio,
-          avatar: user_avatar
+          bio: currentUser_bio,
+          avatar: currentUser_avatar
         }
+      })
+      .then(() => {
+        fetch("https://exp.host/--/api/v2/push/send", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            to: user_expoPushToken,
+            sound: "default",
+            title: "Hey ! 👋 " + user_username,
+            body:
+              firebase.auth.currentUser.displayName +
+              " wants to be your friend !",
+            // priority: "normal"
+            badge: 1
+          })
+        });
+      })
+      .catch(reason => {
+        console.log(reason);
       });
   }
 }
