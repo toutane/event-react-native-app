@@ -73,9 +73,13 @@ export default class ProfileScreen extends React.Component {
     UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(avatar =>
       this.setState({ avatar: avatar })
     );
+
+    // HERE UNIQUELY FOR TESTING NOTIFICATIONS
+
     UsersActions.GET_USER_EXPO_PUSH_TOKEN(firebase.auth.currentUser.uid).then(
       token => (token === undefined ? () => getExpoToken() : null)
     );
+
     UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
       this.setState(
         {
@@ -99,13 +103,13 @@ export default class ProfileScreen extends React.Component {
       usernameSize: firebase.auth.currentUser.displayName.length <= 10 ? 50 : 38
     });
   }
-  async getExpoToken() {
-    let token = await Notifications.getExpoPushTokenAsync();
-    firebase.db
-      .collection("users")
-      .doc(firebase.auth.currentUser.uid)
-      .update({ expoPushToken: token });
-  }
+  // async getExpoToken() {
+  //   let token = await Notifications.getExpoPushTokenAsync();
+  //   firebase.db
+  //     .collection("users")
+  //     .doc(firebase.auth.currentUser.uid)
+  //     .update({ expoPushToken: token });
+  // }
   render() {
     async function logout(props) {
       await firebase.logout();

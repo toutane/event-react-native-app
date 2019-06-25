@@ -43,7 +43,7 @@ export default class MiddleCreation extends React.Component {
             <TextInput
               multiline={true}
               style={[styles.subTitle, { lineHeight: 27 }]}
-              placeholder={"Invitation of the event"}
+              placeholder={"Description of the event"}
               autoFocus={false}
               returnKeyType="go"
               selectionColor={"#1DC161"}
