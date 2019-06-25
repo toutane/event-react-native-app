@@ -63,7 +63,9 @@ export default class FollowRequestScreen extends React.Component {
     );
     NotifsActions.FOLLOW_REQUEST_ACCEPTED(
       newFriend.user.uid,
-      this.props.navigation.getParam("avatar")
+      this.props.navigation.getParam("avatar"),
+      newFriend.user.username,
+      newFriend.user.expoPushToken
     );
     NotifsActions.BECOME_NEW_FRIEND(newFriend);
     FriendsActions.INCREASE_NB_FRIENDS(
