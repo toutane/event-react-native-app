@@ -34,10 +34,14 @@ export default class FriendsList extends React.Component {
   }
   _keyExtractor = (item, index) => item.uid;
   componentDidMount() {
+    this.mount = true;
     this.listenToChanges(this.props.navigation.getParam("user_uid"));
   }
   componentWillUpdate() {
     this.listenToChanges(this.props.navigation.getParam("user_uid"));
+  }
+  componentWillUnmount() {
+    this.mount = false;
   }
   async listenToChanges(userUid) {
     firebase.db
@@ -49,12 +53,14 @@ export default class FriendsList extends React.Component {
 
   async loadFriends(userUid) {
     UsersActions.GET_USER_FRIENDS(userUid).then(friendsList =>
-      this.setState(
-        {
-          friendsList: friendsList
-        }
-        // () => console.log(this.state.friendsList)
-      )
+      this.mount
+        ? this.setState(
+            {
+              friendsList: friendsList
+            }
+            // () => console.log(this.state.friendsList)
+          )
+        : console.log("component not mount")
     );
   }
 
@@ -86,7 +92,7 @@ export default class FriendsList extends React.Component {
                 width: screenWidth - 75,
                 height: 36,
                 marginRight: 15,
-                marginLeft: 15,
+                marginLeft: 60,
                 backgroundColor: "rgba(0, 0, 0, 0.04)",
                 borderRadius: 10,
                 paddingHorizontal: 10,
@@ -103,18 +109,19 @@ export default class FriendsList extends React.Component {
             <Button
               style={{
                 position: "absolute",
-                left: screenWidth - 50,
+                right: screenWidth - 50,
                 height: 35,
                 width: 35,
                 borderRadius: 10,
                 backgroundColor: "rgba(0, 0, 0, 0.04)",
                 justifyContent: "center"
               }}
-              onPress={() => this.props.navigation.navigate("Profile")}
+              onPress={() => this.props.navigation.pop()}
             >
               <Icon.Ionicons
-                name="ios-arrow-round-up"
-                size={25}
+                name="ios-arrow-round-back"
+                size={30}
+                style={{ bottom: 3 }}
                 color="black"
               />
             </Button>
