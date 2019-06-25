@@ -121,7 +121,8 @@ export default class ECUsersList extends React.Component {
               }
             >
               <Icon.Ionicons
-                name="ios-arrow-round-up"
+                name="ios-close"
+                // name="ios-arrow-round-up"
                 size={25}
                 color="black"
               />

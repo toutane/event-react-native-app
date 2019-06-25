@@ -161,7 +161,7 @@ export default class MembersView extends React.Component {
                     fontWeight: "bold"
                   }}
                 >
-                  Manage members
+                  Add participants
                 </Text>
               </TouchableOpacity>
             </View>

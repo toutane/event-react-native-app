@@ -27,13 +27,14 @@ export default class Header extends React.Component {
           style={{
             height: 50,
             width: 50,
+            marginLeft: 45,
             borderRadius: 13,
             backgroundColor: "rgba(0, 0, 0, 0.04)",
             justifyContent: "center"
           }}
           onPress={() => this.props.navigation.navigate("Home")}
         >
-          <Icon.Ionicons name="ios-arrow-round-up" size={35} color="black" />
+          <Icon.Ionicons name="ios-close" size={35} color="black" />
         </Button>
         {this.props.title !== "" ? (
           <Button
