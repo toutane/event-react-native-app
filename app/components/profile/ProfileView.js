@@ -59,6 +59,7 @@ export default class ProfileView extends React.Component {
       nb_friends: 0,
       score: 0,
       register_date: undefined,
+      expoPushToken: undefined,
       usernameSize: 38
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
@@ -91,6 +92,8 @@ export default class ProfileView extends React.Component {
     );
     FriendsActions.ADD_FRIEND_REQUEST(
       user_uid,
+      this.state.username,
+      this.state.expoPushToken,
       this.state.currentUser_bio,
       this.state.currentUser_avatar
     );
@@ -101,6 +104,14 @@ export default class ProfileView extends React.Component {
         username: username,
         // usernameSize: username.length <= 10 ? 50 : 38
         usernameSize: username.length <= 10 ? 38 : 38
+      })
+    );
+    UsersActions.GET_USER_EXPO_PUSH_TOKEN(user_uid).then(token =>
+      this.setState({
+        expoPushToken:
+          token === undefined
+            ? "ExponentPushToken[XZ7vA8OXzlZ5Jipi0cT4sQ]"
+            : token
       })
     );
     UsersActions.GET_USER_AVATAR(user_uid).then(avatar =>
@@ -552,7 +563,7 @@ export default class ProfileView extends React.Component {
                 )
               }
             >
-              <Text style={{ color: "white" }}>Friends Request</Text>
+              <Text style={{ color: "white" }}>Friend Request</Text>
             </Button>
           </Animated.View>
         </Animated.View>

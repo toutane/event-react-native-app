@@ -14,6 +14,7 @@ import { Icon } from "expo";
 import { theme } from "../../themes";
 import NotificationsList from "../notifications/NotificationsList";
 import firebase from "../../firebase/firebase";
+import NotifsActions from "../../actions/notificationsActions";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 100;
