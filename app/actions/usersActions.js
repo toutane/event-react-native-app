@@ -8,6 +8,13 @@ class UsersActions {
       .get();
     return username.get("username");
   }
+  async GET_USER_NAME(userUid) {
+    const name = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return name.get("name");
+  }
   async GET_USER_EXPO_PUSH_TOKEN(userUid) {
     const token = await firebase.db
       .collection("users")
