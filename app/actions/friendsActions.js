@@ -80,6 +80,23 @@ class FriendsActions {
         console.log(reason);
       });
   }
+
+  async DELETE_FRIEND_TO_CURRENTUSER(docID) {
+    await firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .collection("friends")
+      .doc(docID)
+      .delete();
+  }
+  async DELETE_FRIEND_TO_USER(friend_uid) {
+    await firebase.db
+      .collection("users")
+      .doc(friend_uid)
+      .collection("friends")
+      .where("uid", "==", firebase.auth.currentUser.uid)
+      .delete();
+  }
 }
 
 export default new FriendsActions();
