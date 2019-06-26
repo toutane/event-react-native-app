@@ -71,7 +71,8 @@ class FriendsActions {
               firebase.auth.currentUser.displayName +
               " wants to be your friend !",
             // priority: "normal"
-            badge: 1
+            badge: 1,
+            click_action: "fcm.ACTION.HELLO"
           })
         });
       })
