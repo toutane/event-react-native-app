@@ -19,15 +19,15 @@ import UsersActions from "../../actions/usersActions";
 import NotifsActions from "../../actions/notificationsActions";
 // import { Spinner } from "native-base";
 const moment = require("moment");
-import { Notifications } from "expo";
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
-const Header_Maximum_Text = 900;
+const Header_Maximum_Text = 910;
 const Header_Minimum_Text = 720;
 const Header_Maximum_Text_Pos_Top = 75;
-const Header_Minimum_Text_Pos_Top = -60;
-const Header_Maximum_Info_Pos = 225;
+const Header_Minimum_Text_Pos_Top = -150;
+// const Header_Maximum_Info_Pos = 225;
+const Header_Maximum_Info_Pos = 185;
 const Header_Minimum_Info_Pos = 65;
 const Header_Maximum_Image_Pos = 150;
 const Header_Minimum_Image_Pos = 50;
@@ -74,17 +74,10 @@ export default class ProfileScreen extends React.Component {
       this.setState({ avatar: avatar })
     );
 
-    // HERE UNIQUELY FOR TESTING NOTIFICATIONS
-
-    UsersActions.GET_USER_EXPO_PUSH_TOKEN(firebase.auth.currentUser.uid).then(
-      token => (token === undefined ? () => getExpoToken() : null)
-    );
-
     UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
       this.setState(
         {
           bio: bio
-          // "efdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrdefdsx efdsx efdsx rrrrrd"
         },
         this.setState({ skeleton: false })
       )
@@ -103,13 +96,6 @@ export default class ProfileScreen extends React.Component {
       usernameSize: firebase.auth.currentUser.displayName.length <= 10 ? 50 : 38
     });
   }
-  // async getExpoToken() {
-  //   let token = await Notifications.getExpoPushTokenAsync();
-  //   firebase.db
-  //     .collection("users")
-  //     .doc(firebase.auth.currentUser.uid)
-  //     .update({ expoPushToken: token });
-  // }
   render() {
     async function logout(props) {
       await firebase.logout();
@@ -257,7 +243,7 @@ export default class ProfileScreen extends React.Component {
                 height: 40,
                 width: 40,
                 marginTop: 7,
-                borderRadius: 8,
+                borderRadius: 12,
                 backgroundColor: "rgba(255, 255, 255, 0.15)",
                 justifyContent: "center",
                 alignItems: "center"
@@ -266,6 +252,7 @@ export default class ProfileScreen extends React.Component {
               <Icon.Feather
                 name="settings"
                 size={25}
+                // size={35}
                 color="white"
                 onPress={() => logout(this.props)}
               />
@@ -316,7 +303,7 @@ export default class ProfileScreen extends React.Component {
                 style={{
                   zIndex: 99,
                   marginLeft: 30,
-                  borderRadius: 13,
+                  borderRadius: 15,
                   height: AnimatedImageHeight,
                   width: 130
                 }}
@@ -328,7 +315,7 @@ export default class ProfileScreen extends React.Component {
             {this.state.skeleton ? (
               <View
                 style={{
-                  marginTop: 5,
+                  // marginTop: 5,
                   marginLeft: 15,
                   width: 220,
                   // backgroundColor: "#eee",
@@ -342,13 +329,13 @@ export default class ProfileScreen extends React.Component {
                     this.state.bio.length <= 39
                       ? this.state.bio.length <= 23
                         ? this.state.bio.length <= 13
-                          ? 30
+                          ? 25
                           : 25
-                        : 20
-                      : 15,
+                        : 25
+                      : 17,
                   marginTop: 5,
                   marginLeft: 15,
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   color: "rgba(255,255,255,1)",
                   width: 220,
                   opacity: AnimateOpacity
@@ -387,7 +374,7 @@ export default class ProfileScreen extends React.Component {
             position: "absolute"
           }}
         >
-          <Animated.Text
+          {/* <Animated.Text
             style={{
               fontSize: 14,
               marginLeft: 15,
@@ -397,7 +384,7 @@ export default class ProfileScreen extends React.Component {
             }}
           >
             follow by <Text style={{ fontWeight: "bold" }}>Alex Kokai</Text>
-          </Animated.Text>
+          </Animated.Text> */}
           <Animated.View
             style={{
               flexDirection: "row",
@@ -421,7 +408,7 @@ export default class ProfileScreen extends React.Component {
                 style={{
                   height: 30,
                   width: 30,
-                  borderRadius: 8,
+                  borderRadius: 10,
                   backgroundColor: "#A8AFE0",
                   justifyContent: "center",
                   alignItems: "center"
@@ -442,13 +429,13 @@ export default class ProfileScreen extends React.Component {
                 </Animated.Text>
                 <Animated.Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 12,
                     color: theme.colors.grey,
                     opacity: AnimateOpacity,
                     fontWeight: "500"
                   }}
                 >
-                  FRIEND{this.state.nb_friends > 1 ? "S" : null}
+                  Friend{this.state.nb_friends > 1 ? "s" : null}
                 </Animated.Text>
               </View>
             </TouchableOpacity>
@@ -463,7 +450,7 @@ export default class ProfileScreen extends React.Component {
                 style={{
                   height: 30,
                   width: 30,
-                  borderRadius: 8,
+                  borderRadius: 10,
                   backgroundColor: "#F9F0DB",
                   justifyContent: "center",
                   alignItems: "center"
@@ -484,16 +471,38 @@ export default class ProfileScreen extends React.Component {
                 </Animated.Text>
                 <Animated.Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: "500",
                     color: theme.colors.grey,
                     opacity: AnimateOpacity
                   }}
                 >
-                  SCORE
+                  Score
                 </Animated.Text>
               </View>
             </TouchableOpacity>
+          </Animated.View>
+          <Animated.View
+            style={{ marginLeft: 15, top: 70, opacity: AnimateOpacity }}
+          >
+            <Button
+              style={{
+                height: 28,
+                width: 200,
+                borderRadius: 10,
+                paddingHorizontal: 10,
+                backgroundColor: "#1DC161",
+                justifyContent: "center"
+              }}
+              outline
+              // onPress={() =>
+              //   this.SEND_FRIEND_REQUEST(
+              //     this.props.navigation.getParam("user_uid")
+              //   )
+              // }
+            >
+              <Text style={{ color: "white" }}>Edit Profile</Text>
+            </Button>
           </Animated.View>
         </Animated.View>
         <Animated.Text
