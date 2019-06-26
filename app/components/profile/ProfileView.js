@@ -1,41 +1,28 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Animated,
-  TouchableOpacity,
-  ScrollView,
-  Text
-} from "react-native";
-import { Button } from "native-base";
 import { screenWidth } from "../../utils/dimensions";
-import HeaderGradient from "../AnimatedHeader/styles";
-import { Icon } from "expo";
-import { theme } from "../../themes";
+import { StyleSheet, View, Animated, ScrollView } from "react-native";
+
 import firebase from "../../firebase/firebase";
 import UsersActions from "../../actions/usersActions";
-import RequestInfoCard from "./RequestInfoCard";
 import FriendsActions from "../../actions/friendsActions";
-import { Hr } from ".././Hr/styles";
 
-const moment = require("moment");
+import HeaderGradient from "../AnimatedHeader/styles";
+import ProfileHeaderBar from "./ProfileHeaderBar";
+import ProfileInfo from "./ProfileInfo";
+import FriendBtn from "./FriendBtn";
+import MessageBtn from "./MessageBtn";
 
-// const Header_Maximum_Height = 340;
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
 const Header_Maximum_Text = 900;
 const Header_Minimum_Text = 810;
 const Header_Maximum_Text_Pos_Top = 95;
-// const Header_Maximum_Text_Pos_Top = 115;
 const Header_Minimum_Text_Pos_Top = -150;
-// const Header_Maximum_Info_Pos = 225;
 const Header_Maximum_Info_Pos = 185;
 const Header_Minimum_Info_Pos = 65;
 const Header_Maximum_Image_Pos = 150;
 const Header_Minimum_Image_Pos = 50;
 const Header_Maximum_Image_Height = 200;
-// const Header_Maximum_Image_Height = 130;
-// const Header_Minimum_Image_Height = 130;
 const Header_Minimum_Image_Height = 100;
 const Header_Maximum_Buttons_Pos = 0;
 const Header_Minimum_Buttons_Pos = 7;
@@ -45,27 +32,28 @@ const Header_Minimum_Text_Opacity = 0;
 export default class ProfileView extends React.Component {
   static navigationOptions = {
     header: null
-    // backgroundColor: ""
   };
   constructor(props) {
     super(props);
     this.state = {
       skeleton: true,
+      username: "",
+      name: undefined,
       avatar: "",
       bio: "",
       currentUser_avatar: "",
       currentUser_bio: "",
-      username: "",
       nb_friends: 0,
       score: 0,
       register_date: undefined,
       expoPushToken: undefined,
-      usernameSize: 38
+      usernameSize: 38,
+      isFriend: false,
+      friend_docID: ""
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
-    // console.log(this.props.navigation.getParam("user_uid"));
     this.listenToChanges(this.props.navigation.getParam("user_uid"));
   }
   async listenToChanges(user_uid) {
@@ -73,10 +61,35 @@ export default class ProfileView extends React.Component {
       .collection("users")
       .doc(user_uid)
       .onSnapshot(() =>
-        this.setState({ skeleton: true }, () =>
-          this.reUpdateCurrentUserInfo(user_uid)
+        this.setState({ skeleton: true }, () => this.reUpdateUserInfo(user_uid))
+      );
+    firebase.db
+      .collection("users")
+      .doc(user_uid)
+      .collection("friends")
+      .onSnapshot(() =>
+        UsersActions.GET_USER_FRIENDS(firebase.auth.currentUser.uid).then(
+          friendsList =>
+            friendsList.filter(friend => friend.uid === user_uid).length > 0
+              ? this.setState({
+                  isFriend: true
+                })
+              : console.log(this.state.username + " is not your friend")
         )
       );
+  }
+  async BREAK_FRIENDSHIP(user_uid) {
+    await firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .collection("friends")
+      .where("uid", "==", user_uid)
+      .get()
+      .then(doc => doc.forEach(doc => this.setState({ friend_docID: doc.id })));
+    await this.props.navigation.pop();
+    FriendsActions.DELETE_FRIEND_TO_CURRENTUSER(this.state.friend_docID).then(
+      () => console.log(this.state.username + "is not longer your friend 😕")
+    );
   }
   async SEND_FRIEND_REQUEST(user_uid) {
     await UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(
@@ -98,7 +111,7 @@ export default class ProfileView extends React.Component {
       this.state.currentUser_avatar
     );
   }
-  reUpdateCurrentUserInfo(user_uid) {
+  reUpdateUserInfo(user_uid) {
     UsersActions.GET_USER_USERNAME(user_uid).then(username =>
       this.setState({
         username: username,
@@ -106,6 +119,9 @@ export default class ProfileView extends React.Component {
         // usernameSize: username.length <= 10 ? 38 : 38
         usernameSize: username.length <= 10 ? 35 : 35
       })
+    );
+    UsersActions.GET_USER_NAME(user_uid).then(name =>
+      this.setState({ name: name })
     );
     UsersActions.GET_USER_EXPO_PUSH_TOKEN(user_uid).then(token =>
       this.setState({
@@ -217,28 +233,6 @@ export default class ProfileView extends React.Component {
           /> */}
           {/* <ProfileView scrollAnimation={scrollAnimation} /> */}
         </ScrollView>
-        {/* <Animated.View
-          style={[
-            styles.headerBox,
-            {
-              height: YellowAnimateHeaderHeight,
-              zIndex: 9999,
-              backgroundColor: "#fead01",
-              // height: 100,
-              width: screenWidth,
-              borderTopRightRadius: 0,
-              borderTopLeftRadius: 0,
-              borderRadius: 35,
-              paddingHorizontal: 30
-            }
-          ]}
-        >
-          <Text style={{ marginTop: 40, fontSize: 20, color: "white" }}>
-            <Text style={{ fontWeight: "bold" }}>{this.state.username}</Text> is
-            not your friend yet... Ask her to be one !
-          </Text>
-        </Animated.View> */}
-        {/* <RequestInfoCard scrollAnimation={scrollAnimation} /> */}
         <Animated.View
           style={[
             styles.headerBox,
@@ -251,77 +245,11 @@ export default class ProfileView extends React.Component {
             headerTo={"#1DC161"}
           />
         </Animated.View>
-        {/* {this.state.spinner ? (
-          <Spinner />
-        ) : ( */}
-        <Animated.View
-          style={{
-            // backgroundColor: "#1DC161",
-            // backgroundColor: "rgba(255, 255, 255, 0.07)",
-            paddingHorizontal: 30,
-            top: 45,
-            position: "absolute",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: screenWidth,
-            opacity: AnimateOpacity
-          }}
-        >
-          {/* <Icon.Ionicons
-            name="ios-arrow-round-back"
-            size={35}
-            color="white"
-            onPress={() => this.props.navigation.pop()}
-          /> */}
-          <Button
-            style={{
-              height: 35,
-              width: 35,
-              borderRadius: 10,
-              backgroundColor: "rgba(255, 255, 255, 0)",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-            onPress={() => this.props.navigation.pop()}
-          >
-            <Icon.Ionicons
-              name="ios-arrow-round-back"
-              size={30}
-              style={{ bottom: 3 }}
-              color="white"
-            />
-          </Button>
-          <Text
-            style={{
-              color: "rgba(255,255,255,1)",
-              fontWeight: "600",
-              fontSize: 18
-            }}
-          >
-            alex_kokai
-            {/* {this.state.username} */}
-          </Text>
-          <Button
-            style={{
-              height: 35,
-              width: 35,
-              borderRadius: 10,
-              // backgroundColor: "rgba(255, 255, 255, 0.15)",
-              backgroundColor: "rgba(255, 255, 255, 0)",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-            onPress={() => this.props.navigation.pop()}
-          >
-            <Icon.Feather
-              name="more-horizontal"
-              size={25}
-              style={{ bottom: 1 }}
-              color="white"
-            />
-          </Button>
-        </Animated.View>
+        <ProfileHeaderBar
+          AnimateOpacity={AnimateOpacity}
+          username={this.state.username}
+          {...this.props}
+        />
         <Animated.View
           style={{
             position: "absolute",
@@ -332,19 +260,6 @@ export default class ProfileView extends React.Component {
             opacity: AnimateOpacity
           }}
         />
-        {/* <Animated.View style={{ top: 50 }}>
-          <Hr />
-        </Animated.View> */}
-        {/* <Animated.View
-          style={{
-            top: 55,
-            position: "absolute",
-
-            backgroundColor: "rgba(255,255,255,1)",
-            height: 20,
-            width: screenWidth
-          }}
-        /> */}
         <Animated.View
           style={{
             zIndex: 10,
@@ -355,31 +270,6 @@ export default class ProfileView extends React.Component {
             // alignItems: "center"
           }}
         >
-          {/* <View>
-            <Button
-              style={{
-                zIndex: 99,
-                // position: "absolute",
-                top: 15,
-                // right: screenWidth - 60,
-                marginLeft: 30,
-                height: 35,
-                width: 35,
-                borderRadius: 10,
-                backgroundColor: "rgba(255, 255, 255, 0.15)",
-                justifyContent: "center"
-              }}
-              onPress={() => this.props.navigation.pop()}
-            >
-              <Icon.Ionicons
-                name="ios-arrow-round-back"
-                size={30}
-                style={{ bottom: 3 }}
-                color="white"
-              />
-            </Button>
-          </View> */}
-
           <View>
             <Animated.Text
               style={{
@@ -396,65 +286,6 @@ export default class ProfileView extends React.Component {
                 : this.state.username}
             </Animated.Text>
           </View>
-          {/* <Animated.View
-            style={{
-              opacity: AnimateOpacity,
-              left: screenWidth - 70,
-              position: "absolute"
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                height: 40,
-                width: 40,
-                marginTop: 7,
-                borderRadius: 12,
-                backgroundColor: "rgba(255, 255, 255, 0.15)",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-              onPress={() =>
-                this.props.navigation.pop()
-              }
-            >
-              <Icon.Ionicons
-                style={{ top: 2 }}
-                name="ios-arrow-round-up"
-                size={35}
-                color="white"
-              />
-            </TouchableOpacity>
-          </Animated.View> */}
-          {/* <Animated.View
-            style={{
-              top: AnimatedButtonsPosition,
-              position: "absolute",
-              opacity: AnimateOpacity
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                height: 30,
-                width: 30,
-                // left: screenWidth - 80,
-                // position: "absolute",
-                borderRadius: 8,
-                backgroundColor: "rgba(255, 255, 255, 0.15)",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-              onPress={() =>
-                this.props.navigation.navigate("NotificationsView")
-              }
-            >
-              <Icon.Feather
-                name="settings"
-                size={20}
-                color="white"
-                onPress={() => logout(this.props)}
-              />
-            </TouchableOpacity>
-          </Animated.View> */}
         </Animated.View>
         <Animated.View
           style={{
@@ -482,10 +313,8 @@ export default class ProfileView extends React.Component {
             {this.state.skeleton ? (
               <View
                 style={{
-                  // marginTop: 5,
                   marginLeft: 15,
                   width: 220,
-                  // backgroundColor: "#eee",
                   height: 30
                 }}
               />
@@ -554,125 +383,39 @@ export default class ProfileView extends React.Component {
             {/* follow by{" "}
             <Text style={{ fontWeight: "bold", fontSize: 13 }}>Alex Kokai</Text> */}
           </Animated.Text>
-          <Animated.View
-            style={{
-              flexDirection: "row",
-              position: "absolute",
-              marginTop: 20
-            }}
+          <ProfileInfo
+            AnimateOpacity={AnimateOpacity}
+            AnimatedButtonsPosition={AnimatedButtonsPosition}
+            nb_friends={this.state.nb_friends}
+            score={this.state.score}
+            user_uid={this.props.navigation.getParam("user_uid")}
+            {...this.props}
+          />
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                marginLeft: 15,
-                alignItems: "center"
-              }}
-              onPress={() =>
-                this.props.navigation.navigate("FriendsList", {
-                  user_uid: this.props.navigation.getParam("user_uid")
-                })
-              }
-            >
-              <View
-                style={{
-                  height: 30,
-                  width: 30,
-                  borderRadius: 10,
-                  backgroundColor: "#A8AFE0",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
-                <Icon.Feather name="user" size={20} color="#364EE1" />
-              </View>
-              <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
-                <Animated.Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "white",
-                    top: AnimatedButtonsPosition
-                  }}
-                >
-                  {this.state.nb_friends}
-                </Animated.Text>
-                <Animated.Text
-                  style={{
-                    fontSize: 12,
-                    color: theme.colors.grey,
-                    opacity: AnimateOpacity,
-                    fontWeight: "500"
-                  }}
-                >
-                  Friend{this.state.nb_friends > 1 ? "s" : null}
-                </Animated.Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                marginLeft: 15,
-                alignItems: "center"
-              }}
-            >
-              <View
-                style={{
-                  height: 30,
-                  width: 30,
-                  borderRadius: 10,
-                  backgroundColor: "#F9F0DB",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
-                <Icon.Feather name="star" size={20} color="#fead01" />
-              </View>
-              <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
-                <Animated.Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "white",
-                    top: AnimatedButtonsPosition
-                  }}
-                >
-                  {this.state.score}
-                </Animated.Text>
-                <Animated.Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: theme.colors.grey,
-                    opacity: AnimateOpacity
-                  }}
-                >
-                  Score
-                </Animated.Text>
-              </View>
-            </TouchableOpacity>
-          </Animated.View>
-          <Animated.View
-            style={{ marginLeft: 15, top: 55, opacity: AnimateOpacity }}
-          >
-            <Button
-              style={{
-                height: 28,
-                width: 200,
-                borderRadius: 10,
-                paddingHorizontal: 10,
-                backgroundColor: "#1DC161",
-                justifyContent: "center"
-              }}
-              outline
-              onPress={() =>
+            <FriendBtn
+              isFriend={this.state.isFriend}
+              AnimateOpacity={AnimateOpacity}
+              SEND_FRIEND_REQUEST={() =>
+                // this.setState({ isFriend: !this.state.isFriend })
                 this.SEND_FRIEND_REQUEST(
                   this.props.navigation.getParam("user_uid")
                 )
               }
-            >
-              <Text style={{ color: "white" }}>Friend Request</Text>
-            </Button>
-          </Animated.View>
+              BREAK_FRIENDSHIP={() =>
+                this.BREAK_FRIENDSHIP(
+                  this.props.navigation.getParam("user_uid")
+                )
+              }
+            />
+            {this.state.isFriend ? (
+              <MessageBtn
+                isFriend={this.state.isFriend}
+                AnimateOpacity={AnimateOpacity}
+              />
+            ) : null}
+          </View>
         </Animated.View>
         <Animated.Text
           style={{
@@ -689,30 +432,6 @@ export default class ProfileView extends React.Component {
             ? this.state.username.slice(0, 10) + "..."
             : this.state.username}
         </Animated.Text>
-        {/* <Animated.View
-          style={{
-            position: "absolute",
-            top: 315,
-            left: 175,
-            opacity: AnimateOpacity
-          }}
-        >
-          <Button
-            // rounded
-            style={{
-              marginRight: 7,
-              height: 28,
-              paddingHorizontal: 10,
-              backgroundColor: "#1DC161",
-              alignItems: "center",
-              borderRadius: 8
-            }}
-          >
-            <Text style={{ fontSize: 13, color: "white" }}>
-              Friends Request
-            </Text>
-          </Button>
-        </Animated.View> */}
       </View>
     );
   }
@@ -725,11 +444,5 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(0,0,0,1)",
     shadowOpacity: 0.15,
     shadowRadius: 15
-  },
-  mainTitle: {
-    fontSize: 35,
-    marginLeft: 30,
-    fontWeight: "bold",
-    color: "rgba(255,255,255,1)"
   }
 });
