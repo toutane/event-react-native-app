@@ -16,17 +16,16 @@ import firebase from "../../firebase/firebase";
 import UsersActions from "../../actions/usersActions";
 import RequestInfoCard from "./RequestInfoCard";
 import FriendsActions from "../../actions/friendsActions";
+import { Hr } from ".././Hr/styles";
 
 const moment = require("moment");
 
 // const Header_Maximum_Height = 340;
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
-const Yellow_Header_Maximum_Height = 100;
-const Yellow_Header_Minimum_Height = 0;
 const Header_Maximum_Text = 900;
 const Header_Minimum_Text = 810;
-const Header_Maximum_Text_Pos_Top = 75;
+const Header_Maximum_Text_Pos_Top = 95;
 // const Header_Maximum_Text_Pos_Top = 115;
 const Header_Minimum_Text_Pos_Top = -150;
 // const Header_Maximum_Info_Pos = 225;
@@ -46,6 +45,7 @@ const Header_Minimum_Text_Opacity = 0;
 export default class ProfileView extends React.Component {
   static navigationOptions = {
     header: null
+    // backgroundColor: ""
   };
   constructor(props) {
     super(props);
@@ -103,7 +103,8 @@ export default class ProfileView extends React.Component {
       this.setState({
         username: username,
         // usernameSize: username.length <= 10 ? 50 : 38
-        usernameSize: username.length <= 10 ? 38 : 38
+        // usernameSize: username.length <= 10 ? 38 : 38
+        usernameSize: username.length <= 10 ? 35 : 35
       })
     );
     UsersActions.GET_USER_EXPO_PUSH_TOKEN(user_uid).then(token =>
@@ -132,16 +133,6 @@ export default class ProfileView extends React.Component {
       inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
 
       outputRange: [Header_Maximum_Height, Header_Minimum_Height],
-
-      extrapolate: "clamp"
-    });
-    const YellowAnimateHeaderHeight = this.AnimatedHeaderValue.interpolate({
-      inputRange: [
-        0,
-        Yellow_Header_Maximum_Height - Yellow_Header_Minimum_Height
-      ],
-
-      outputRange: [Yellow_Header_Maximum_Height, Yellow_Header_Minimum_Height],
 
       extrapolate: "clamp"
     });
@@ -265,6 +256,97 @@ export default class ProfileView extends React.Component {
         ) : ( */}
         <Animated.View
           style={{
+            // backgroundColor: "#1DC161",
+            // backgroundColor: "rgba(255, 255, 255, 0.07)",
+            paddingHorizontal: 30,
+            top: 45,
+            position: "absolute",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: screenWidth,
+            opacity: AnimateOpacity
+          }}
+        >
+          {/* <Icon.Ionicons
+            name="ios-arrow-round-back"
+            size={35}
+            color="white"
+            onPress={() => this.props.navigation.pop()}
+          /> */}
+          <Button
+            style={{
+              height: 35,
+              width: 35,
+              borderRadius: 10,
+              backgroundColor: "rgba(255, 255, 255, 0)",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+            onPress={() => this.props.navigation.pop()}
+          >
+            <Icon.Ionicons
+              name="ios-arrow-round-back"
+              size={30}
+              style={{ bottom: 3 }}
+              color="white"
+            />
+          </Button>
+          <Text
+            style={{
+              color: "rgba(255,255,255,1)",
+              fontWeight: "600",
+              fontSize: 18
+            }}
+          >
+            alex_kokai
+            {/* {this.state.username} */}
+          </Text>
+          <Button
+            style={{
+              height: 35,
+              width: 35,
+              borderRadius: 10,
+              // backgroundColor: "rgba(255, 255, 255, 0.15)",
+              backgroundColor: "rgba(255, 255, 255, 0)",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+            onPress={() => this.props.navigation.pop()}
+          >
+            <Icon.Feather
+              name="more-horizontal"
+              size={25}
+              style={{ bottom: 1 }}
+              color="white"
+            />
+          </Button>
+        </Animated.View>
+        <Animated.View
+          style={{
+            position: "absolute",
+            top: 85,
+            width: screenWidth,
+            borderColor: "rgba(255,255,255,0.1)",
+            borderWidth: 0.6,
+            opacity: AnimateOpacity
+          }}
+        />
+        {/* <Animated.View style={{ top: 50 }}>
+          <Hr />
+        </Animated.View> */}
+        {/* <Animated.View
+          style={{
+            top: 55,
+            position: "absolute",
+
+            backgroundColor: "rgba(255,255,255,1)",
+            height: 20,
+            width: screenWidth
+          }}
+        /> */}
+        <Animated.View
+          style={{
             zIndex: 10,
             top: AnimatedTextPositionTop,
             position: "absolute",
@@ -273,21 +355,48 @@ export default class ProfileView extends React.Component {
             // alignItems: "center"
           }}
         >
-          <Animated.Text
-            style={{
-              fontSize: this.state.usernameSize,
-              marginTop: 5,
-              marginLeft: 30,
-              fontWeight: "bold",
-              color: "rgba(255,255,255,1)",
-              width: 300
-            }}
-          >
-            {this.state.username.length > 16
-              ? this.state.username.slice(0, 13) + "..."
-              : this.state.username}
-          </Animated.Text>
-          <Animated.View
+          {/* <View>
+            <Button
+              style={{
+                zIndex: 99,
+                // position: "absolute",
+                top: 15,
+                // right: screenWidth - 60,
+                marginLeft: 30,
+                height: 35,
+                width: 35,
+                borderRadius: 10,
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                justifyContent: "center"
+              }}
+              onPress={() => this.props.navigation.pop()}
+            >
+              <Icon.Ionicons
+                name="ios-arrow-round-back"
+                size={30}
+                style={{ bottom: 3 }}
+                color="white"
+              />
+            </Button>
+          </View> */}
+
+          <View>
+            <Animated.Text
+              style={{
+                fontSize: this.state.usernameSize,
+                marginTop: 5,
+                marginLeft: 30,
+                fontWeight: "bold",
+                color: "rgba(255,255,255,1)",
+                width: 300
+              }}
+            >
+              {this.state.username.length > 16
+                ? this.state.username.slice(0, 13) + "..."
+                : this.state.username}
+            </Animated.Text>
+          </View>
+          {/* <Animated.View
             style={{
               opacity: AnimateOpacity,
               left: screenWidth - 70,
@@ -305,11 +414,9 @@ export default class ProfileView extends React.Component {
                 alignItems: "center"
               }}
               onPress={() =>
-                // this.props.navigation.navigate("Home")
                 this.props.navigation.pop()
               }
             >
-              {/* <Icon.Feather name="arrow-up" size={25} color="white" /> */}
               <Icon.Ionicons
                 style={{ top: 2 }}
                 name="ios-arrow-round-up"
@@ -317,7 +424,7 @@ export default class ProfileView extends React.Component {
                 color="white"
               />
             </TouchableOpacity>
-          </Animated.View>
+          </Animated.View> */}
           {/* <Animated.View
             style={{
               top: AnimatedButtonsPosition,
@@ -385,15 +492,15 @@ export default class ProfileView extends React.Component {
             ) : (
               <Animated.Text
                 style={{
-                  fontSize:
-                    this.state.bio.length <= 39
-                      ? this.state.bio.length <= 23
-                        ? this.state.bio.length <= 13
-                          ? 25
-                          : 25
-                        : 25
-                      : 17,
-                  marginTop: 5,
+                  fontSize: 17,
+                  // this.state.bio.length <= 39
+                  //   ? this.state.bio.length <= 23
+                  //     ? this.state.bio.length <= 13
+                  //       ? 25
+                  //       : 25
+                  //     : 25
+                  //   : 17,
+                  marginTop: 10,
                   marginLeft: 15,
                   fontWeight: "600",
                   color: "rgba(255,255,255,1)",
