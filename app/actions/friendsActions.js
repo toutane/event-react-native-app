@@ -97,6 +97,14 @@ class FriendsActions {
       .doc(docID)
       .delete();
   }
+  async DECREASE_NB_FRIENDS(user_uid, nb_friends) {
+    firebase.db
+      .collection("users")
+      .doc(user_uid)
+      .update({
+        nb_friends: nb_friends - 1
+      });
+  }
 }
 
 export default new FriendsActions();
