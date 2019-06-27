@@ -38,7 +38,8 @@ export default class FriendsList extends React.Component {
     this.listenToChanges(this.props.navigation.getParam("user_uid"));
   }
   componentWillUpdate() {
-    this.listenToChanges(this.props.navigation.getParam("user_uid"));
+    this.loadFriends(this.props.navigation.getParam("user_uid"));
+    // this.listenToChanges(this.props.navigation.getParam("user_uid"));
   }
   componentWillUnmount() {
     this.mount = false;
@@ -51,7 +52,7 @@ export default class FriendsList extends React.Component {
       .onSnapshot(() => this.loadFriends(userUid));
   }
 
-  async loadFriends(userUid) {
+  loadFriends(userUid) {
     UsersActions.GET_USER_FRIENDS(userUid).then(friendsList =>
       this.mount
         ? this.setState(
@@ -60,7 +61,7 @@ export default class FriendsList extends React.Component {
             }
             // () => console.log(this.state.friendsList)
           )
-        : console.log("component not mount")
+        : null
     );
   }
 
