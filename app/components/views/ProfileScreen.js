@@ -50,6 +50,7 @@ export default class ProfileScreen extends React.Component {
       avatar: "",
       bio: "",
       username: "",
+      name: "",
       nb_friends: 0,
       score: 0,
       usernameSize: 38,
@@ -74,7 +75,9 @@ export default class ProfileScreen extends React.Component {
     UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(avatar =>
       this.setState({ avatar: avatar })
     );
-
+    UsersActions.GET_USER_NAME(firebase.auth.currentUser.uid).then(name =>
+      this.setState({ name: name })
+    );
     UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
       this.setState(
         {
@@ -407,11 +410,15 @@ export default class ProfileScreen extends React.Component {
                 justifyContent: "center"
               }}
               outline
-              // onPress={() =>
-              //   this.SEND_FRIEND_REQUEST(
-              //     this.props.navigation.getParam("user_uid")
-              //   )
-              // }
+              onPress={() =>
+                this.props.navigation.navigate("EditView", {
+                  user_uid: firebase.auth.currentUser.uid,
+                  name: this.state.name,
+                  username: this.state.username,
+                  bio: this.state.bio,
+                  avatar: this.state.avatar
+                })
+              }
             >
               <Text style={{ color: "white" }}>Edit Profile</Text>
             </Button>
