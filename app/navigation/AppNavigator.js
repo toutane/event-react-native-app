@@ -15,6 +15,7 @@ import EventViewNavigator from "./EventViewNavigator";
 import EventCreationNavigator from "./EventCreationNavigator";
 import NotificationNavigator from "./NotificationNavigator";
 import ProfileViewNavigator from "./ProfileViewNavigator";
+import ProfileScreenNavigator from "./ProfileScreenNavigator";
 import FriendsListNavigator from "./FriendsListNavigator";
 
 import HomeScreen from "../components/views/HomeScreen";
@@ -83,6 +84,7 @@ const AppNavigator = createStackNavigator(
     EventView: EventViewNavigator,
     EventCreation: EventCreationNavigator,
     NotificationNavigator: NotificationNavigator,
+    ProfileScreenNavigator: ProfileScreenNavigator,
     ProfileViewNavigator: ProfileViewNavigator,
     FriendsListNavigator: FriendsListNavigator
   },
