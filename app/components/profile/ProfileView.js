@@ -49,47 +49,84 @@ export default class ProfileView extends React.Component {
       expoPushToken: undefined,
       usernameSize: 38,
       isFriend: false,
-      friend_docID: ""
+      friend_docID: "",
+      currentUser_docID: ""
     };
     this.AnimatedHeaderValue = new Animated.Value(0);
   }
   componentDidMount() {
-    this.listenToChanges(this.props.navigation.getParam("user_uid"));
+    this.setState(
+      { user_uid: this.props.navigation.getParam("user_uid") },
+      () => this.listenToChanges(this.state.user_uid)
+    );
   }
-  async listenToChanges(user_uid) {
+  listenToChanges(user_uid) {
     firebase.db
       .collection("users")
       .doc(user_uid)
       .onSnapshot(() =>
         this.setState({ skeleton: true }, () => this.reUpdateUserInfo(user_uid))
       );
-    firebase.db
-      .collection("users")
-      .doc(user_uid)
-      .collection("friends")
-      .onSnapshot(() =>
-        UsersActions.GET_USER_FRIENDS(firebase.auth.currentUser.uid).then(
-          friendsList =>
-            friendsList.filter(friend => friend.uid === user_uid).length > 0
-              ? this.setState({
-                  isFriend: true
-                })
-              : console.log(this.state.username + " is not your friend")
-        )
-      );
+    // firebase.db
+    //   .collection("users")
+    //   .doc(user_uid)
+    //   .collection("friends")
+    //   .onSnapshot(() =>
+    //     UsersActions.GET_USER_FRIENDS(firebase.auth.currentUser.uid).then(
+    //       friendsList =>
+    //         friendsList.filter(friend => friend.uid === user_uid).length > 0
+    //           ? this.setState(
+    //               {
+    //                 isFriend: true
+    //               },
+    //               () => console.log(this.state.username + " is your friend 😃")
+    //             )
+    //           : this.setState(
+    //               {
+    //                 isFriend: false
+    //               },
+    //               () => console.log(this.state.username + " is not your friend")
+    //             )
+    //     )
+    //   );
   }
   async BREAK_FRIENDSHIP(user_uid) {
-    await firebase.db
+    firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
       .collection("friends")
       .where("uid", "==", user_uid)
       .get()
-      .then(doc => doc.forEach(doc => this.setState({ friend_docID: doc.id })));
-    await this.props.navigation.pop();
-    FriendsActions.DELETE_FRIEND_TO_CURRENTUSER(this.state.friend_docID).then(
-      () => console.log(this.state.username + "is not longer your friend 😕")
-    );
+      .then(doc => doc.forEach(doc => this.setState({ friend_docID: doc.id })))
+      .then(() =>
+        FriendsActions.DELETE_FRIEND_TO_CURRENTUSER(
+          this.state.friend_docID
+        ).then(
+          this.setState({ isFriend: false }, () =>
+            console.log(this.state.username + "is not longer your friend 😕")
+          )
+        )
+      );
+    firebase.db
+      .collection("users")
+      .doc(user_uid)
+      .collection("friends")
+      .where("uid", "==", firebase.auth.currentUser.uid)
+      .get()
+      .then(doc =>
+        doc.forEach(doc => this.setState({ currentUser_docID: doc.id }))
+      )
+      .then(() =>
+        FriendsActions.DELETE_FRIEND_TO_USER(
+          user_uid,
+          this.state.currentUser_docID
+        ).then(() =>
+          console.log(
+            firebase.auth.currentUser.displayName +
+              "is not longer your friend 😕"
+          )
+        )
+      );
   }
   async SEND_FRIEND_REQUEST(user_uid) {
     await UsersActions.GET_USER_AVATAR(firebase.auth.currentUser.uid).then(
@@ -112,6 +149,28 @@ export default class ProfileView extends React.Component {
     );
   }
   reUpdateUserInfo(user_uid) {
+    firebase.db
+      .collection("users")
+      .doc(user_uid)
+      .collection("friends")
+      .onSnapshot(() =>
+        UsersActions.GET_USER_FRIENDS(firebase.auth.currentUser.uid).then(
+          friendsList =>
+            friendsList.filter(friend => friend.uid === user_uid).length > 0
+              ? this.setState(
+                  {
+                    isFriend: true
+                  },
+                  () => console.log(this.state.username + " is your friend 😃")
+                )
+              : this.setState(
+                  {
+                    isFriend: false
+                  },
+                  () => console.log(this.state.username + " is not your friend")
+                )
+        )
+      );
     UsersActions.GET_USER_USERNAME(user_uid).then(username =>
       this.setState({
         username: username,
@@ -388,7 +447,7 @@ export default class ProfileView extends React.Component {
             AnimatedButtonsPosition={AnimatedButtonsPosition}
             nb_friends={this.state.nb_friends}
             score={this.state.score}
-            user_uid={this.props.navigation.getParam("user_uid")}
+            user_uid={this.state.user_uid}
             {...this.props}
           />
           <View
@@ -399,14 +458,10 @@ export default class ProfileView extends React.Component {
               AnimateOpacity={AnimateOpacity}
               SEND_FRIEND_REQUEST={() =>
                 // this.setState({ isFriend: !this.state.isFriend })
-                this.SEND_FRIEND_REQUEST(
-                  this.props.navigation.getParam("user_uid")
-                )
+                this.SEND_FRIEND_REQUEST(this.state.user_uid)
               }
               BREAK_FRIENDSHIP={() =>
-                this.BREAK_FRIENDSHIP(
-                  this.props.navigation.getParam("user_uid")
-                )
+                this.BREAK_FRIENDSHIP(this.state.user_uid)
               }
             />
             {this.state.isFriend ? (
