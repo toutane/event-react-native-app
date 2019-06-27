@@ -69,13 +69,16 @@ import { Constants, ImagePicker, Permissions } from "expo";
 import uuid from "uuid";
 import firebase from "firebase";
 import { Thumbnail } from "native-base";
+import ActionSheet from "react-native-actionsheet";
 
 console.disableYellowBox = true;
-
 export default class App extends React.Component {
   state = {
     image: null,
     uploading: false
+  };
+  showActionSheet = () => {
+    this.ActionSheet.show();
   };
 
   async componentDidMount() {
@@ -96,7 +99,7 @@ export default class App extends React.Component {
         }}
       >
         {this._maybeRenderImage()}
-        <View
+        <TouchableOpacity
           style={{
             borderRadius: 13,
             width: 210,
@@ -105,8 +108,9 @@ export default class App extends React.Component {
             alignItems: "center",
             justifyContent: "center"
           }}
+          onPress={this.showActionSheet}
         >
-          {this.state.uploading ? (
+          {/* {this.state.uploading ? (
             <ActivityIndicator color="#fff" animating size="large" />
           ) : image ? null : (
             <Text
@@ -125,8 +129,41 @@ export default class App extends React.Component {
             title="Pick an image from camera roll"
           />
           <Button onPress={this._takePhoto} title="Take a photo" />
-          <StatusBar barStyle="default" />
-        </View>
+          <StatusBar barStyle="default" /> */}
+          <Text style={{ color: "black", fontSize: 18, fontWeight: "600" }}>
+            Change Photo
+          </Text>
+        </TouchableOpacity>
+        <ActionSheet
+          ref={o => (this.ActionSheet = o)}
+          // title={"Which one do you like ?"}
+          options={[
+            "Remove Current Photo ",
+            "Take Photo",
+            "Choose From Library",
+            "cancel"
+          ]}
+          destructiveButtonIndex={0}
+          cancelButtonIndex={3}
+          onPress={
+            index =>
+              index === 2
+                ? this._pickImage()
+                : index === 1
+                ? this._takePhoto()
+                : console.log(index)
+            // this._pickImage
+            // this.handlePress
+            //   index => {
+            //   index === "Choose From Library"
+            //     ? this._pickImage
+            //     : index === "Choose From Library"
+            //     ? this._takePhoto
+            //     : null;
+            //   /* do something */
+            // }
+          }
+        />
       </View>
     );
   }

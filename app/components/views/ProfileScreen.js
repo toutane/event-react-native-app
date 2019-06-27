@@ -78,6 +78,9 @@ export default class ProfileScreen extends React.Component {
     UsersActions.GET_USER_NAME(firebase.auth.currentUser.uid).then(name =>
       this.setState({ name: name })
     );
+    UsersActions.GET_USER_USERNAME(firebase.auth.currentUser.uid).then(
+      username => this.setState({ username: username })
+    );
     UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
       this.setState(
         {
@@ -96,8 +99,8 @@ export default class ProfileScreen extends React.Component {
       date => this.setState({ register_date: date })
     );
     this.setState({
-      username: firebase.auth.currentUser.displayName,
-      usernameSize: firebase.auth.currentUser.displayName.length <= 10 ? 50 : 38
+      username: this.state.username,
+      usernameSize: this.state.username.length <= 10 ? 50 : 38
     });
   }
   render() {
@@ -231,9 +234,9 @@ export default class ProfileScreen extends React.Component {
               width: 300
             }}
           >
-            {firebase.auth.currentUser.displayName.length > 16
-              ? firebase.auth.currentUser.displayName.slice(0, 13) + "..."
-              : firebase.auth.currentUser.displayName}
+            {this.state.username.length > 16
+              ? this.state.username.slice(0, 13) + "..."
+              : this.state.username}
           </Animated.Text>
           <Animated.View
             style={{
@@ -435,9 +438,9 @@ export default class ProfileScreen extends React.Component {
             width: 220
           }}
         >
-          {firebase.auth.currentUser.displayName.length > 16
-            ? firebase.auth.currentUser.displayName.slice(0, 13) + "..."
-            : firebase.auth.currentUser.displayName}
+          {this.state.username.length > 16
+            ? this.state.username.slice(0, 13) + "..."
+            : this.state.username}
         </Animated.Text>
       </View>
     );

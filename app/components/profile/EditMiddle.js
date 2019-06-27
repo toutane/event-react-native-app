@@ -6,11 +6,9 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Keyboard,
-  TouchableWithoutFeedback,
-  TouchableOpacity
+  TouchableWithoutFeedback
 } from "react-native";
-import { Input } from "native-base";
-import { Icon } from "expo";
+import { screenWidth } from "../../utils/dimensions";
 
 export default class EditMiddle extends React.Component {
   constructor(props) {
@@ -24,41 +22,157 @@ export default class EditMiddle extends React.Component {
         }}
       >
         <KeyboardAvoidingView behavior="position" enabled>
-          <View style={{ paddingHorizontal: 25, marginBottom: 20 }}>
-            <TextInput
-              multiline={true}
-              style={styles.subTitle}
-              placeholder={this.props.name}
-              autoFocus={false}
-              returnKeyType="next"
-              selectionColor={"#1DC161"}
-              onChangeText={(e, stateName) =>
-                this.props.setInputsStates(e, "title")
-              }
-            />
-            <TextInput
-              multiline={true}
-              style={styles.subTitle}
-              placeholder={this.props.username}
-              autoFocus={false}
-              returnKeyType="go"
-              selectionColor={"#1DC161"}
-              onChangeText={(e, stateName) =>
-                this.props.setInputsStates(e, "text")
-              }
-            />
-            <TextInput
-              multiline={true}
-              style={styles.subTitle}
-              placeholder={this.props.bio}
-              autoFocus={false}
-              returnKeyType="go"
-              selectionColor={"#1DC161"}
-              onChangeText={(e, stateName) =>
-                this.props.setInputsStates(e, "text")
-              }
-            />
+          <View
+            style={{
+              height: 0.5,
+              width: screenWidth,
+              backgroundColor: "rgba(0, 0, 0, 0.2)"
+              // "black"
+              // borderColor: "rgba(0, 0, 0, 0.1)"
+              // borderWidth: 0.6
+            }}
+          />
+          <View
+            style={{ marginTop: 20, paddingHorizontal: 25, marginBottom: 20 }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 25,
+                marginLeft: 5,
+                alignItems: "center"
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: "black"
+                }}
+              >
+                Name
+              </Text>
+              <View
+                style={{
+                  flexDirection: "collumn",
+                  left: 145,
+                  position: "absolute"
+                }}
+              >
+                <TextInput
+                  multiline={false}
+                  style={styles.subTitle}
+                  placeholder={this.props.name}
+                  autoFocus={false}
+                  returnKeyType="go"
+                  selectionColor={"#1DC161"}
+                  onChangeText={(e, stateName) =>
+                    this.props.setInputsStates(e, "name")
+                  }
+                />
+                <View
+                  style={{
+                    top: 8,
+                    height: 0.5,
+                    width: 200,
+                    backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    // "black"
+                    // borderColor: "rgba(0, 0, 0, 0.1)"
+                    // borderWidth: 0.6
+                  }}
+                />
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 25,
+                marginLeft: 5,
+                alignItems: "center"
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: "black"
+                }}
+              >
+                Username
+              </Text>
+              <View
+                style={{
+                  flexDirection: "collumn",
+                  left: 145,
+                  position: "absolute"
+                }}
+              >
+                <TextInput
+                  multiline={false}
+                  style={styles.subTitle}
+                  placeholder={this.props.username}
+                  autoFocus={false}
+                  returnKeyType="go"
+                  selectionColor={"#1DC161"}
+                  onChangeText={(e, stateName) =>
+                    this.props.setInputsStates(e, "username")
+                  }
+                />
+                <View
+                  style={{
+                    top: 8,
+                    height: 0.5,
+                    width: 200,
+                    backgroundColor: "rgba(0, 0, 0, 0.2)"
+                    // "black"
+                    // borderColor: "rgba(0, 0, 0, 0.1)"
+                    // borderWidth: 0.6
+                  }}
+                />
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 25,
+                marginLeft: 5,
+                alignItems: "center"
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: "black"
+                }}
+              >
+                Bio
+              </Text>
+              <TextInput
+                multiline={false}
+                style={[styles.subTitle, { left: 145, position: "absolute" }]}
+                placeholder={this.props.bio}
+                autoFocus={false}
+                returnKeyType="go"
+                selectionColor={"#1DC161"}
+                onChangeText={(e, stateName) =>
+                  this.props.setInputsStates(e, "bio")
+                }
+              />
+            </View>
           </View>
+          {/* <View
+            style={{
+              marginTop: 20,
+              marginBottom: 20,
+              height: 0.5,
+              width: screenWidth,
+              backgroundColor: "rgba(0, 0, 0, 0.2)"
+              // "black"
+              // borderColor: "rgba(0, 0, 0, 0.1)"
+              // borderWidth: 0.6
+            }}
+          /> */}
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     );
@@ -73,7 +187,6 @@ const styles = StyleSheet.create({
     color: "black"
   },
   subTitle: {
-    marginTop: 30,
     fontSize: 18,
     lineHeight: 27,
     color: "black",

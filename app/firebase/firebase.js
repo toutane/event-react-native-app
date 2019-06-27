@@ -37,7 +37,7 @@ class Firebase {
         username: name,
         bio: bio,
         avatar:
-          "https://cdn.dribbble.com/users/2180306/screenshots/6493207/avatar_01.png",
+          "https://firebasestorage.googleapis.com/v0/b/event-reactnative-app.appspot.com/o/2cb18760-c80f-4fd8-a68e-9eee2bc3fe6c?alt=media&token=371b6980-29a2-4417-9633-c4879af8fb2d",
         nb_friends: 0,
         score: 0,
         register_date: moment().format()

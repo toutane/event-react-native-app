@@ -18,7 +18,6 @@ export default class EditView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      canUpdate: false,
       name: "",
       username: "",
       bio: "",
@@ -40,6 +39,24 @@ export default class EditView extends React.Component {
           .then(() => console.log(this.state.newAvatar))
       )
     );
+    await firebase
+      .firestore()
+      .collection("users")
+      .doc(this.props.navigation.getParam("user_uid"))
+      .update({
+        name:
+          this.state.name !== ""
+            ? this.state.name
+            : this.props.navigation.getParam("name"),
+        username:
+          this.state.username !== ""
+            ? this.state.username
+            : this.props.navigation.getParam("username"),
+        bio:
+          this.state.bio !== ""
+            ? this.state.bio
+            : this.props.navigation.getParam("bio")
+      });
     this.props.navigation.pop();
   }
   async uploadImageAsync(uri) {
@@ -86,8 +103,13 @@ export default class EditView extends React.Component {
   //   }
   // };
   setPickerResultState(pickerResult) {
-    this.setState({ pickerResult: pickerResult, canUpdate: true }, () =>
+    this.setState({ pickerResult: pickerResult }, () =>
       console.log(pickerResult.uri)
+    );
+  }
+  setInputsStates(stateContent, stateName) {
+    this.setState({ [stateName]: stateContent }, () =>
+      console.log(this.state.title)
     );
   }
   componentDidMount() {}
@@ -99,7 +121,10 @@ export default class EditView extends React.Component {
             <View style={{ marginTop: 45 }}>
               <EditHeader
                 {...this.props}
-                canUpdate={this.state.canUpdate}
+                name={this.state.name}
+                username={this.state.username}
+                bio={this.state.bio}
+                avatar={this.state.pickerResult}
                 updateProfile={() => this.updateProfile()}
               />
               <EditAvatar
@@ -109,14 +134,14 @@ export default class EditView extends React.Component {
                 }
                 currentAvatar={this.props.navigation.getParam("avatar")}
               />
-              {/* <EditMiddle
+              <EditMiddle
                 setInputsStates={(stateContent, stateName) =>
                   this.setInputsStates(stateContent, stateName)
                 }
                 name={this.props.navigation.getParam("name")}
                 username={this.props.navigation.getParam("username")}
                 bio={this.props.navigation.getParam("bio")}
-              /> */}
+              />
               {/* <Event_CreationInfo
                 {...this.props}
                 time={this.state.time}
