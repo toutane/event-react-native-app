@@ -34,34 +34,29 @@ export default class FriendsList extends React.Component {
   }
   _keyExtractor = (item, index) => item.uid;
   componentDidMount() {
-    this.mount = true;
-    this.listenToChanges(this.props.navigation.getParam("user_uid"));
+    this.loadFriends(this.props.navigation.getParam("user_uid"));
+    // this.listenToChanges(this.props.navigation.getParam("user_uid"));
   }
   componentWillUpdate() {
     this.loadFriends(this.props.navigation.getParam("user_uid"));
     // this.listenToChanges(this.props.navigation.getParam("user_uid"));
   }
-  componentWillUnmount() {
-    this.mount = false;
-  }
-  async listenToChanges(userUid) {
-    firebase.db
-      .collection("users")
-      .doc(userUid)
-      .collection("friends")
-      .onSnapshot(() => this.loadFriends(userUid));
-  }
+  // async listenToChanges(userUid) {
+  //   firebase.db
+  //     .collection("users")
+  //     .doc(userUid)
+  //     .collection("friends")
+  //     .onSnapshot(() => this.loadFriends(userUid));
+  // }
 
   loadFriends(userUid) {
     UsersActions.GET_USER_FRIENDS(userUid).then(friendsList =>
-      this.mount
-        ? this.setState(
-            {
-              friendsList: friendsList
-            }
-            // () => console.log(this.state.friendsList)
-          )
-        : null
+      this.setState(
+        {
+          friendsList: friendsList
+        }
+        // () => console.log(this.state.friendsList)
+      )
     );
   }
 

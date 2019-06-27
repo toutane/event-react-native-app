@@ -33,12 +33,14 @@ export default class FriendBtn extends React.Component {
           <Text style={{ color: "white", marginRight: 3 }}>
             {this.props.isFriend ? "Friend" : "Friend Request"}
           </Text>
-          <Icon.Feather
-            name="chevron-down"
-            size={15}
-            // style={{ bottom: 1 }}
-            color="white"
-          />
+          {this.props.isFriend ? (
+            <Icon.Feather
+              name="chevron-down"
+              size={15}
+              // style={{ bottom: 1 }}
+              color="white"
+            />
+          ) : null}
         </Button>
         <ActionSheet
           ref={o => (this.ActionSheet = o)}
