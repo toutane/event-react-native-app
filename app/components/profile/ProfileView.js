@@ -91,6 +91,9 @@ export default class ProfileView extends React.Component {
     //   );
   }
   async BREAK_FRIENDSHIP(user_uid) {
+    await UsersActions.GET_USER_NB_FRIENDS(firebase.auth.currentUser.uid).then(
+      nb => this.setState({ currentuser_nb_friends: nb })
+    );
     firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
@@ -103,7 +106,12 @@ export default class ProfileView extends React.Component {
           this.state.friend_docID
         ).then(
           this.setState({ isFriend: false }, () =>
-            console.log(this.state.username + "is not longer your friend 😕")
+            FriendsActions.DECREASE_NB_FRIENDS(
+              firebase.auth.currentUser.uid,
+              this.state.currentuser_nb_friends
+            ).then(() =>
+              console.log(this.state.username + "is not longer your friend 😕")
+            )
           )
         )
       );
@@ -121,9 +129,14 @@ export default class ProfileView extends React.Component {
           user_uid,
           this.state.currentUser_docID
         ).then(() =>
-          console.log(
-            firebase.auth.currentUser.displayName +
-              "is not longer your friend 😕"
+          FriendsActions.DECREASE_NB_FRIENDS(
+            user_uid,
+            this.state.nb_friends
+          ).then(() =>
+            console.log(
+              firebase.auth.currentUser.displayName +
+                "is not longer your friend 😕"
+            )
           )
         )
       );
