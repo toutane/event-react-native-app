@@ -89,12 +89,12 @@ class FriendsActions {
       .doc(docID)
       .delete();
   }
-  async DELETE_FRIEND_TO_USER(friend_uid) {
+  async DELETE_FRIEND_TO_USER(friend_uid, docID) {
     await firebase.db
       .collection("users")
       .doc(friend_uid)
       .collection("friends")
-      .where("uid", "==", firebase.auth.currentUser.uid)
+      .doc(docID)
       .delete();
   }
 }
