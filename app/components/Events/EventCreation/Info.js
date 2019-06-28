@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Icon } from "expo";
 import { Hr } from "../../Hr/styles";
-import Event_DatePicker from "./DatePicker";
-import Event_TimePicker from "./TimePicker";
+import Event_EndsPicker from "./EndsPicker";
+import Event_StartsPicker from "./StartsPicker";
 import LocationPicker from "./LocationPicker";
 const moment = require("moment");
 
@@ -12,7 +12,7 @@ export default class Event_CreationInfo extends React.Component {
   render() {
     return (
       <View>
-        <Hr style={{ marginLeft: 0, marginRight: 0 }} />
+        {/* <Hr style={{ marginLeft: 0, marginRight: 0 }} /> */}
         <View
           style={{
             flexDirection: "row",
@@ -24,11 +24,11 @@ export default class Event_CreationInfo extends React.Component {
           {this.state.showLocation ? null : (
             <TouchableOpacity onPress={this.props.showTimePicker}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Icon.Feather
+                {/* <Icon.Feather
                   name="clock"
                   size={30}
                   color="rgba(0, 0, 0, 0.2)"
-                />
+                /> */}
                 <View style={{ flexDirection: "column" }}>
                   <Text
                     style={{
@@ -38,7 +38,7 @@ export default class Event_CreationInfo extends React.Component {
                       fontWeight: "500"
                     }}
                   >
-                    Time
+                    Starts
                   </Text>
                   <Text
                     style={{
@@ -48,7 +48,7 @@ export default class Event_CreationInfo extends React.Component {
                       fontWeight: "600"
                     }}
                   >
-                    {moment(this.props.time).format("h:mm")}
+                    {moment(this.props.time).format("ll    LT")}
                   </Text>
                 </View>
               </View>
@@ -57,11 +57,11 @@ export default class Event_CreationInfo extends React.Component {
           {this.state.showLocation ? null : (
             <TouchableOpacity onPress={this.props.showDatePicker}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Icon.Feather
+                {/* <Icon.Feather
                   name="calendar"
                   size={30}
                   color="rgba(0, 0, 0, 0.2)"
-                />
+                /> */}
                 <View style={{ flexDirection: "column" }}>
                   <Text
                     style={{
@@ -71,7 +71,7 @@ export default class Event_CreationInfo extends React.Component {
                       fontWeight: "500"
                     }}
                   >
-                    Date
+                    Ends
                   </Text>
                   <Text
                     style={{
@@ -82,13 +82,13 @@ export default class Event_CreationInfo extends React.Component {
                     }}
                     onPress={this.props.showDatePicker}
                   >
-                    {moment(this.props.date).format("D/MM")}
+                    {moment(this.props.date).format("ll    LT")}
                   </Text>
                 </View>
               </View>
             </TouchableOpacity>
           )}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate("LocationPicker", {
                 setUpLocation: data => this.props.setUpLocation(data)
@@ -130,14 +130,14 @@ export default class Event_CreationInfo extends React.Component {
                       : this.props.location.description.length > 5
                       ? this.props.location.description.slice(0, 4) + "..."
                       : this.props.location.description
-                    : "Where ?"}
+                    : "Where ?"} 
                 </Text>
               </View>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-        <Event_DatePicker {...this.props} />
-        <Event_TimePicker {...this.props} />
+        <Event_EndsPicker {...this.props} />
+        <Event_StartsPicker {...this.props} />
       </View>
     );
   }
