@@ -85,7 +85,7 @@ export default class FriendsList extends React.Component {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               style={{
-                width: screenWidth - 75,
+                width: screenWidth - 80,
                 height: 36,
                 marginRight: 15,
                 marginLeft: 60,
