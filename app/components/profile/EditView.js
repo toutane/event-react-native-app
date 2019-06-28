@@ -22,7 +22,7 @@ export default class EditView extends React.Component {
       username: "",
       bio: "",
       avatar: "",
-      pickerResult: "",
+      pickerResult: undefined,
       newAvatar: "",
       email: "",
       portable: ""
@@ -121,10 +121,7 @@ export default class EditView extends React.Component {
             <View style={{ marginTop: 45 }}>
               <EditHeader
                 {...this.props}
-                name={this.state.name}
-                username={this.state.username}
-                bio={this.state.bio}
-                avatar={this.state.pickerResult}
+                canUpdate={this.state.canUpdate}
                 updateProfile={() => this.updateProfile()}
               />
               <EditAvatar
