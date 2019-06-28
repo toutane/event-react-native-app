@@ -71,7 +71,7 @@ import firebase from "firebase";
 import { Thumbnail } from "native-base";
 import ActionSheet from "react-native-actionsheet";
 
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 export default class App extends React.Component {
   state = {
     image: null,
