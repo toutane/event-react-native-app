@@ -100,7 +100,7 @@ export default class ProfileScreen extends React.Component {
     );
     this.setState({
       username: this.state.username,
-      usernameSize: this.state.username.length <= 10 ? 50 : 38
+      usernameSize: this.state.username.length <= 10 ? 35 : 35
     });
   }
   render() {
@@ -332,14 +332,14 @@ export default class ProfileScreen extends React.Component {
             ) : (
               <Animated.Text
                 style={{
-                  fontSize:
-                    this.state.bio.length <= 39
-                      ? this.state.bio.length <= 23
-                        ? this.state.bio.length <= 13
-                          ? 25
-                          : 25
-                        : 25
-                      : 17,
+                  fontSize: 17,
+                  // this.state.bio.length <= 39
+                  //   ? this.state.bio.length <= 23
+                  //     ? this.state.bio.length <= 13
+                  //       ? 25
+                  //       : 25
+                  //     : 25
+                  //   : 17,
                   marginTop: 5,
                   marginLeft: 15,
                   fontWeight: "600",
