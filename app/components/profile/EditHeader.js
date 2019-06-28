@@ -36,10 +36,7 @@ export default class EditHeader extends React.Component {
         >
           <Icon.Ionicons name="ios-close" size={35} color="black" />
         </Button>
-        {this.props.name !== "" ||
-        this.props.username !== "" ||
-        this.props.bio !== "" ||
-        this.props.avatar ? (
+        {this.props.canUpdate ? (
           <Button
             style={{
               height: 50,
