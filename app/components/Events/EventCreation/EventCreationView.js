@@ -27,10 +27,16 @@ export default class EventCreationView extends React.Component {
       badge: [],
       invited_participants: [],
       selectedUsers: [],
-      date: new Date(),
-      isDatePickerVisible: false,
-      time: new Date(),
-      isTimePickerVisible: false,
+      starts: { date: new Date(), time: new Date() },
+      ends: {
+        date: new Date(),
+        time: new Date()
+      },
+      isFullDay: false,
+      // date: new Date(),
+      // starts: new Date(),
+      isStartsPickerVisible: false,
+      isEndsPickerVisible: false,
       location: { description: "" }
     };
   }
@@ -55,33 +61,27 @@ export default class EventCreationView extends React.Component {
     );
   }
 
-  handleDatePicked = date => {
-    this.setState(
-      { date: date },
-      console.log("A date has been picked: ", date)
-    );
-    this.hideDatePicker();
+  handleEndsPicked = ends => {
+    this.setState({ ends: { date: ends, time: ends } });
+    this.hideEndsPicker();
   };
-  showDatePicker = () => {
-    this.setState({ isDatePickerVisible: true });
+  showEndsPicker = () => {
+    this.setState({ isEndsPickerVisible: true });
   };
 
-  hideDatePicker = () => {
-    this.setState({ isDatePickerVisible: false });
+  hideEndsPicker = () => {
+    this.setState({ isEndsPickerVisible: false });
   };
-  handleTimePicked = time => {
-    this.setState(
-      { time: time },
-      console.log("A time has been picked: ", time)
-    );
-    this.hideTimePicker();
+  handleStartsPicked = starts => {
+    this.setState({ starts: { date: starts, time: starts } });
+    this.hideStartsPicker();
   };
-  showTimePicker = () => {
-    this.setState({ isTimePickerVisible: true });
+  showStartsPicker = () => {
+    this.setState({ isStartsPickerVisible: true });
   };
 
-  hideTimePicker = () => {
-    this.setState({ isTimePickerVisible: false });
+  hideStartsPicker = () => {
+    this.setState({ isStartsPickerVisible: false });
   };
   setUpLocation = location => {
     this.setState({ location: location });
@@ -120,8 +120,16 @@ export default class EventCreationView extends React.Component {
             title: state.title,
             text: state.text,
             badge: state.badge,
-            date: moment(state.date).format("D/MM"),
-            time: moment(state.time).format("h:mm"),
+            isFullDay: this.state.isFullDay,
+            starts: {
+              date: moment(state.starts.date).format("ll"),
+              time: moment(state.starts.time).format("LT")
+            },
+            ends: {
+              date: moment(state.ends.date).format("ll"),
+              time: moment(state.ends.date).format("LT")
+            },
+            // date: moment(state.date).format("D/MM"),
             location: state.location.description
           },
           organizer: {
@@ -168,29 +176,49 @@ export default class EventCreationView extends React.Component {
                 title={this.state.title}
               />
               <MiddleCreation
+                {...this.props}
                 setInputsStates={(stateContent, stateName) =>
                   this.setInputsStates(stateContent, stateName)
                 }
+                username={this.state.organizer_username}
                 badge={this.state.badge}
                 addBadge={() => this.addBadge()}
                 addBadgeValue={(e, index) => this.addBadgeValue(e, index)}
                 filterBadge={() => this.filterBadge()}
-              />
-              <Event_CreationInfo
-                {...this.props}
-                time={this.state.time}
-                handleTimePicked={time => this.handleTimePicked(time)}
-                isVisibleTime={this.state.isTimePickerVisible}
-                showTimePicker={this.showTimePicker}
-                hideTimePicker={this.hideTimePicker}
-                date={this.state.date}
-                handleDatePicked={date => this.handleDatePicked(date)}
-                isVisibleDate={this.state.isDatePickerVisible}
-                showDatePicker={this.showDatePicker}
-                hideDatePicker={this.hideDatePicker}
                 location={this.state.location}
                 setUpLocation={location => this.setUpLocation(location)}
+                starts={this.state.starts}
+                ends={this.state.ends}
+                handleStartsPicked={starts => this.handleStartsPicked(starts)}
+                isVisibleStarts={this.state.isStartsPickerVisible}
+                showStartsPicker={this.showStartsPicker}
+                hideStartsPicker={this.hideStartsPicker}
+                handleEndsPicked={ends => this.handleEndsPicked(ends)}
+                isVisibleEnds={this.state.isEndsPickerVisible}
+                showEndsPicker={this.showEndsPicker}
+                hideEndsPicker={this.hideEndsPicker}
+                isFullDay={this.state.isFullDay}
+                handleFullDay={() =>
+                  this.setState({
+                    isFullDay: !this.state.isFullDay
+                  })
+                }
               />
+              {/* <Event_CreationInfo
+                {...this.props}
+                time={this.state.time}
+                handleStartsPicked={time => this.handleStartsPicked(time)}
+                isVisibleStarts={this.state.isStartsPickerVisible}
+                showStartsPicker={this.showStartsPicker}
+                hideStartsPicker={this.hideStartsPicker}
+                date={this.state.date}
+                handleEndsPicked={date => this.handleEndsPicked(date)}
+                isVisibleDate={this.state.isEndsPickerVisible}
+                showEndsPicker={this.showEndsPicker}
+                hideEndsPicker={this.hideEndsPicker}
+                location={this.state.location}
+                setUpLocation={location => this.setUpLocation(location)}
+              /> */}
             </View>
           </View>
           <View style={{ zIndex: 20 }}>
