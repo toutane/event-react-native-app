@@ -67,9 +67,9 @@ const tabBarConfig = {
     />
   ),
   // initialRouteName: "Explore",
-  // initialRouteName: "Home",
+  initialRouteName: "Home",
   // initialRouteName: "Notification",
-  initialRouteName: "Profile",
+  // initialRouteName: "Profile",
 
   tabBarOptions: {
     inactiveTintColor: theme.colors.inactiveColor
