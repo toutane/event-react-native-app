@@ -4,6 +4,8 @@ import { Button } from "native-base";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Icon } from "expo";
 import { screenWidth } from "../../../utils/dimensions";
+import firebase from "../../../firebase/firebase";
+import UsersActions from "../../../actions/usersActions";
 
 // const homePlace = {
 //   description: "Home",
@@ -13,11 +15,33 @@ import { screenWidth } from "../../../utils/dimensions";
 //   description: "Work",
 //   geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
 // };
-
 export default class LocationPicker extends React.Component {
   static navigationOptions = {
     header: null
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      favorite_locations: []
+    };
+  }
+  componentDidMount() {
+    this.listenToChanges();
+  }
+  async listenToChanges() {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .onSnapshot(() =>
+        UsersActions.GET_USER_FAVORITE_LOCATIONS(
+          firebase.auth.currentUser.uid
+        ).then(locations =>
+          this.setState({ favorite_locations: locations }, () =>
+            console.log(this.state.favorite_locations)
+          )
+        )
+      );
+  }
   render() {
     return (
       // <View
@@ -145,6 +169,7 @@ export default class LocationPicker extends React.Component {
                 },
                 description: {
                   fontWeight: "bold"
+                  // fontSize: 18
                 },
                 predefinedPlacesDescription: {
                   color: "#1DC161"
@@ -152,7 +177,8 @@ export default class LocationPicker extends React.Component {
                 listView: {
                   position: "absolute",
                   zIndex: 9999,
-                  top: 50
+                  top: 60,
+                  height: 800
                 },
                 row: {
                   backgroundColor: "white"
@@ -215,6 +241,29 @@ export default class LocationPicker extends React.Component {
             </Button>
           </View>
         </View>
+        {this.state.favorite_locations.length !== 0 ? (
+          <View style={{ flexDirection: "row" }}>
+            <Icon.MaterialCommunityIcons
+              name="heart"
+              size={30}
+              style={{ bottom: 3 }}
+              color="red"
+            />
+            <View style={{ flexDirection: "column" }}>
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                Favorite locations
+              </Text>
+              <Text
+                style={{ fontWeight: "400", fontSize: 15, color: "#EBEDF0" }}
+              >
+                {this.state.favorite_locations.length}
+                {this.state.favorite_locations.length > 0
+                  ? " place"
+                  : " places"}
+              </Text>
+            </View>
+          </View>
+        ) : null}
         {/* <GooglePlacesAutocomplete
           placeholder="Search location"
           minLength={2} // minimum length of text to search
