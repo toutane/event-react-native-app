@@ -57,6 +57,13 @@ class UsersActions {
       .get();
     return number.get("nb_friends");
   }
+  async GET_USER_FAVORITE_LOCATIONS(userUid) {
+    const locations = await firebase.db
+      .collection("users")
+      .doc(userUid)
+      .get();
+    return locations.get("favorite_locations");
+  }
   async GET_USER_NOTIFICATIONS(userUid) {
     const notifications = await firebase.db
       .collection("users")
