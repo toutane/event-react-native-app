@@ -281,9 +281,7 @@ export default class HomeScreen extends React.Component {
               >
                 {this.state.nbInvitation}
               </Text>
-              {this.state.nbInvitation === 0 || 1
-                ? " invitation"
-                : " invitations"}
+              {this.state.nbInvitation > 1 ? " invitations" : " invitation"}
             </Text>
           </Button>
         </Animated.View>

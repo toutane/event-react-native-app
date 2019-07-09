@@ -5,8 +5,10 @@ import { screenWidth } from "../../../utils/dimensions";
 import { LinearGradient } from "expo";
 import Header from "./Header";
 import MiddleCreation from "./Middle";
+import MiddleView2 from "./MiddleView2";
 import Event_CreationInfo from "./Info";
 import MembersView from "./MembersView";
+import Swiper from "react-native-swiper";
 import firebase from "../../../firebase/firebase";
 import EventsActions from "../../../actions/eventsActions";
 import UsersActions from "../../../actions/usersActions";
@@ -175,35 +177,71 @@ export default class EventCreationView extends React.Component {
                 // }
                 title={this.state.title}
               />
-              <MiddleCreation
-                {...this.props}
-                setInputsStates={(stateContent, stateName) =>
-                  this.setInputsStates(stateContent, stateName)
-                }
-                username={this.state.organizer_username}
-                badge={this.state.badge}
-                addBadge={() => this.addBadge()}
-                addBadgeValue={(e, index) => this.addBadgeValue(e, index)}
-                filterBadge={() => this.filterBadge()}
-                location={this.state.location}
-                setUpLocation={location => this.setUpLocation(location)}
-                starts={this.state.starts}
-                ends={this.state.ends}
-                handleStartsPicked={starts => this.handleStartsPicked(starts)}
-                isVisibleStarts={this.state.isStartsPickerVisible}
-                showStartsPicker={this.showStartsPicker}
-                hideStartsPicker={this.hideStartsPicker}
-                handleEndsPicked={ends => this.handleEndsPicked(ends)}
-                isVisibleEnds={this.state.isEndsPickerVisible}
-                showEndsPicker={this.showEndsPicker}
-                hideEndsPicker={this.hideEndsPicker}
-                isFullDay={this.state.isFullDay}
-                handleFullDay={() =>
-                  this.setState({
-                    isFullDay: !this.state.isFullDay
-                  })
-                }
-              />
+              <Swiper
+                style={{ height: 380 }}
+                showsPagination={false}
+                loop={false}
+                // horizontal={false}
+              >
+                <MiddleCreation
+                  {...this.props}
+                  setInputsStates={(stateContent, stateName) =>
+                    this.setInputsStates(stateContent, stateName)
+                  }
+                  username={this.state.organizer_username}
+                  badge={this.state.badge}
+                  addBadge={() => this.addBadge()}
+                  addBadgeValue={(e, index) => this.addBadgeValue(e, index)}
+                  filterBadge={() => this.filterBadge()}
+                  location={this.state.location}
+                  setUpLocation={location => this.setUpLocation(location)}
+                  starts={this.state.starts}
+                  ends={this.state.ends}
+                  handleStartsPicked={starts => this.handleStartsPicked(starts)}
+                  isVisibleStarts={this.state.isStartsPickerVisible}
+                  showStartsPicker={this.showStartsPicker}
+                  hideStartsPicker={this.hideStartsPicker}
+                  handleEndsPicked={ends => this.handleEndsPicked(ends)}
+                  isVisibleEnds={this.state.isEndsPickerVisible}
+                  showEndsPicker={this.showEndsPicker}
+                  hideEndsPicker={this.hideEndsPicker}
+                  isFullDay={this.state.isFullDay}
+                  handleFullDay={() =>
+                    this.setState({
+                      isFullDay: !this.state.isFullDay
+                    })
+                  }
+                />
+                <MiddleView2
+                  {...this.props}
+                  setInputsStates={(stateContent, stateName) =>
+                    this.setInputsStates(stateContent, stateName)
+                  }
+                  username={this.state.organizer_username}
+                  badge={this.state.badge}
+                  addBadge={() => this.addBadge()}
+                  addBadgeValue={(e, index) => this.addBadgeValue(e, index)}
+                  filterBadge={() => this.filterBadge()}
+                  location={this.state.location}
+                  setUpLocation={location => this.setUpLocation(location)}
+                  starts={this.state.starts}
+                  ends={this.state.ends}
+                  handleStartsPicked={starts => this.handleStartsPicked(starts)}
+                  isVisibleStarts={this.state.isStartsPickerVisible}
+                  showStartsPicker={this.showStartsPicker}
+                  hideStartsPicker={this.hideStartsPicker}
+                  handleEndsPicked={ends => this.handleEndsPicked(ends)}
+                  isVisibleEnds={this.state.isEndsPickerVisible}
+                  showEndsPicker={this.showEndsPicker}
+                  hideEndsPicker={this.hideEndsPicker}
+                  isFullDay={this.state.isFullDay}
+                  handleFullDay={() =>
+                    this.setState({
+                      isFullDay: !this.state.isFullDay
+                    })
+                  }
+                />
+              </Swiper>
               {/* <Event_CreationInfo
                 {...this.props}
                 time={this.state.time}
