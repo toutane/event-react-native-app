@@ -4577,6 +4577,12 @@ react-native-branch@2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
 
+react-native-collapse-view@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-collapse-view/-/react-native-collapse-view-1.0.0.tgz#6f730aceb2ecfeecc6ff8b265ba05c4aee63a2ef"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-date-picker@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-2.4.0.tgz#6c8b1bcb8e42dc783b399939f26c6fa8c928cf60"
