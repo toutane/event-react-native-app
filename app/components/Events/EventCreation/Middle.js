@@ -163,7 +163,8 @@ export default class MiddleCreation extends React.Component {
                 }}
                 onPress={() =>
                   this.props.navigation.navigate("LocationPicker", {
-                    setUpLocation: data => this.props.setUpLocation(data)
+                    setUpLocation: data => this.props.setUpLocation(data),
+                    location: this.props.location
                   })
                 }
               >
@@ -183,13 +184,13 @@ export default class MiddleCreation extends React.Component {
                       left: 145,
                       position: "absolute",
                       color:
-                        this.props.location.description !== ""
+                        this.props.location.description !== "search location"
                           ? "black"
                           : "rgba(0,0,0,0.23)"
                     }
                   ]}
                 >
-                  {this.props.location.description !== ""
+                  {this.props.location.description !== "search location"
                     ? this.props.location.description.length > 25
                       ? this.props.location.description.slice(0, 25) + "..."
                       : this.props.location.description
