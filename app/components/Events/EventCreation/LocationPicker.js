@@ -112,7 +112,10 @@ export default class LocationPicker extends React.Component {
               onChangeText={e => this.setState({ search: e })}
             /> */}
             <GooglePlacesAutocomplete
-              placeholder="search location"
+              favorite_locations={this.state.favorite_locations}
+              placeholder={
+                this.props.navigation.getParam("location").description
+              }
               minLength={2} // minimum length of text to search
               autoFocus={true}
               returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
@@ -120,9 +123,15 @@ export default class LocationPicker extends React.Component {
               listViewDisplayed="auto" // true/false/undefined
               fetchDetails={true}
               // selectionColor={"#1DC161"}
-              renderDescription={row =>
-                row.description || row.formatted_address || row.name
-              }
+              // renderDescription={row => {
+              //   row.terms[0].value;
+              // }}
+
+              renderDescription={row => row.description}
+              // renderDescription={row =>
+              //   row.description || row.formatted_address || row.name
+              // }
+
               // renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => {
                 this.props.navigation.getParam("setUpLocation")(data);
@@ -136,16 +145,15 @@ export default class LocationPicker extends React.Component {
                 key: "AIzaSyCjg_ds0yIsaxR4C2bvS0PksRey8QqqIoY",
                 language: "en", // languagea of the results
                 type: "geocode"
-                // type: "(locality)"
-                // type: "(administrative_area_level_1)"
-                // types: "geocode" // default: 'geocode'
+                // region: "FR"
+                // type: "(cities)"
               }}
               // selectionColor={"#1DC161"}
               styles={{
                 textInputContainer: {
                   borderTopWidth: 0,
                   borderBottomWidth: 0,
-                  backgroundColor: "#F7F7F7",
+                  // backgroundColor: "#F7F7F7",
                   paddingHorizontal: 10
                 },
                 textInput: {
@@ -154,10 +162,11 @@ export default class LocationPicker extends React.Component {
                   height: 36,
                   // marginRight: 15,
                   marginLeft: 50,
-                  backgroundColor: "rgba(0, 0, 0, 0.04)",
+                  // backgroundColor: "#F7F7F7",
+
+                  backgroundColor: "rgba(232, 233, 232, 1)",
                   borderRadius: 10,
                   paddingHorizontal: 10,
-                  // selectionColor: "#1DC161"
                   fontSize: 18
                   // height: 36,
                   // marginRight: 5,
@@ -168,8 +177,9 @@ export default class LocationPicker extends React.Component {
                   // fontSize: 18
                 },
                 description: {
-                  fontWeight: "bold"
-                  // fontSize: 18
+                  fontWeight: "bold",
+                  marginLeft: 15,
+                  fontSize: 16
                 },
                 predefinedPlacesDescription: {
                   color: "#1DC161"
@@ -177,7 +187,7 @@ export default class LocationPicker extends React.Component {
                 listView: {
                   position: "absolute",
                   zIndex: 9999,
-                  top: 60,
+                  top: 132,
                   height: 800
                 },
                 row: {
@@ -242,26 +252,49 @@ export default class LocationPicker extends React.Component {
           </View>
         </View>
         {this.state.favorite_locations.length !== 0 ? (
-          <View style={{ flexDirection: "row" }}>
-            <Icon.MaterialCommunityIcons
-              name="heart"
-              size={30}
-              style={{ bottom: 3 }}
-              color="red"
-            />
-            <View style={{ flexDirection: "column" }}>
-              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                Favorite locations
-              </Text>
-              <Text
-                style={{ fontWeight: "400", fontSize: 15, color: "#EBEDF0" }}
-              >
-                {this.state.favorite_locations.length}
-                {this.state.favorite_locations.length > 0
-                  ? " place"
-                  : " places"}
-              </Text>
+          <View>
+            <View
+              style={{
+                marginTop: 15,
+                marginLeft: 15,
+                flexDirection: "row",
+                alignItems: "center"
+              }}
+            >
+              <Icon.MaterialCommunityIcons
+                style={{ top: 4 }}
+                name="heart-circle"
+                size={40}
+                color="#FE245D"
+              />
+              <View style={{ marginLeft: 10, flexDirection: "column" }}>
+                <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                  Favorite locations
+                </Text>
+                <Text
+                  style={{
+                    fontWeight: "400",
+                    fontSize: 16,
+                    color: "rgba(0, 0, 0, 0.2)"
+                  }}
+                >
+                  {this.state.favorite_locations.length}
+                  {this.state.favorite_locations.length > 0
+                    ? " place"
+                    : " places"}
+                </Text>
+              </View>
             </View>
+            <View
+              style={{
+                top: 14,
+                height: 0.5,
+                backgroundColor: "rgba(0, 0, 0, 0.2)"
+                // "black"
+                // borderColor: "rgba(0, 0, 0, 0.1)"
+                // borderWidth: 0.6
+              }}
+            />
           </View>
         ) : null}
         {/* <GooglePlacesAutocomplete
