@@ -39,7 +39,7 @@ export default class EventCreationView extends React.Component {
       // starts: new Date(),
       isStartsPickerVisible: false,
       isEndsPickerVisible: false,
-      location: { description: "" }
+      location: { description: "search location" }
     };
   }
   componentDidMount() {
