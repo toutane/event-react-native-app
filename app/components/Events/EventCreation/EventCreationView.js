@@ -39,7 +39,8 @@ export default class EventCreationView extends React.Component {
       // starts: new Date(),
       isStartsPickerVisible: false,
       isEndsPickerVisible: false,
-      location: { description: "search location" }
+      location: { description: "search location" },
+      add_info: {}
     };
   }
   componentDidMount() {
@@ -85,8 +86,10 @@ export default class EventCreationView extends React.Component {
   hideStartsPicker = () => {
     this.setState({ isStartsPickerVisible: false });
   };
-  setUpLocation = location => {
-    this.setState({ location: location });
+  setUpLocation = (location, add_info) => {
+    this.setState({ location: location, add_info: add_info }, () =>
+      console.log(this.state.add_info)
+    );
   };
   addBadge() {
     this.setState({
@@ -122,7 +125,7 @@ export default class EventCreationView extends React.Component {
             title: state.title,
             text: state.text,
             badge: state.badge,
-            isFullDay: this.state.isFullDay,
+            isFullDay: state.isFullDay,
             starts: {
               date: moment(state.starts.date).format("ll"),
               time: moment(state.starts.time).format("LT")
@@ -132,7 +135,7 @@ export default class EventCreationView extends React.Component {
               time: moment(state.ends.date).format("LT")
             },
             // date: moment(state.date).format("D/MM"),
-            location: state.location.description
+            location: { ...state.location, ...state.add_info }
           },
           organizer: {
             uid: state.organizer_uid,
@@ -194,7 +197,9 @@ export default class EventCreationView extends React.Component {
                   addBadgeValue={(e, index) => this.addBadgeValue(e, index)}
                   filterBadge={() => this.filterBadge()}
                   location={this.state.location}
-                  setUpLocation={location => this.setUpLocation(location)}
+                  setUpLocation={(data, add_info) =>
+                    this.setUpLocation(data, add_info)
+                  }
                   starts={this.state.starts}
                   ends={this.state.ends}
                   handleStartsPicked={starts => this.handleStartsPicked(starts)}
