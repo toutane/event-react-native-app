@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Button } from "native-base";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Icon } from "expo";
@@ -22,7 +22,8 @@ export default class LocationPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      favorite_locations: []
+      favorite_locations: [],
+      isViewList: false
     };
   }
   componentDidMount() {
@@ -41,6 +42,9 @@ export default class LocationPicker extends React.Component {
           )
         )
       );
+  }
+  isViewListFunction() {
+    this.setState({ isViewList: true });
   }
   render() {
     return (
@@ -74,25 +78,26 @@ export default class LocationPicker extends React.Component {
       //       <Icon.Ionicons name="ios-arrow-round-up" size={25} color="black" />
       //     </Button>
       //   </View>
-      <View>
-        <View
-          style={{
-            paddingVertical: 15,
-            backgroundColor: "#F7F7F7"
-          }}
-        >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View>
           <View
             style={{
-              marginTop: 40,
-              marginBottom: 23,
-              flexDirection: "row",
-              justifyContent: "center"
+              paddingVertical: 15,
+              backgroundColor: "#F7F7F7"
             }}
           >
-            <Text style={{ fontWeight: "500", fontSize: 16 }}>Location</Text>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            {/* <TextInput
+            <View
+              style={{
+                marginTop: 40,
+                marginBottom: 23,
+                flexDirection: "row",
+                justifyContent: "center"
+              }}
+            >
+              <Text style={{ fontWeight: "500", fontSize: 16 }}>Location</Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              {/* <TextInput
               style={{
                 width: screenWidth - 75,
                 height: 36,
@@ -111,193 +116,201 @@ export default class LocationPicker extends React.Component {
               value={this.state.search}
               onChangeText={e => this.setState({ search: e })}
             /> */}
-            <GooglePlacesAutocomplete
-              favorite_locations={this.state.favorite_locations}
-              placeholder={
-                this.props.navigation.getParam("location").description
-              }
-              minLength={2} // minimum length of text to search
-              autoFocus={true}
-              returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-              // keyboardAppearance={"light"} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
-              listViewDisplayed="auto" // true/false/undefined
-              fetchDetails={true}
-              // selectionColor={"#1DC161"}
-              // renderDescription={row => {
-              //   row.terms[0].value;
-              // }}
-
-              renderDescription={row => row.description}
-              // renderDescription={row =>
-              //   row.description || row.formatted_address || row.name
-              // }
-
-              // renderDescription={row => row.description} // custom description render
-              onPress={(data, details = null) => {
-                this.props.navigation.getParam("setUpLocation")(data);
-                this.props.navigation.navigate("EventCreationView");
-                // 'details' is provided when fetchDetails = true
-                // console.log(data);
-              }}
-              getDefaultValue={() => ""}
-              query={{
-                // available options: https://developers.google.com/places/web-service/autocomplete
-                key: "AIzaSyCjg_ds0yIsaxR4C2bvS0PksRey8QqqIoY",
-                language: "en", // languagea of the results
-                type: "geocode"
-                // region: "FR"
-                // type: "(cities)"
-              }}
-              // selectionColor={"#1DC161"}
-              styles={{
-                textInputContainer: {
-                  borderTopWidth: 0,
-                  borderBottomWidth: 0,
-                  // backgroundColor: "#F7F7F7",
-                  paddingHorizontal: 10
-                },
-                textInput: {
-                  bottom: 8,
-                  width: screenWidth - 75,
-                  height: 36,
-                  // marginRight: 15,
-                  marginLeft: 50,
-                  // backgroundColor: "#F7F7F7",
-
-                  backgroundColor: "rgba(232, 233, 232, 1)",
-                  borderRadius: 10,
-                  paddingHorizontal: 10,
-                  fontSize: 18
-                  // height: 36,
-                  // marginRight: 5,
-                  // marginLeft: 5,
-                  // backgroundColor: "rgba(0, 0, 0, 0.04)",
-                  // borderRadius: 10,
-                  // paddingHorizontal: 10,
-                  // fontSize: 18
-                },
-                description: {
-                  fontWeight: "bold",
-                  marginLeft: 15,
-                  fontSize: 16
-                },
-                predefinedPlacesDescription: {
-                  color: "#1DC161"
-                },
-                listView: {
-                  position: "absolute",
-                  zIndex: 9999,
-                  top: 132,
-                  height: 800
-                },
-                row: {
-                  backgroundColor: "white"
-                },
-                separator: { marginLeft: 20, marginRight: 20 }
-              }}
-              currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-              currentLocationLabel="Current location"
-              // nearbyPlacesAPI='None'
-              nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-              GoogleReverseGeocodingQuery={
-                {
-                  // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+              <GooglePlacesAutocomplete
+                isViewListFunction={text =>
+                  text.length >= 2
+                    ? this.setState({ isViewList: true })
+                    : this.setState({ isViewList: false })
                 }
-              }
-              GooglePlacesSearchQuery={{
-                // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                rankby: "distance",
-                type: "airport"
-              }}
-              // GooglePlacesDetailsQuery={{
-              //   // available options for GooglePlacesDetails API : https://developers.google.com/places/web-service/details
-              //   fields: "formatted_address"
-              // }}
-              filterReverseGeocodingByTypes={[
-                "locality",
-                "administrative_area_level_3"
-              ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-              // filterReverseGeocodingByTypes={
-              //   [
-              //     // types: "geocode"
-              //     // "geocode",
-              //     // "administrative_area_level_3"
-              //   ]
-              // } // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-              // predefinedPlaces={[homePlace, workPlace]}
-              debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-              // renderLeftButton={() => (
-              //   <Image source={require("path/custom/left-icon")} />
-              // )}
-            />
-            <Button
-              style={{
-                position: "absolute",
-                right: screenWidth - 50,
-                height: 35,
-                width: 35,
-                borderRadius: 10,
-                backgroundColor: "rgba(0, 0, 0, 0.04)",
-                justifyContent: "center"
-              }}
-              onPress={() => this.props.navigation.pop()}
-            >
-              <Icon.Ionicons
-                name="ios-arrow-round-back"
-                size={30}
-                style={{ bottom: 3 }}
-                color="black"
+                favorite_locations={this.state.favorite_locations}
+                placeholder={
+                  this.props.navigation.getParam("location").description
+                }
+                minLength={2} // minimum length of text to search
+                autoFocus={true}
+                returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                // keyboardAppearance={"light"} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
+                listViewDisplayed="auto" // true/false/undefined
+                fetchDetails={true}
+                // selectionColor={"#1DC161"}
+                // renderDescription={row => {
+                //   row.terms[0].value;
+                // }}
+
+                renderDescription={row => row.structured_formatting.main_text}
+                // renderDescription={row =>
+                //   row.description || row.formatted_address || row.name
+                // }
+
+                // renderDescription={row => row.description} // custom description render
+                onPress={(data, details = null) => {
+                  this.props.navigation.getParam("setUpLocation")(data);
+                  this.props.navigation.navigate("EventCreationView");
+                  // 'details' is provided when fetchDetails = true
+                  // console.log(data);
+                }}
+                getDefaultValue={() => ""}
+                query={{
+                  // available options: https://developers.google.com/places/web-service/autocomplete
+                  key: "AIzaSyCjg_ds0yIsaxR4C2bvS0PksRey8QqqIoY",
+                  language: "en", // languagea of the results
+                  type: "geocode"
+                  // region: "FR"
+                  // type: "(cities)"
+                }}
+                // selectionColor={"#1DC161"}
+                styles={{
+                  textInputContainer: {
+                    borderTopWidth: 0,
+                    borderBottomWidth: 0,
+                    // backgroundColor: "#F7F7F7",
+                    paddingHorizontal: 10
+                  },
+                  textInput: {
+                    bottom: 8,
+                    width: screenWidth - 75,
+                    height: 36,
+                    // marginRight: 15,
+                    marginLeft: 50,
+                    // backgroundColor: "#F7F7F7",
+
+                    backgroundColor: "rgba(232, 233, 232, 1)",
+                    borderRadius: 10,
+                    paddingHorizontal: 10,
+                    fontSize: 18
+                    // height: 36,
+                    // marginRight: 5,
+                    // marginLeft: 5,
+                    // backgroundColor: "rgba(0, 0, 0, 0.04)",
+                    // borderRadius: 10,
+                    // paddingHorizontal: 10,
+                    // fontSize: 18
+                  },
+                  description: {
+                    fontWeight: "bold",
+                    // marginLeft: 15,
+                    fontSize: 16
+                  },
+                  predefinedPlacesDescription: {
+                    color: "#1DC161"
+                  },
+                  listView: {
+                    position: "absolute",
+                    zIndex: 9999,
+                    top: 132,
+                    height: 800
+                  },
+                  row: {
+                    backgroundColor: "white"
+                  },
+                  separator: { marginLeft: 20, marginRight: 20 }
+                }}
+                currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
+                currentLocationLabel="Current location"
+                // nearbyPlacesAPI='None'
+                nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                GoogleReverseGeocodingQuery={
+                  {
+                    // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                  }
+                }
+                GooglePlacesSearchQuery={{
+                  // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                  rankby: "distance",
+                  type: "airport"
+                }}
+                // GooglePlacesDetailsQuery={{
+                //   // available options for GooglePlacesDetails API : https://developers.google.com/places/web-service/details
+                //   fields: "formatted_address"
+                // }}
+                filterReverseGeocodingByTypes={[
+                  "locality",
+                  "administrative_area_level_3"
+                ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+                // filterReverseGeocodingByTypes={
+                //   [
+                //     // types: "geocode"
+                //     // "geocode",
+                //     // "administrative_area_level_3"
+                //   ]
+                // } // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+                // predefinedPlaces={[homePlace, workPlace]}
+                debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+                // renderLeftButton={() => (
+                //   <Image source={require("path/custom/left-icon")} />
+                // )}
               />
-            </Button>
-          </View>
-        </View>
-        {this.state.favorite_locations.length !== 0 ? (
-          <View>
-            <View
-              style={{
-                marginTop: 15,
-                marginLeft: 15,
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
-              <Icon.MaterialCommunityIcons
-                style={{ top: 4 }}
-                name="heart-circle"
-                size={40}
-                color="#FE245D"
-              />
-              <View style={{ marginLeft: 10, flexDirection: "column" }}>
-                <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                  Favorite locations
-                </Text>
-                <Text
-                  style={{
-                    fontWeight: "400",
-                    fontSize: 16,
-                    color: "rgba(0, 0, 0, 0.2)"
-                  }}
-                >
-                  {this.state.favorite_locations.length}
-                  {this.state.favorite_locations.length > 0
-                    ? " place"
-                    : " places"}
-                </Text>
-              </View>
+              <Button
+                style={{
+                  position: "absolute",
+                  right: screenWidth - 50,
+                  height: 35,
+                  width: 35,
+                  borderRadius: 10,
+                  backgroundColor: "rgba(0, 0, 0, 0.04)",
+                  justifyContent: "center"
+                }}
+                onPress={() => this.props.navigation.pop()}
+              >
+                <Icon.Ionicons
+                  name="ios-arrow-round-back"
+                  size={30}
+                  style={{ bottom: 3 }}
+                  color="black"
+                />
+              </Button>
             </View>
-            <View
-              style={{
-                top: 14,
-                height: 0.5,
-                backgroundColor: "rgba(0, 0, 0, 0.2)"
-                // "black"
-                // borderColor: "rgba(0, 0, 0, 0.1)"
-                // borderWidth: 0.6
-              }}
-            />
           </View>
-        ) : null}
-        {/* <GooglePlacesAutocomplete
+          {this.state.favorite_locations.length !== 0 ? (
+            <View>
+              <View
+                style={{
+                  marginTop: 15,
+                  marginLeft: 15,
+                  flexDirection: "row",
+                  alignItems: "center"
+                }}
+              >
+                <Icon.MaterialCommunityIcons
+                  style={{ top: 4 }}
+                  name="heart-circle"
+                  size={40}
+                  color="#FE245D"
+                />
+                <View style={{ marginLeft: 10, flexDirection: "column" }}>
+                  <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                    Favorite locations
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: "400",
+                      fontSize: 16,
+                      color: "rgba(0, 0, 0, 0.2)"
+                    }}
+                  >
+                    {this.state.favorite_locations.length}
+                    {this.state.favorite_locations.length > 0
+                      ? " place"
+                      : " places"}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  top: 14,
+                  height: 0.5,
+                  backgroundColor: "rgba(0, 0, 0, 0.2)"
+                  // "black"
+                  // borderColor: "rgba(0, 0, 0, 0.1)"
+                  // borderWidth: 0.6
+                }}
+              />
+            </View>
+          ) : null}
+          {!this.state.isViewList ? (
+            <View style={{ height: 1000, width: screenWidth }} />
+          ) : null}
+          {/* <GooglePlacesAutocomplete
           placeholder="Search location"
           minLength={2} // minimum length of text to search
           autoFocus={true}
@@ -381,7 +394,8 @@ export default class LocationPicker extends React.Component {
           //   <Image source={require("path/custom/left-icon")} />
           // )}
         />*/}
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
