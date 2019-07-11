@@ -91,9 +91,9 @@ export default class Info extends React.Component {
                   fontWeight: "600"
                 }}
               >
-                {this.props.currentEvent.event.location.length > 5
+                {/* {this.props.currentEvent.event.location.length > 5
                   ? this.props.currentEvent.event.location.slice(0, 4) + "..."
-                  : this.props.currentEvent.event.location}
+                  : this.props.currentEvent.event.location} */}
               </Text>
             </View>
           </View>

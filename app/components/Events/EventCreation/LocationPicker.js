@@ -116,6 +116,7 @@ export default class LocationPicker extends React.Component {
               value={this.state.search}
               onChangeText={e => this.setState({ search: e })}
             /> */}
+
               <GooglePlacesAutocomplete
                 isViewListFunction={text =>
                   text.length >= 2
@@ -143,8 +144,11 @@ export default class LocationPicker extends React.Component {
                 // }
 
                 // renderDescription={row => row.description} // custom description render
-                onPress={(data, details = null) => {
-                  this.props.navigation.getParam("setUpLocation")(data);
+                onPress={(data, add_info, details = null) => {
+                  this.props.navigation.getParam("setUpLocation")(
+                    data,
+                    add_info
+                  );
                   this.props.navigation.navigate("EventCreationView");
                   // 'details' is provided when fetchDetails = true
                   // console.log(data);
