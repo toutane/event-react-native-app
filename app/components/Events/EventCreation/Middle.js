@@ -15,12 +15,14 @@ import Event_StartsPicker from "./StartsPicker";
 import Event_EndsPicker from "./EndsPicker";
 import { Input } from "native-base";
 import { Icon } from "expo";
+import { screenWidth } from "../../../utils/dimensions";
 
 export default class MiddleCreation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       moreView: false,
+      add_info: { entry_code: "", intercom: "", floor: "" },
       badge: []
     };
   }
@@ -164,7 +166,10 @@ export default class MiddleCreation extends React.Component {
                 onPress={() =>
                   this.props.navigation.navigate("LocationPicker", {
                     setUpLocation: (data, add_info) =>
-                      this.props.setUpLocation(data, add_info),
+                      this.setState(
+                        { add_info: add_info },
+                        this.props.setUpLocation(data, add_info)
+                      ),
                     location: this.props.location
                   })
                 }
@@ -192,14 +197,91 @@ export default class MiddleCreation extends React.Component {
                   ]}
                 >
                   {this.props.location.description !== "search location"
-                    ? this.props.location.description.length > 25
-                      ? this.props.location.description.slice(0, 25) + "..."
+                    ? this.props.location.description.length > 20
+                      ? this.props.location.description.slice(0, 22) + "..."
                       : this.props.location.description
                     : // ? this.props.location.description.split(",")[0]
                       // : this.props.location.description.split(",")[0]
                       "Current location"}
                 </Text>
               </TouchableOpacity>
+              {this.state.add_info.entry_code !== "" ||
+              this.state.add_info.intercom !== "" ||
+              this.state.add_info.floor !== "" ? (
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "row",
+                    marginTop: 25
+                    // marginLeft: 5,
+                    // justifyContent: "space-between"
+                  }}
+                >
+                  {this.state.add_info.entry_code !== "" ? (
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: "600",
+                        color: "black"
+                      }}
+                    >
+                      Entry code{"  "}
+                      <Text
+                        style={{
+                          fontWeight: "400",
+                          fontSize: 16,
+                          color: "rgba(0, 0, 0, 0.2)"
+                        }}
+                      >
+                        {this.state.add_info.entry_code}
+                      </Text>
+                    </Text>
+                  ) : null}
+                  {this.state.add_info.intercom !== "" ? (
+                    <Text
+                      style={{
+                        position: "absolute",
+                        left: 145,
+                        fontSize: 16,
+                        fontWeight: "600",
+                        color: "black"
+                      }}
+                    >
+                      Intercom{"  "}
+                      <Text
+                        style={{
+                          fontWeight: "400",
+                          fontSize: 16,
+                          color: "rgba(0, 0, 0, 0.2)"
+                        }}
+                      >
+                        {this.state.add_info.intercom}
+                      </Text>
+                    </Text>
+                  ) : null}
+                  {this.state.add_info.floor !== "" ? (
+                    <Text
+                      style={{
+                        position: "absolute",
+                        left: 300,
+                        fontSize: 16,
+                        fontWeight: "600",
+                        color: "black"
+                      }}
+                    >
+                      Floor{"  "}
+                      <Text
+                        style={{
+                          fontWeight: "400",
+                          fontSize: 16,
+                          color: "rgba(0, 0, 0, 0.2)"
+                        }}
+                      >
+                        {this.state.add_info.floor}
+                      </Text>
+                    </Text>
+                  ) : null}
+                </TouchableOpacity>
+              ) : null}
               {/* <TextInput
               multiline={true}
               style={styles.subTitle}
