@@ -21,6 +21,7 @@ export default class EventCreationView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      swiperHeight: 380,
       organizer_uid: firebase.auth.currentUser.uid,
       organizer_username: firebase.auth.currentUser.displayName,
       organizer_avatar: "null",
@@ -87,8 +88,18 @@ export default class EventCreationView extends React.Component {
     this.setState({ isStartsPickerVisible: false });
   };
   setUpLocation = (location, add_info) => {
-    this.setState({ location: location, add_info: add_info }, () =>
-      console.log(this.state.add_info)
+    this.setState(
+      {
+        location: location,
+        add_info: add_info,
+        swiperHeight:
+          this.state.add_info.entry_code !== "" ||
+          this.state.add_info.intercom !== "" ||
+          this.state.add_info.floor !== ""
+            ? 420
+            : 380
+      },
+      () => console.log(this.state.add_info)
     );
   };
   addBadge() {
@@ -181,7 +192,7 @@ export default class EventCreationView extends React.Component {
                 title={this.state.title}
               />
               <Swiper
-                style={{ height: 380 }}
+                style={{ height: this.state.swiperHeight }}
                 showsPagination={false}
                 loop={false}
                 // horizontal={false}
@@ -217,35 +228,7 @@ export default class EventCreationView extends React.Component {
                     })
                   }
                 />
-                <MiddleView2
-                  {...this.props}
-                  setInputsStates={(stateContent, stateName) =>
-                    this.setInputsStates(stateContent, stateName)
-                  }
-                  username={this.state.organizer_username}
-                  badge={this.state.badge}
-                  addBadge={() => this.addBadge()}
-                  addBadgeValue={(e, index) => this.addBadgeValue(e, index)}
-                  filterBadge={() => this.filterBadge()}
-                  location={this.state.location}
-                  setUpLocation={location => this.setUpLocation(location)}
-                  starts={this.state.starts}
-                  ends={this.state.ends}
-                  handleStartsPicked={starts => this.handleStartsPicked(starts)}
-                  isVisibleStarts={this.state.isStartsPickerVisible}
-                  showStartsPicker={this.showStartsPicker}
-                  hideStartsPicker={this.hideStartsPicker}
-                  handleEndsPicked={ends => this.handleEndsPicked(ends)}
-                  isVisibleEnds={this.state.isEndsPickerVisible}
-                  showEndsPicker={this.showEndsPicker}
-                  hideEndsPicker={this.hideEndsPicker}
-                  isFullDay={this.state.isFullDay}
-                  handleFullDay={() =>
-                    this.setState({
-                      isFullDay: !this.state.isFullDay
-                    })
-                  }
-                />
+                {/*   */}
               </Swiper>
               {/* <Event_CreationInfo
                 {...this.props}
