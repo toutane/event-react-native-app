@@ -61,8 +61,12 @@ class UsersActions {
     const locations = await firebase.db
       .collection("users")
       .doc(userUid)
+      .collection("favorite_locations")
       .get();
-    return locations.get("favorite_locations");
+    return locations.docs.map(doc => ({
+      ...doc.data(),
+      ...{ uid: doc.id }
+    }));
   }
   async GET_USER_NOTIFICATIONS(userUid) {
     const notifications = await firebase.db
@@ -95,6 +99,21 @@ class UsersActions {
       .filter(doc =>
         doc.uid === firebase.auth.currentUser.uid ? false : true
       );
+  }
+  async ADD_TO_FAVORITE_LOCATIONS(location) {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .collection("favorite_locations")
+      .add(location);
+  }
+  async REMOVE_TO_FAVORITE_LOCATIONS(doc_uid) {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .collection("favorite_locations")
+      .doc(doc_uid)
+      .delete();
   }
 }
 
