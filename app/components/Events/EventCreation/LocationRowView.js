@@ -4,13 +4,15 @@ import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
 import LocationMoreInfo from "./LocationMoreInfo";
 
+import UserActions from "../../../actions/usersActions";
+
 export default class LocationRowView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      entry_code: undefined,
-      intercom: undefined,
-      floor: undefined
+      entry_code: this.props.isFavorite ? this.props.location.entry_code : "",
+      intercom: this.props.isFavorite ? this.props.location.intercom : "",
+      floor: this.props.isFavorite ? this.props.location.floor : ""
     };
   }
 
@@ -28,6 +30,7 @@ export default class LocationRowView extends React.Component {
           }}
         />
         <LocationMoreInfo
+          {...this.props}
           setInputsStates={(stateContent, stateName) =>
             this.setInputsStates(stateContent, stateName)
           }
@@ -40,7 +43,25 @@ export default class LocationRowView extends React.Component {
           }}
         />
         <View style={{ flexDirection: "row", marginBottom: 10 }}>
-          <TouchableOpacity style={[styles.box, { marginRight: 20 }]}>
+          <TouchableOpacity
+            style={[styles.box, { marginRight: 20 }]}
+            onPress={
+              !this.props.isFavorite
+                ? () =>
+                    UserActions.ADD_TO_FAVORITE_LOCATIONS({
+                      ...this.props.rowData,
+                      ...{
+                        entry_code: this.state.entry_code,
+                        intercom: this.state.intercom,
+                        floor: this.state.floor
+                      }
+                    })
+                : () =>
+                    UserActions.REMOVE_TO_FAVORITE_LOCATIONS(
+                      this.props.favorite_locations_UID
+                    )
+            }
+          >
             <View style={{ flexDirection: "column", alignItems: "center" }}>
               <Icon.AntDesign
                 style={{ marginBottom: 5 }}
