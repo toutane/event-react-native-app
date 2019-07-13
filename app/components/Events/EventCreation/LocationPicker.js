@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, TouchableWithoutFeedback, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  TouchableOpacity
+} from "react-native";
 import { Button } from "native-base";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Icon } from "expo";
@@ -23,6 +29,7 @@ export default class LocationPicker extends React.Component {
     super(props);
     this.state = {
       favorite_locations: [],
+      isFavoriteLocationsLoaded: false,
       isViewList: false
     };
   }
@@ -33,6 +40,7 @@ export default class LocationPicker extends React.Component {
     firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
+      .collection("favorite_locations")
       .onSnapshot(() =>
         UsersActions.GET_USER_FAVORITE_LOCATIONS(
           firebase.auth.currentUser.uid
@@ -153,7 +161,13 @@ export default class LocationPicker extends React.Component {
                   // 'details' is provided when fetchDetails = true
                   // console.log(data);
                 }}
-                getDefaultValue={() => ""}
+                isFavoriteLocationsLoaded={this.state.isFavoriteLocationsLoaded}
+                getDefaultValue={() =>
+                  this.props.navigation.getParam("location").description !==
+                  "search location"
+                    ? this.props.navigation.getParam("location").description
+                    : ""
+                }
                 query={{
                   // available options: https://developers.google.com/places/web-service/autocomplete
                   key: "AIzaSyCjg_ds0yIsaxR4C2bvS0PksRey8QqqIoY",
@@ -266,7 +280,15 @@ export default class LocationPicker extends React.Component {
             </View>
           </View>
           {this.state.favorite_locations.length !== 0 ? (
-            <View>
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({
+                  isFavoriteLocationsLoaded: !this.state
+                    .isFavoriteLocationsLoaded,
+                  isViewList: true
+                })
+              }
+            >
               <View
                 style={{
                   marginTop: 15,
@@ -293,9 +315,9 @@ export default class LocationPicker extends React.Component {
                     }}
                   >
                     {this.state.favorite_locations.length}
-                    {this.state.favorite_locations.length > 0
-                      ? " place"
-                      : " places"}
+                    {this.state.favorite_locations.length > 1
+                      ? " places"
+                      : " place"}
                   </Text>
                 </View>
               </View>
@@ -309,7 +331,7 @@ export default class LocationPicker extends React.Component {
                   // borderWidth: 0.6
                 }}
               />
-            </View>
+            </TouchableOpacity>
           ) : null}
           {!this.state.isViewList ? (
             <View style={{ height: 1000, width: screenWidth }} />
