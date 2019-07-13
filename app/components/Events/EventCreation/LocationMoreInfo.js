@@ -48,7 +48,9 @@ export default class LocationMoreInfo extends React.Component {
                 <TextInput
                   multiline={false}
                   style={styles.subTitle}
-                  // placeholder={}
+                  placeholder={
+                    this.props.isFavorite ? this.props.location.entry_code : ""
+                  }
                   autoFocus={false}
                   returnKeyType="next"
                   selectionColor={"#1DC161"}
@@ -95,7 +97,9 @@ export default class LocationMoreInfo extends React.Component {
                 <TextInput
                   multiline={false}
                   style={styles.subTitle}
-                  // placeholder={}
+                  placeholder={
+                    this.props.isFavorite ? this.props.location.intercom : ""
+                  }
                   autoFocus={false}
                   returnKeyType="next"
                   selectionColor={"#1DC161"}
@@ -142,7 +146,9 @@ export default class LocationMoreInfo extends React.Component {
                 <TextInput
                   multiline={false}
                   style={styles.subTitle}
-                  // placeholder={}
+                  placeholder={
+                    this.props.isFavorite ? this.props.location.floor : ""
+                  }
                   autoFocus={false}
                   returnKeyType="next"
                   selectionColor={"#1DC161"}
