@@ -37,7 +37,9 @@ export default class EventInfo extends React.Component {
                   fontWeight: "600"
                 }}
               >
-                {this.props.currentEvent.event.time}
+                {this.props.currentEvent.event.starts !== undefined
+                  ? this.props.currentEvent.event.starts.time
+                  : null}
               </Text>
             </View>
           </View>
@@ -66,7 +68,9 @@ export default class EventInfo extends React.Component {
                   fontWeight: "600"
                 }}
               >
-                {this.props.currentEvent.event.date}
+                {this.props.currentEvent.event.starts !== undefined
+                  ? this.props.currentEvent.event.starts.date
+                  : null}
               </Text>
             </View>
           </View>
@@ -91,9 +95,17 @@ export default class EventInfo extends React.Component {
                   fontWeight: "600"
                 }}
               >
-                {/* {this.props.currentEvent.event.location.length > 5
-                  ? this.props.currentEvent.event.location.slice(0, 4) + "..."
-                  : this.props.currentEvent.event.location} */}
+                {this.props.currentEvent.event.location
+                  .structured_formatting === undefined
+                  ? null
+                  : this.props.currentEvent.event.location.structured_formatting
+                      .main_text.length > 5
+                  ? this.props.currentEvent.event.location.structured_formatting.main_text.slice(
+                      0,
+                      4
+                    ) + "..."
+                  : this.props.currentEvent.event.location.structured_formatting
+                      .main_text}
               </Text>
             </View>
           </View>
