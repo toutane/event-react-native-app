@@ -49,6 +49,7 @@ export default class LocationRowView extends React.Component {
               !this.props.isFavorite
                 ? () =>
                     UserActions.ADD_TO_FAVORITE_LOCATIONS({
+                      isFavorite: true,
                       ...this.props.rowData,
                       ...{
                         entry_code: this.state.entry_code,
