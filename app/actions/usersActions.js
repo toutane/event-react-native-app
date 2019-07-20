@@ -57,11 +57,11 @@ class UsersActions {
       .get();
     return number.get("nb_friends");
   }
-  async GET_USER_FAVORITE_LOCATIONS(userUid) {
+  async GET_USER_LISTED_LOCATIONS(userUid) {
     const locations = await firebase.db
       .collection("users")
       .doc(userUid)
-      .collection("favorite_locations")
+      .collection("listed_locations")
       .get();
     return locations.docs.map(doc => ({
       ...doc.data(),
@@ -100,18 +100,25 @@ class UsersActions {
         doc.uid === firebase.auth.currentUser.uid ? false : true
       );
   }
+  async ADD_TO_LISTED_LOCATIONS(location) {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .collection("listed_locations")
+      .add(location);
+  }
   async ADD_TO_FAVORITE_LOCATIONS(location) {
     firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
-      .collection("favorite_locations")
+      .collection("listed_locations")
       .add(location);
   }
   async REMOVE_TO_FAVORITE_LOCATIONS(doc_uid) {
     firebase.db
       .collection("users")
       .doc(firebase.auth.currentUser.uid)
-      .collection("favorite_locations")
+      .collection("listed_locations")
       .doc(doc_uid)
       .delete();
   }
