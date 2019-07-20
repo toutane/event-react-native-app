@@ -34,6 +34,7 @@ class Firebase {
       .collection("users")
       .doc(this.auth.currentUser.uid)
       .set({
+        name: "",
         username: name,
         bio: bio,
         avatar:

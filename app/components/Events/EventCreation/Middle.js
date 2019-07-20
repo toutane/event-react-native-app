@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity
 } from "react-native";
+import firebase from "../../../firebase/firebase";
 import { Hr } from "../../Hr/styles";
 const moment = require("moment");
 import Event_StartsPicker from "./StartsPicker";
@@ -16,6 +17,7 @@ import Event_EndsPicker from "./EndsPicker";
 import { Input } from "native-base";
 import { Icon } from "expo";
 import { screenWidth } from "../../../utils/dimensions";
+import UsersActions from "../../../actions/usersActions";
 
 export default class MiddleCreation extends React.Component {
   constructor(props) {
@@ -25,6 +27,21 @@ export default class MiddleCreation extends React.Component {
       add_info: { entry_code: "", intercom: "", floor: "" },
       badge: []
     };
+  }
+  setInputsStates(stateContent, stateName) {
+    this.setState(
+      {
+        [stateName]: {
+          entry_code:
+            this.state.add_info.entry_code.length === 1 && stateContent === ""
+              ? this.props.add_info.entry_code
+              : stateContent,
+          intercom: this.state.add_info.intercom,
+          floor: this.state.add_info.floor
+        }
+      },
+      () => console.log(this.state.add_info)
+    );
   }
   render() {
     return (
@@ -62,17 +79,6 @@ export default class MiddleCreation extends React.Component {
                     position: "absolute"
                   }}
                 >
-                  {/* <TextInput
-                  multiline={false}
-                  style={styles.subTitle}
-                  placeholder={this.props.name}
-                  autoFocus={false}
-                  returnKeyType="go"
-                  selectionColor={"#1DC161"}
-                  onChangeText={(e, stateName) =>
-                    this.props.setInputsStates(e, "name")
-                  }
-                /> */}
                   <TextInput
                     multiline={false}
                     style={styles.subTitle}
@@ -90,9 +96,6 @@ export default class MiddleCreation extends React.Component {
                       height: 0.5,
                       width: 215,
                       backgroundColor: "rgba(0, 0, 0, 0.2)"
-                      // "black"
-                      // borderColor: "rgba(0, 0, 0, 0.1)"
-                      // borderWidth: 0.6
                     }}
                   />
                 </View>
@@ -101,7 +104,6 @@ export default class MiddleCreation extends React.Component {
                 style={{
                   flexDirection: "row",
                   marginTop: 25,
-                  // marginLeft: 5,
                   alignItems: "center"
                 }}
               >
@@ -121,17 +123,6 @@ export default class MiddleCreation extends React.Component {
                     position: "absolute"
                   }}
                 >
-                  {/* <TextInput
-                  multiline={false}
-                  style={styles.subTitle}
-                  placeholder={this.props.name}
-                  autoFocus={false}
-                  returnKeyType="go"
-                  selectionColor={"#1DC161"}
-                  onChangeText={(e, stateName) =>
-                    this.props.setInputsStates(e, "name")
-                  }
-                /> */}
                   <TextInput
                     multiline={false}
                     style={styles.subTitle}
@@ -149,9 +140,6 @@ export default class MiddleCreation extends React.Component {
                       height: 0.5,
                       width: 215,
                       backgroundColor: "rgba(0, 0, 0, 0.2)"
-                      // "black"
-                      // borderColor: "rgba(0, 0, 0, 0.1)"
-                      // borderWidth: 0.6
                     }}
                   />
                 </View>
@@ -160,7 +148,6 @@ export default class MiddleCreation extends React.Component {
                 style={{
                   flexDirection: "row",
                   marginTop: 25,
-                  // marginLeft: 5,
                   alignItems: "center"
                 }}
                 onPress={() =>
@@ -200,41 +187,45 @@ export default class MiddleCreation extends React.Component {
                     ? this.props.location.description.length > 20
                       ? this.props.location.description.slice(0, 22) + "..."
                       : this.props.location.description
-                    : // ? this.props.location.description.split(",")[0]
-                      // : this.props.location.description.split(",")[0]
-                      "Current location"}
+                    : "Current location"}
                 </Text>
               </TouchableOpacity>
               {this.state.add_info.entry_code !== "" ||
               this.state.add_info.intercom !== "" ||
               this.state.add_info.floor !== "" ? (
-                <TouchableOpacity
+                <View
                   style={{
                     flexDirection: "row",
                     marginTop: 25
-                    // marginLeft: 5,
-                    // justifyContent: "space-between"
                   }}
                 >
                   {this.state.add_info.entry_code !== "" ? (
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "600",
-                        color: "black"
-                      }}
-                    >
-                      Entry code{"  "}
+                    <View style={{ flexDirection: "row" }}>
                       <Text
+                        style={{
+                          fontSize: 16,
+                          fontWeight: "600",
+                          color: "black"
+                        }}
+                      >
+                        Entry code{"  "}
+                      </Text>
+                      <TextInput
+                        multiline={false}
                         style={{
                           fontWeight: "400",
                           fontSize: 16,
                           color: "rgba(0, 0, 0, 0.2)"
                         }}
-                      >
-                        {this.state.add_info.entry_code}
-                      </Text>
-                    </Text>
+                        placeholder={this.state.add_info.entry_code}
+                        autoFocus={false}
+                        returnKeyType="go"
+                        selectionColor={"#1DC161"}
+                        onChangeText={(e, stateName) =>
+                          this.setInputsStates(e, "add_info")
+                        }
+                      />
+                    </View>
                   ) : null}
                   {this.state.add_info.intercom !== "" ? (
                     <Text
@@ -280,36 +271,8 @@ export default class MiddleCreation extends React.Component {
                       </Text>
                     </Text>
                   ) : null}
-                </TouchableOpacity>
+                </View>
               ) : null}
-              {/* <TextInput
-              multiline={true}
-              style={styles.subTitle}
-              placeholder={"Title"}
-              autoFocus={false}
-              returnKeyType="next"
-              selectionColor={"#1DC161"}
-              onChangeText={(e, stateName) =>
-                this.props.setInputsStates(e, "title")
-              }
-            />
-            <TextInput
-              multiline={true}
-              style={[styles.subTitle, { lineHeight: 27 }]}
-              placeholder={"Description of the event"}
-              autoFocus={false}
-              returnKeyType="go"
-              selectionColor={"#1DC161"}
-              onChangeText={(e, stateName) =>
-                this.props.setInputsStates(e, "text")
-              }
-            /> */}
-              {/* <Text style={styles.subTitle}>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum
-              ipsum repellendus esse doloremque natus corporis culpa quibusdam
-              hic. Ad obcaecati deserunt exercitationem quasi et sed tempore
-              rerum ducimus reiciendis maxime.
-            </Text> */}
               {/* <View
               style={{
                 marginTop: 15,
@@ -381,7 +344,6 @@ export default class MiddleCreation extends React.Component {
             style={{
               flexDirection: "row",
               marginTop: 25,
-              // marginLeft: 5,
               alignItems: "center"
             }}
           >
@@ -414,9 +376,6 @@ export default class MiddleCreation extends React.Component {
                   height: 0.5,
                   width: 215,
                   backgroundColor: "rgba(0, 0, 0, 0.2)"
-                  // "black"
-                  // borderColor: "rgba(0, 0, 0, 0.1)"
-                  // borderWidth: 0.6
                 }}
               />
             </View>
@@ -425,7 +384,6 @@ export default class MiddleCreation extends React.Component {
             style={{
               flexDirection: "row",
               marginTop: 25,
-              // marginLeft: 5,
               alignItems: "center"
             }}
             onPress={this.props.showStartsPicker}
@@ -471,9 +429,7 @@ export default class MiddleCreation extends React.Component {
                     style={[
                       styles.subTitle,
                       {
-                        // left: 145,
                         fontSize: 18,
-                        // position: "absolute",
                         color: "#1DC161",
                         fontWeight: "600"
                       }
@@ -486,7 +442,6 @@ export default class MiddleCreation extends React.Component {
                       style={[
                         styles.subTitle,
                         {
-                          // position: "absolute",
                           color: "#1DC161",
                           fontWeight: "600"
                         }

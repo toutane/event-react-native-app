@@ -103,14 +103,12 @@ export default class EditView extends React.Component {
   //   }
   // };
   setPickerResultState(pickerResult) {
-    this.setState({ pickerResult: pickerResult }, () =>
+    this.setState({ pickerResult: pickerResult, canUpdate: true }, () =>
       console.log(pickerResult.uri)
     );
   }
   setInputsStates(stateContent, stateName) {
-    this.setState({ [stateName]: stateContent }, () =>
-      console.log(this.state.title)
-    );
+    this.setState({ [stateName]: stateContent });
   }
   componentDidMount() {}
   render() {
