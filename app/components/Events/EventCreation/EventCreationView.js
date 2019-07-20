@@ -202,6 +202,7 @@ export default class EventCreationView extends React.Component {
                   setInputsStates={(stateContent, stateName) =>
                     this.setInputsStates(stateContent, stateName)
                   }
+                  add_info={this.state.add_info}
                   username={this.state.organizer_username}
                   badge={this.state.badge}
                   addBadge={() => this.addBadge()}
