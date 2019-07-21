@@ -6,7 +6,7 @@ export default class Event_EndsPicker extends Component {
     return (
       <DateTimePicker
         mode={!this.props.isFullDay ? "datetime" : "date"}
-        date={this.props.ends.date}
+        date={this.props.starts.date}
         isVisible={this.props.isVisibleEnds}
         // isVisible={this.props.isVisibleDate}
         onConfirm={ends => this.props.handleEndsPicked(ends)}
