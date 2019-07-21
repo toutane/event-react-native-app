@@ -13,7 +13,6 @@ import { screenWidth } from "../../../utils/dimensions";
 import firebase from "../../../firebase/firebase";
 import UsersActions from "../../../actions/usersActions";
 const moment = require("moment");
-
 // const homePlace = {
 //   description: "Home",
 //   geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }
@@ -30,7 +29,7 @@ export default class LocationPicker extends React.Component {
     super(props);
     this.state = {
       listed_locations: [],
-      isFavoriteLocationsLoaded: false,
+      isFavoriteLocationsLoaded: true,
       isListedLocationsLoaded: true,
       isViewList: false
     };
@@ -80,16 +79,18 @@ export default class LocationPicker extends React.Component {
             </View>
             <View style={{ flexDirection: "row" }}>
               <GooglePlacesAutocomplete
-                isViewListFunction={text =>
-                  text.length >= 2
-                    ? this.setState({ isViewList: true })
-                    : this.setState({ isViewList: false })
+                isViewListFunction={
+                  // text =>
+                  // text.length >= 1
+                  //   ?
+                  () => this.setState({ isViewList: true })
+                  // : this.setState({ isViewList: false })
                 }
                 listed_locations={this.state.listed_locations}
                 placeholder={
                   this.props.navigation.getParam("location").description
                 }
-                minLength={2} // minimum length of text to search
+                minLength={1} // minimum length of text to search
                 autoFocus={true}
                 returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
                 // keyboardAppearance={"light"} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
@@ -106,17 +107,35 @@ export default class LocationPicker extends React.Component {
                 // }
 
                 // renderDescription={row => row.description} // custom description render
-                onPress={(data, add_info, details = null) => {
+                onPress={(
+                  data,
+                  add_info,
+                  isFavorite,
+                  isListed,
+                  details = null
+                ) => {
                   this.props.navigation.getParam("setUpLocation")(
                     data,
                     add_info
                   );
-                  UsersActions.ADD_TO_LISTED_LOCATIONS({
-                    // isFavorite: true,
-                    ...data,
-                    ...add_info,
-                    saved_date: moment().format()
-                  });
+                  !isFavorite
+                    ? !isListed
+                      ? UsersActions.ADD_TO_LISTED_LOCATIONS({
+                          ...data,
+                          ...add_info,
+                          saved_date: moment().format(),
+                          isListed: true
+                        })
+                      : UsersActions.UPDATE_LISTED_LOCATION({
+                          ...data,
+                          ...add_info,
+                          saved_date: moment().format()
+                        })
+                    : UsersActions.UPDATE_LISTED_LOCATION({
+                        ...data,
+                        ...add_info,
+                        saved_date: moment().format()
+                      });
                   this.props.navigation.navigate("EventCreationView");
                   // 'details' is provided when fetchDetails = true
                   // console.log(data);
