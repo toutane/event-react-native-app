@@ -49,7 +49,9 @@ export default class LocationMoreInfo extends React.Component {
                   multiline={false}
                   style={styles.subTitle}
                   placeholder={
-                    this.props.isFavorite ? this.props.location.entry_code : ""
+                    this.props.isFavorite || this.props.isListed
+                      ? this.props.location.entry_code
+                      : ""
                   }
                   autoFocus={false}
                   returnKeyType="next"
@@ -98,7 +100,9 @@ export default class LocationMoreInfo extends React.Component {
                   multiline={false}
                   style={styles.subTitle}
                   placeholder={
-                    this.props.isFavorite ? this.props.location.intercom : ""
+                    this.props.isFavorite || this.props.isListed
+                      ? this.props.location.intercom
+                      : ""
                   }
                   autoFocus={false}
                   returnKeyType="next"
@@ -147,7 +151,9 @@ export default class LocationMoreInfo extends React.Component {
                   multiline={false}
                   style={styles.subTitle}
                   placeholder={
-                    this.props.isFavorite ? this.props.location.floor : ""
+                    this.props.isFavorite || this.props.isListed
+                      ? this.props.location.floor
+                      : ""
                   }
                   autoFocus={false}
                   returnKeyType="next"
@@ -182,5 +188,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 10
-  }
+  },
+  subTitle: { fontSize: 16 }
 });

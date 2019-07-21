@@ -1,24 +1,41 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Share } from "react-native";
 import { screenWidth } from "../../../utils/dimensions";
 import { Icon } from "expo";
 import LocationMoreInfo from "./LocationMoreInfo";
+const moment = require("moment");
 
-import UserActions from "../../../actions/usersActions";
+import UsersActions from "../../../actions/usersActions";
 
 export default class LocationRowView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      entry_code: this.props.isFavorite ? this.props.location.entry_code : "",
-      intercom: this.props.isFavorite ? this.props.location.intercom : "",
-      floor: this.props.isFavorite ? this.props.location.floor : ""
+      entry_code:
+        this.props.isFavorite || this.props.isListed
+          ? this.props.location.entry_code
+          : "",
+      intercom:
+        this.props.isFavorite || this.props.isListed
+          ? this.props.location.intercom
+          : "",
+      floor:
+        this.props.isFavorite || this.props.isListed
+          ? this.props.location.floor
+          : ""
     };
   }
 
   setInputsStates(stateContent, stateName) {
     this.setState({ [stateName]: stateContent });
   }
+  _share = () => {
+    Share.share({
+      // title: "Check out this address",
+      message: `Check out this address : ${this.props.rowData.description}`
+      // url: this.state.image
+    });
+  };
   render() {
     return (
       <View style={{ paddingHorizontal: 50, paddingVertical: 10 }}>
@@ -47,20 +64,45 @@ export default class LocationRowView extends React.Component {
             style={[styles.box, { marginRight: 20 }]}
             onPress={
               !this.props.isFavorite
-                ? () =>
-                    UserActions.ADD_TO_FAVORITE_LOCATIONS({
-                      isFavorite: true,
+                ? !this.props.isListed
+                  ? () =>
+                      UsersActions.ADD_TO_FAVORITE_LOCATIONS({
+                        isFavorite: true,
+                        saved_date: moment().format(),
+                        ...this.props.rowData,
+                        ...{
+                          entry_code: this.state.entry_code,
+                          intercom: this.state.intercom,
+                          floor: this.state.floor
+                        }
+                      })
+                  : () =>
+                      UsersActions.UPDATE_LISTED_LOCATION({
+                        ...this.props.rowData,
+                        ...{
+                          entry_code: this.state.entry_code,
+                          intercom: this.state.intercom,
+                          floor: this.state.floor
+                        },
+                        isFavorite: true,
+                        isListed: false,
+                        saved_date: moment().format()
+                      })
+                : () =>
+                    UsersActions.UPDATE_LISTED_LOCATION({
                       ...this.props.rowData,
                       ...{
                         entry_code: this.state.entry_code,
                         intercom: this.state.intercom,
                         floor: this.state.floor
-                      }
+                      },
+                      isFavorite: false,
+                      isListed: true,
+                      saved_date: moment().format()
                     })
-                : () =>
-                    UserActions.REMOVE_TO_FAVORITE_LOCATIONS(
-                      this.props.favorite_locations_UID
-                    )
+              // UsersActions.REMOVE_TO_FAVORITE_LOCATIONS(
+              //   this.props.favorite_locations_UID
+              // )
             }
           >
             <View style={{ flexDirection: "column", alignItems: "center" }}>
@@ -79,7 +121,7 @@ export default class LocationRowView extends React.Component {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.box}>
+          <TouchableOpacity style={styles.box} onPress={this._share}>
             <View style={{ flexDirection: "column", alignItems: "center" }}>
               <Icon.Feather
                 style={{ marginBottom: 8 }}
@@ -116,10 +158,23 @@ export default class LocationRowView extends React.Component {
             paddingVertical: 10,
             marginBottom: 10
           }}
-          onPress={() => this.props._onPress(this.props.rowData, this.state)}
+          onPress={() =>
+            this.props._onPress(
+              this.props.rowData,
+              this.state,
+              this.props.isFavorite,
+              this.props.isListed
+            )
+          }
         >
           <View style={{ flexDirection: "row" }}>
-            <Text style={{ color: "white", fontWeight: "400", fontSize: 16 }}>
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "400",
+                fontSize: 16
+              }}
+            >
               Take this location
             </Text>
           </View>
