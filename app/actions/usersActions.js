@@ -107,6 +107,22 @@ class UsersActions {
       .collection("listed_locations")
       .add(location);
   }
+  async UPDATE_LISTED_LOCATION(location) {
+    firebase.db
+      .collection("users")
+      .doc(firebase.auth.currentUser.uid)
+      .collection("listed_locations")
+      .doc(location.uid)
+      .update({
+        saved_date: location.saved_date,
+        entry_code: location.entry_code,
+        intercom: location.intercom,
+        floor: location.floor,
+        isFavorite:
+          location.isFavorite !== undefined ? location.isFavorite : false,
+        isListed: location.isListed !== undefined ? location.isListed : false
+      });
+  }
   async ADD_TO_FAVORITE_LOCATIONS(location) {
     firebase.db
       .collection("users")
