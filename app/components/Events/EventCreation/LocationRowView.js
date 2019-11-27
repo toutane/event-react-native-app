@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Share } from "react-native";
 import { screenWidth } from "../../../utils/dimensions";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import LocationMoreInfo from "./LocationMoreInfo";
 const moment = require("moment");
 
@@ -123,7 +123,7 @@ export default class LocationRowView extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.box} onPress={this._share}>
             <View style={{ flexDirection: "column", alignItems: "center" }}>
-              <Icon.Feather
+              <Feather
                 style={{ marginBottom: 8 }}
                 name="share"
                 size={22}

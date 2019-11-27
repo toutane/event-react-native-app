@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { Button } from "native-base";
-import { Icon } from "expo";
+import { Ionicons, Feather } from "@expo/vector-icons";
 
 export default class EditHeader extends React.Component {
   render() {
@@ -34,7 +34,7 @@ export default class EditHeader extends React.Component {
           }}
           onPress={() => this.props.navigation.navigate("Profile")}
         >
-          <Icon.Ionicons name="ios-close" size={35} color="black" />
+          <Ionicons name="ios-close" size={35} color="black" />
         </Button>
         {this.props.canUpdate ? (
           <Button
@@ -47,7 +47,7 @@ export default class EditHeader extends React.Component {
             }}
             onPress={() => this.props.updateProfile()}
           >
-            <Icon.Feather name="check" size={25} color="white" />
+            <Feather name="check" size={25} color="white" />
           </Button>
         ) : (
           <Button
@@ -59,7 +59,7 @@ export default class EditHeader extends React.Component {
               justifyContent: "center"
             }}
           >
-            <Icon.Feather name="check" size={25} color="black" />
+            <Feather name="check" size={25} color="black" />
           </Button>
         )}
       </View>

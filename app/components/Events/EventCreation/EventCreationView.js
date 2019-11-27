@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, ScrollView, Text } from "react-native";
 import { Button, Thumbnail, Badge } from "native-base";
 import { screenWidth } from "../../../utils/dimensions";
-import { LinearGradient } from "expo";
+import { LinearGradient } from 'expo-linear-gradient';
 import Header from "./Header";
 import MiddleCreation from "./Middle";
 import MiddleView2 from "./MiddleView2";

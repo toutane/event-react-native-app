@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import { Hr } from "../Hr/styles";
 
 export default class EventInfo extends React.Component {
@@ -17,7 +17,7 @@ export default class EventInfo extends React.Component {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon.Feather name="clock" size={30} color="rgba(0, 0, 0, 0.2)" />
+            <Feather name="clock" size={30} color="rgba(0, 0, 0, 0.2)" />
             <View style={{ flexDirection: "column" }}>
               <Text
                 style={{
@@ -44,11 +44,7 @@ export default class EventInfo extends React.Component {
             </View>
           </View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon.Feather
-              name="calendar"
-              size={30}
-              color="rgba(0, 0, 0, 0.2)"
-            />
+            <Feather name="calendar" size={30} color="rgba(0, 0, 0, 0.2)" />
             <View style={{ flexDirection: "column" }}>
               <Text
                 style={{
@@ -75,7 +71,7 @@ export default class EventInfo extends React.Component {
             </View>
           </View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon.Feather name="map-pin" size={30} color="rgba(0,0,0,0.2)" />
+            <Feather name="map-pin" size={30} color="rgba(0,0,0,0.2)" />
             <View style={{ flexDirection: "column" }}>
               <Text
                 style={{

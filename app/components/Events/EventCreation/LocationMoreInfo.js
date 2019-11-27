@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 import { screenWidth } from "../../../utils/dimensions";
-import { Icon } from "expo";
+import { Ionicons } from "@expo/vector-icons";
 
 export default class LocationMoreInfo extends React.Component {
   constructor(props) {

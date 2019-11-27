@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Button } from "native-base";
-import { Icon } from "expo";
+import { Ionicons } from "@expo/vector-icons";
 import firebase from "../../../firebase/firebase";
 
 export default class Header extends React.Component {
@@ -75,7 +75,7 @@ export default class Header extends React.Component {
           }}
           onPress={() => this.props.navigation.pop()}
         >
-          <Icon.Ionicons name="ios-arrow-round-up" size={35} color="black" />
+          <Ionicons name="ios-arrow-round-up" size={35} color="black" />
         </Button>
       </View>
     );

@@ -21,7 +21,8 @@ import firebase from "../../../firebase/firebase";
 import { screenWidth } from "../../../utils/dimensions";
 import UsersActions from "../../../actions/usersActions";
 import Avatar from "../../Avatar/Avatar";
-import { Icon } from "expo";
+import { Ionicons, Feather } from "@expo/vector-icons";
+
 export default class ECUsersList extends React.Component {
   static navigationOptions = {
     header: null
@@ -120,7 +121,7 @@ export default class ECUsersList extends React.Component {
                 this.props.navigation.navigate("EventCreationView")
               }
             >
-              <Icon.Ionicons
+              <Ionicons
                 name="ios-close"
                 // name="ios-arrow-round-up"
                 size={25}
@@ -180,7 +181,7 @@ export default class ECUsersList extends React.Component {
                   : null
               }
             >
-              <Icon.Feather
+              <Feather
                 name="check"
                 size={20}
                 color={

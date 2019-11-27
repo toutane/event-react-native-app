@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Button } from "native-base";
 import { Card } from "../Card/styles";
-import { Icon } from "expo";
+import { Ionicons } from "@expo/vector-icons";
 export default class MyEventCard extends React.Component {
   render() {
     return (

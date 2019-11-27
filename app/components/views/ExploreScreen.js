@@ -4,7 +4,7 @@ import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import { Card } from "../Card/styles";
 import { Text, Button } from "native-base";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import { theme } from "../../themes";
 
 const Header_Maximum_Height = 300;
@@ -156,7 +156,7 @@ export default class ExploreScreen extends React.Component {
                       justifyContent: "center"
                     }}
                   >
-                    <Icon.Feather name="search" size={30} color="white" />
+                    <Feather name="search" size={30} color="white" />
                   </Button>
                 </Animated.View>
               </View>

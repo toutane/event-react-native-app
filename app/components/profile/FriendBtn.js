@@ -2,7 +2,7 @@ import React from "react";
 import { Animated, Text } from "react-native";
 import { Button } from "native-base";
 import ActionSheet from "react-native-actionsheet";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 
 export default class FriendBtn extends React.Component {
   showActionSheet = () => {
@@ -34,7 +34,7 @@ export default class FriendBtn extends React.Component {
             {this.props.isFriend ? "Friend" : "Friend Request"}
           </Text>
           {this.props.isFriend ? (
-            <Icon.Feather
+            <Feather
               name="chevron-down"
               size={15}
               // style={{ bottom: 1 }}

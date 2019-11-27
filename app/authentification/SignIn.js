@@ -4,7 +4,8 @@ import { Card } from "../components/Card/styles";
 import { Title } from "../components/Title/styles";
 import { TextInput } from "../components/TextInput/styles";
 import { Hr } from "../components/Hr/styles";
-import { Icon, LinearGradient } from "expo";
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 
 import { theme } from "../themes";
 
@@ -212,8 +213,8 @@ export default class SignInScreen extends React.Component {
                 color: "#333333"
               }}
             >
-              <Icon.Ionicons name="logo-facebook" size={35} />
-              <Icon.Ionicons
+              <Ionicons name="logo-facebook" size={35} />
+              <Ionicons
                 name="logo-github"
                 size={35}
                 style={{ marginLeft: 30, color: "#333333" }}

@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 
 const TabIcon = ({ tintColor, iconName }) => (
-  <Icon.Feather name={iconName} size={25} color={tintColor} />
+  <Feather name={iconName} size={25} color={tintColor} />
 );
 
 TabIcon.propTypes = {

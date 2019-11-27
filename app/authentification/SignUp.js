@@ -3,7 +3,8 @@ import { Text, Button } from "native-base";
 import { Card } from "../components/Card/styles";
 import { Title } from "../components/Title/styles";
 import { TextInput } from "../components/TextInput/styles";
-import { Icon, LinearGradient } from "expo";
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 
 import { theme } from "../themes";
 
@@ -100,7 +101,7 @@ export default class SignInScreen extends React.Component {
               onPress={() => this.props.navigation.goBack()}
               style={{ height: 60, marginBottom: 20, marginTop: 25 }}
             >
-              <Icon.Ionicons
+              <Ionicons
                 name="ios-arrow-round-back"
                 size={60}
                 style={{ marginLeft: 30 }}

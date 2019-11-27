@@ -2,10 +2,10 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Badge, Button } from "native-base";
 import { screenWidth } from "../../../utils/dimensions";
-import { Icon } from "expo";
 import firebase from "../../../firebase/firebase";
 import UsersActions from "../../../actions/usersActions";
 import Avatar from "../../Avatar/Avatar";
+import { Feather } from "@expo/vector-icons";
 
 export default class MembersView extends React.Component {
   static navigationOptions = {
@@ -151,7 +151,7 @@ export default class MembersView extends React.Component {
                     })
                   }
                 >
-                  <Icon.Feather name="plus" size={25} color="white" />
+                  <Feather name="plus" size={25} color="white" />
                 </Button>
                 <Text
                   style={{

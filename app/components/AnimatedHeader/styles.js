@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import { LinearGradient } from "expo";
+import { LinearGradient } from "expo-linear-gradient";
 // import { theme } from "../../themes";
 
 export default class HeaderGradient extends React.Component {

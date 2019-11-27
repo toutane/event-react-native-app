@@ -2,7 +2,7 @@ import React from "react";
 import { screenWidth } from "../../utils/dimensions";
 import { Animated, Text } from "react-native";
 import { Button } from "native-base";
-import { Icon } from "expo";
+import { Ionicons } from "@expo/vector-icons";
 import HeaderMoreBtn from "./HeaderMoreBtn";
 
 export default class ProfileHeaderBar extends React.Component {
@@ -35,7 +35,7 @@ export default class ProfileHeaderBar extends React.Component {
           }}
           onPress={() => this.props.navigation.pop()}
         >
-          <Icon.Ionicons
+          <Ionicons
             name="ios-arrow-round-back"
             size={30}
             style={{ bottom: 3 }}

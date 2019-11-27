@@ -15,7 +15,7 @@ const moment = require("moment");
 import Event_StartsPicker from "./StartsPicker";
 import Event_EndsPicker from "./EndsPicker";
 import { Input } from "native-base";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import { screenWidth } from "../../../utils/dimensions";
 import UsersActions from "../../../actions/usersActions";
 
@@ -283,7 +283,7 @@ export default class MiddleCreation extends React.Component {
             >
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity onPress={() => this.props.addBadge()}>
-                  <Icon.Feather
+                  <Feather
                     name="tag"
                     size={28}
                     color="rgba(0, 0, 0, 0.2)"
@@ -363,7 +363,7 @@ export default class MiddleCreation extends React.Component {
                 position: "absolute"
               }}
             >
-              <Icon.Feather
+              <Feather
                 style={{ left: 175 }}
                 name={!this.props.isFullDay ? "toggle-left" : "toggle-right"}
                 size={40}

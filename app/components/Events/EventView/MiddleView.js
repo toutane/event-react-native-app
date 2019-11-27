@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Badge, Button } from "native-base";
 import { screenWidth } from "../../../utils/dimensions";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import firebase from "../../../firebase/firebase";
 import ConfirmQuit from "./confirmQuit";
 import UsersActions from "../../../actions/usersActions";
@@ -194,7 +194,7 @@ export default class MiddleView extends React.Component {
                     )
                   }
                 >
-                  <Icon.Feather name="plus" size={25} color="white" />
+                  <Feather name="plus" size={25} color="white" />
                 </Button>
                 <Text
                   style={{

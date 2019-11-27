@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Button } from "native-base";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { Icon } from "expo";
+import { Ionicons } from "@expo/vector-icons";
 import { screenWidth } from "../../../utils/dimensions";
 import firebase from "../../../firebase/firebase";
 import UsersActions from "../../../actions/usersActions";
@@ -241,7 +241,7 @@ export default class LocationPicker extends React.Component {
                 }}
                 onPress={() => this.props.navigation.pop()}
               >
-                <Icon.Ionicons
+                <Ionicons
                   name="ios-arrow-round-back"
                   size={30}
                   style={{ bottom: 3 }}

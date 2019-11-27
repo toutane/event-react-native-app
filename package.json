@@ -4,29 +4,37 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
+    "web": "expo start --web",
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "^32.0.0",
-    "firebase": "^5.10.0",
+    "expo": "^35.0.0",
+    "firebase": "^7.5.0",
     "moment": "^2.24.0",
-    "native-base": "^2.12.1",
+    "native-base": "^2.13.8",
     "prop-types": "^15.7.2",
-    "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react": "16.8.3",
+    "react-dom": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-actionsheet": "^2.4.2",
     "react-native-collapse-view": "^1.0.0",
-    "react-native-date-picker": "^2.4.0",
+    "react-native-date-picker": "^2.7.0",
+    "react-native-gesture-handler": "^1.5.1",
     "react-native-google-places-autocomplete": "^1.3.9",
-    "react-native-modal-datetime-picker": "^7.4.0",
+    "react-native-modal-datetime-picker": "^7.6.0",
+    "react-native-reanimated": "^1.4.0",
     "react-native-swiper": "^1.5.14",
-    "react-native-vector-icons": "^6.4.2",
-    "react-navigation": "^3.8.1",
-    "styled-components": "^4.2.0",
-    "uuid": "^3.3.2"
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-web": "^0.11.7",
+    "react-navigation": "^4.0.10",
+    "react-navigation-stack": "^1.10.3",
+    "react-navigation-tabs": "^2.6.0",
+    "styled-components": "^4.4.1",
+    "uuid": "^3.3.3",
+    "expo-linear-gradient": "~7.0.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "babel-preset-expo": "^7.1.0"
   },
   "private": true
 }
