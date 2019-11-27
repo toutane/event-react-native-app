@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "event-app",
-    "slug": "event-app",
+    "name": "event-react-native-app",
+    "slug": "event-react-native-app",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
-      "android"
+      "android",
+      "web"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
