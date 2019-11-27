@@ -1,7 +1,7 @@
 import React from "react";
 import { theme } from "../../themes";
 import { View, TouchableOpacity, Animated } from "react-native";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 
 export default class ProfileInfo extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ export default class ProfileInfo extends React.Component {
               alignItems: "center"
             }}
           >
-            <Icon.Feather name="user" size={20} color="#364EE1" />
+            <Feather name="user" size={20} color="#364EE1" />
           </View>
           <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
             <Animated.Text
@@ -84,7 +84,7 @@ export default class ProfileInfo extends React.Component {
               alignItems: "center"
             }}
           >
-            <Icon.Feather name="star" size={20} color="#fead01" />
+            <Feather name="star" size={20} color="#fead01" />
           </View>
           <View style={{ flexDirection: "collumn", marginLeft: 10 }}>
             <Animated.Text

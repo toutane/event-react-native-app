@@ -4,7 +4,7 @@ import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import { Card } from "../Card/styles";
 import { Button } from "native-base";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import { theme } from "../../themes";
 
 const tab = [
@@ -171,7 +171,7 @@ export default class HomeScreen extends React.Component {
                       justifyContent: "center"
                     }}
                   >
-                    <Icon.Feather name="plus" size={35} color="white" />
+                    <Feather name="plus" size={35} color="white" />
                   </Button>
                 </Animated.View>
               </View>

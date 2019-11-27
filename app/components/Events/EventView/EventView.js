@@ -5,7 +5,7 @@ import Header from "./header";
 import Middle from "./middle";
 import Info from "./eventInfo";
 import MiddleView from "./MiddleView";
-import { LinearGradient } from "expo";
+import { LinearGradient } from "expo-linear-gradient";
 import firebase from "../../../firebase/firebase";
 
 export default class EventView extends React.Component {

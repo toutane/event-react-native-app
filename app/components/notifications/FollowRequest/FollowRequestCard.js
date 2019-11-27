@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Button } from "native-base";
 import { Card } from "../../Card/styles";
 import firebase from "../../../firebase/firebase";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import Avatar from "../../Avatar/Avatar";
 
 export default class FollowsRequestCard extends React.Component {
@@ -57,7 +57,7 @@ export default class FollowsRequestCard extends React.Component {
                 >
                   {this.props.notifications.length}
                 </Text>
-                <Icon.Feather
+                <Feather
                   name="arrow-right"
                   size={25}
                   color="black"

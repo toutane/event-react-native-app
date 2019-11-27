@@ -10,7 +10,7 @@ import {
 import { Button } from "native-base";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import { theme } from "../../themes";
 import NotificationsList from "../notifications/NotificationsList";
 import firebase from "../../firebase/firebase";
@@ -208,7 +208,7 @@ export default class NotificationsScreen extends React.Component {
               }}
               onPress={() => logout(this.props)}
             >
-              <Icon.Feather name="bell" size={30} color="white" />
+              <Feather name="bell" size={30} color="white" />
             </TouchableOpacity>
           </Animated.View>
         </Animated.View>
@@ -229,7 +229,7 @@ export default class NotificationsScreen extends React.Component {
               )
             }
           >
-            <Icon.Feather
+            <Feather
               name="moon"
               size={28}
               color={this.state.disabled ? "#364EE1" : "white"}

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Thumbnail, Button } from "native-base";
 import { Card } from "../../Card/styles";
 import firebase from "../../../firebase/firebase";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import ThisWeekCardView from "./ThisWeekCardView";
 
 export default class ThisWeekCard extends React.Component {
@@ -42,14 +42,14 @@ export default class ThisWeekCard extends React.Component {
               </Text>
               {this.props.notifications.length > 3 ? (
                 this.state.minimizeCard ? (
-                  <Icon.Feather
+                  <Feather
                     name="arrow-down"
                     size={25}
                     color="black"
                     style={{ marginLeft: 10 }}
                   />
                 ) : (
-                  <Icon.Feather
+                  <Feather
                     name="arrow-up"
                     size={25}
                     color="black"

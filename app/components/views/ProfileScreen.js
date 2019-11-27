@@ -10,16 +10,11 @@ import {
 import { Button } from "native-base";
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
-import ProfileView from "../profile/ProfileView";
-import { Icon } from "expo";
-import { theme } from "../../themes";
-// import Icon from "react-native-vector-icons/FontAwesome";
+import { Feather } from "@expo/vector-icons";
 import firebase from "../../firebase/firebase";
 import UsersActions from "../../actions/usersActions";
 import NotifsActions from "../../actions/notificationsActions";
-// import { Spinner } from "native-base";
 import ProfileInfo from "../profile/ProfileInfo";
-const moment = require("moment");
 
 const Header_Maximum_Height = 300;
 const Header_Minimum_Height = 130;
@@ -78,9 +73,9 @@ export default class ProfileScreen extends React.Component {
     UsersActions.GET_USER_NAME(firebase.auth.currentUser.uid).then(name =>
       this.setState({ name: name })
     );
-    UsersActions.GET_USER_USERNAME(firebase.auth.currentUser.uid).then(
-      username => this.setState({ username: username })
-    );
+    UsersActions.GET_USER_USERNAME(
+      firebase.auth.currentUser.uid
+    ).then(username => this.setState({ username: username }));
     UsersActions.GET_USER_BIO(firebase.auth.currentUser.uid).then(bio =>
       this.setState(
         {
@@ -95,9 +90,9 @@ export default class ProfileScreen extends React.Component {
     UsersActions.GET_USER_SCORE(firebase.auth.currentUser.uid).then(score =>
       this.setState({ score: score })
     );
-    UsersActions.GET_USER_REGISTER_DATE(firebase.auth.currentUser.uid).then(
-      date => this.setState({ register_date: date })
-    );
+    UsersActions.GET_USER_REGISTER_DATE(
+      firebase.auth.currentUser.uid
+    ).then(date => this.setState({ register_date: date }));
     this.setState({
       username: this.state.username,
       usernameSize: this.state.username.length <= 10 ? 35 : 35
@@ -256,7 +251,7 @@ export default class ProfileScreen extends React.Component {
                 alignItems: "center"
               }}
             >
-              <Icon.Feather
+              <Feather
                 name="settings"
                 size={25}
                 // size={35}
@@ -287,7 +282,7 @@ export default class ProfileScreen extends React.Component {
                 this.props.navigation.navigate("NotificationsView")
               }a
             >
-              <Icon.Feather
+              <Feather
                 name="settings"
                 size={20}
                 color="white"

@@ -1,2 +1,6 @@
 node_modules
+<<<<<<< HEAD
 app/config/config.js
+=======
+config
+>>>>>>> 6892fcc63168bd7d3d4d4387b7f346c01fe56a20

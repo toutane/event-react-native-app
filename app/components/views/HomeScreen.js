@@ -10,7 +10,7 @@ import {
 import { screenWidth } from "../../utils/dimensions";
 import HeaderGradient from "../AnimatedHeader/styles";
 import { Button } from "native-base";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import { theme } from "../../themes";
 import EventsList from "../Events/EventList";
 
@@ -192,7 +192,7 @@ export default class HomeScreen extends React.Component {
                     this.props.navigation.navigate("NotificationsView")
                   }
                 >
-                  <Icon.Feather name="bell" size={30} color="white" />
+                  <Feather name="bell" size={30} color="white" />
                 </TouchableOpacity>
               </Animated.View>
             </View>
@@ -211,7 +211,7 @@ export default class HomeScreen extends React.Component {
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("EventCreationView")}
           >
-            <Icon.Feather
+            <Feather
               name="plus-circle"
               size={28}
               color="white"

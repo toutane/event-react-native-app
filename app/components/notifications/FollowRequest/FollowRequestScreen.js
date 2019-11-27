@@ -14,7 +14,7 @@ import NotifsActions from "../../../actions/notificationsActions";
 import UsersActions from "../../../actions/usersActions";
 
 import { screenWidth } from "../../../utils/dimensions";
-import { Icon } from "expo";
+import { Ionicons } from "@expo/vector-icons";
 export default class FollowRequestScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -41,9 +41,9 @@ export default class FollowRequestScreen extends React.Component {
       .doc(firebase.auth.currentUser.uid)
       .onSnapshot(() =>
         this.setState({ spinner: true }, () =>
-          UsersActions.GET_USER_NB_FRIENDS(firebase.auth.currentUser.uid).then(
-            nb => this.setState({ currentuser_nb_friends: nb })
-          )
+          UsersActions.GET_USER_NB_FRIENDS(
+            firebase.auth.currentUser.uid
+          ).then(nb => this.setState({ currentuser_nb_friends: nb }))
         )
       );
   }
@@ -147,11 +147,7 @@ export default class FollowRequestScreen extends React.Component {
               }}
               onPress={() => this.props.navigation.navigate("Notification")}
             >
-              <Icon.Ionicons
-                name="ios-arrow-round-up"
-                size={25}
-                color="black"
-              />
+              <Ionicons name="ios-arrow-round-up" size={25} color="black" />
             </Button>
           </View>
         </View>

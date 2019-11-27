@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { View, Button, Text } from "native-base";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import ActionSheet from "react-native-actionsheet";
-// import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 export default class HeaderMoreBtn extends Component {
   showActionSheet = () => {
@@ -23,7 +22,7 @@ export default class HeaderMoreBtn extends Component {
           }}
           onPress={this.showActionSheet}
         >
-          <Icon.Feather
+          <Feather
             name="more-horizontal"
             size={25}
             style={{ bottom: 1 }}

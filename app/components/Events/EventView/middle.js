@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button } from "native-base";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import firebase from "../../../firebase/firebase";
 
 export default class Middle extends React.Component {
@@ -85,7 +85,7 @@ export default class Middle extends React.Component {
                   justifyContent: "center"
                 }}
               >
-                <Icon.Feather name="settings" size={25} color="#797979" />
+                <Feather name="settings" size={25} color="#797979" />
               </Button>
             </View>
           ) : (
@@ -104,7 +104,7 @@ export default class Middle extends React.Component {
                 )
               }
             >
-              <Icon.Feather name="more-vertical" size={25} color="#797979" />
+              <Feather name="more-vertical" size={25} color="#797979" />
             </Button>
           )}
         </View>

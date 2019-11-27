@@ -19,7 +19,8 @@ import {
 import firebase from "../../firebase/firebase";
 import { screenWidth } from "../../utils/dimensions";
 import UsersActions from "../../actions/usersActions";
-import { Icon } from "expo";
+import { Ionicons, Feather } from "@expo/vector-icons";
+
 export default class FriendsList extends React.Component {
   static navigationOptions = {
     header: null
@@ -114,7 +115,7 @@ export default class FriendsList extends React.Component {
               }}
               onPress={() => this.props.navigation.pop()}
             >
-              <Icon.Ionicons
+              <Ionicons
                 name="ios-arrow-round-back"
                 size={30}
                 style={{ bottom: 3 }}
@@ -180,7 +181,7 @@ export default class FriendsList extends React.Component {
                   </TouchableOpacity>
                 </View>
                 <View>
-                  <Icon.Feather name="more-vertical" size={25} color="black" />
+                  <Feather name="more-vertical" size={25} color="black" />
                   {/* <CheckBox
                     checked={this.state.selectedUsers.some(
                       c_item => c_item.uid === item.uid

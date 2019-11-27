@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Icon } from "expo";
+import { Feather } from "@expo/vector-icons";
 import { Hr } from "../../Hr/styles";
 import Event_EndsPicker from "./EndsPicker";
 import Event_StartsPicker from "./StartsPicker";
@@ -24,7 +24,7 @@ export default class Event_CreationInfo extends React.Component {
           {this.state.showLocation ? null : (
             <TouchableOpacity onPress={this.props.showTimePicker}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {/* <Icon.Feather
+                {/* <Feather
                   name="clock"
                   size={30}
                   color="rgba(0, 0, 0, 0.2)"
@@ -57,7 +57,7 @@ export default class Event_CreationInfo extends React.Component {
           {this.state.showLocation ? null : (
             <TouchableOpacity onPress={this.props.showDatePicker}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {/* <Icon.Feather
+                {/* <Feather
                   name="calendar"
                   size={30}
                   color="rgba(0, 0, 0, 0.2)"
@@ -104,7 +104,7 @@ export default class Event_CreationInfo extends React.Component {
             }
           >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon.Feather name="map-pin" size={30} color="rgba(0,0,0,0.2)" />
+              <Feather name="map-pin" size={30} color="rgba(0,0,0,0.2)" />
               <View style={{ flexDirection: "column" }}>
                 <Text
                   style={{
