@@ -1,17 +1,9 @@
 import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firebase-firestore";
+import config from "../config/config";
 
 const moment = require("moment");
-
-const config = {
-  apiKey: "AIzaSyAehZaXp5l3uo_8WLYFzKTJh8X2OmIeMhA",
-  authDomain: "event-reactnative-app.firebaseapp.com",
-  databaseURL: "https://event-reactnative-app.firebaseio.com",
-  projectId: "event-reactnative-app",
-  storageBucket: "event-reactnative-app.appspot.com",
-  messagingSenderId: "379112933900"
-};
 
 class Firebase {
   constructor() {
