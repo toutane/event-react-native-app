@@ -1,4 +1,4 @@
-# event-reactnative-app
+# event-react-native-app
 
 > This project is still in development and contains a lot of bugs
 
@@ -13,13 +13,13 @@ And it's made with react-native and firebase🔥
 Clone this repo to your computer with the command:
 
 ```shell
-git clone git@github.com:toutane/event-reactnative-app.git
+git clone git@github.com:toutane/event-react-native-app.git
 ```
 
 Go inside the cloning directory:
 
 ```shell
-cd event-reactnative-app
+cd event-react-native-app
 ```
 
 ## Steps - Starting the React Native App
