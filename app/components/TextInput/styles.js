@@ -1,5 +1,5 @@
 import styled from "styled-components";
-// https://fr.pornhub.com/view_video.php?viewkey=371356293
+
 const TextInput = styled.TextInput`
   height: 50;
   border-color: rgba(0, 0, 0, 0.1);
