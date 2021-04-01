@@ -12,5 +12,5 @@ export default class Event_StartsPicker extends Component {
         onCancel={this.props.hideStartsPicker}
       />
     );
-  }
+  }h
 }

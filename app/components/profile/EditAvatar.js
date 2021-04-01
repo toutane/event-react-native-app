@@ -65,7 +65,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { Constants, ImagePicker, Permissions } from "expo";
+import { Constants, ImagePicker, Permissions } from "expo-permissions";
 import uuid from "uuid";
 import firebase from "firebase";
 import { Thumbnail } from "native-base";

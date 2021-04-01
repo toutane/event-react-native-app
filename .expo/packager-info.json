@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": "https://yz-eb8.charlesantoineleger.event-react-native-app.exp.direct",
-  "packagerNgrokUrl": "https://packager.yz-eb8.charlesantoineleger.event-react-native-app.exp.direct",
-  "ngrokPid": 42663
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }

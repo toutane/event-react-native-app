@@ -1,5 +1,5 @@
 import firebase from "../firebase/firebase";
-import { Permissions, Notifications } from "expo";
+import { Permissions, Notifications } from "expo-permissions";
 
 class NotifsActions {
   // FOLLOWS REQUESTS NOTIFICATIONS
